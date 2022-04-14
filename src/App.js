@@ -1,4 +1,5 @@
-import './App.css';
+import logo from "./logo.svg";
+import HomeLeague from "./pages/HomeLeague";
 import {
   BrowserRouter as Router,
   Routes,
@@ -12,6 +13,7 @@ function App() {
       <h1>Challengr!!!!!!!!</h1>
       <Router>
         <Routes>
+        <Route exact path="/Leagues" element={<HomeLeague />}/>
         <Route exact path="/Challenges" element={<Challenges/>}/>
         </Routes>
       </Router>
