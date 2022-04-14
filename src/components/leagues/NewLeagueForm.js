@@ -2,24 +2,27 @@ import React from "react";
 import { useState } from "react";
 import axios from "axios";
 
+import authToken from "../../utils/authToken";
+
 function NewLeagueForm() {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
+    coverPicture: null,
   });
 
   const handleSubmit = async (event) => {
-    // do not navigate the browser on form submit
     event.preventDefault();
-    await axios.post("https://ih-beers-api2.herokuapp.com/beers/new", formData);
+    console.log(formData);
+    await axios.post("http://localhost:3000/api/leagues", formData, {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    });
     setFormData({
       name: "",
-      tagline: "",
       description: "",
-      first_brewed: "",
-      brewers_tips: "",
-      attenuation_level: 0,
-      contributed_by: "",
+      coverPicture: null,
     });
   };
 
@@ -34,11 +37,11 @@ function NewLeagueForm() {
 
   return (
     <div className="formContainer">
-      <h1> Add new beer</h1>
-      <form onSubmit={handleSubmit}>
+      <h1>Add new league</h1>
+      <form onSubmit={handleSubmit} enctype="multipart/form-data">
         <div>
           <label for="name">Name</label>
-          <Input
+          <input
             id="name"
             name="name"
             value={formData.name}
@@ -47,18 +50,8 @@ function NewLeagueForm() {
           />
         </div>
         <div>
-          <label for="tagline">tagline</label>
-          <Input
-            id="tagline"
-            name="tagline"
-            value={formData.tagline}
-            type="text"
-            onChange={handleChanges}
-          />
-        </div>
-        <div>
           <label for="description">description</label>
-          <Input
+          <input
             id="description"
             name="description"
             value={formData.description}
@@ -67,47 +60,17 @@ function NewLeagueForm() {
           />
         </div>
         <div>
-          <label for="first_brewed">first_brewed</label>
-          <Input
-            id="first_brewed"
-            name="first_brewed"
-            value={formData.first_brewed}
-            type="text"
+          <label for="coverPicture">Picture</label>
+          <input
+            id="coverPicture"
+            name="coverPicture"
+            value={formData.coverPicture}
+            type="file"
             onChange={handleChanges}
           />
         </div>
         <div>
-          <label for="brewers_tips">brewers_tips</label>
-          <Input
-            id="brewers_tips"
-            name="brewers_tips"
-            value={formData.brewers_tips}
-            type="text"
-            onChange={handleChanges}
-          />
-        </div>
-        <div>
-          <label for="attenuation_level">attenuation_level</label>
-          <Input
-            id="attenuation_level"
-            name="attenuation_level"
-            value={formData.attenuation_level}
-            type="number"
-            onChange={handleChanges}
-          />
-        </div>
-        <div>
-          <label for="contributed_by">contributed_by</label>
-          <Input
-            id="contributed_by"
-            name="contributed_by"
-            value={formData.contributed_by}
-            type="text"
-            onChange={handleChanges}
-          />
-        </div>
-        <div>
-          <button type="submit">Add new</button>
+          <button type="submit">Create league</button>
         </div>
       </form>
     </div>
