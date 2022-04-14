@@ -1,0 +1,4 @@
+const authToken =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjU3ZTllMTk0ZTE4ZWYwZWZkYzAyNzEiLCJlbWFpbCI6ImFsZXhhbmRyZUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6ImFsZXhhbmRyZSIsImlhdCI6MTY0OTk0MTY3OCwiZXhwIjoxNjQ5OTYzMjc4fQ.iCT16Yjohpb4Za851pUDl3P78hZVX5u4n8_bXOEX-Dc";
+
+export default authToken;
