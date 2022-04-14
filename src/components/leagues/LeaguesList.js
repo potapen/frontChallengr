@@ -21,6 +21,10 @@ function LeaguesList() {
     getLeagues();
   }, []);
 
+  const handleDelete = (league) => {
+    return;
+  };
+
   return (
     <div>
       <h1>List of leagues</h1>

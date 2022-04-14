@@ -1,10 +1,10 @@
 import React from "react";
 import "./LeagueCard.css";
+import LeagueInviter from "./LeagueInviter";
 
 function LeagueCard({ league }) {
   console.log(league.name);
 
-  const copyInvitationLink = () => {};
   const openEditForm = () => {};
 
   return (
@@ -22,9 +22,7 @@ function LeagueCard({ league }) {
         })}
         <p>{league.description}</p>
         <div>
-          <button type="button" onClick={copyInvitationLink}>
-            Copy Invitation Link
-          </button>
+          <LeagueInviter league={league} />
           <button type="button" onClick={openEditForm}>
             Edit league
           </button>
