@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import HomeLeague from "./pages/HomeLeague";
 import {
   BrowserRouter as Router,
