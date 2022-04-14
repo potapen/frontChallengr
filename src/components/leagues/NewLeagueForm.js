@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import axios from "axios";
+import FileInput from "../../utils/FileInput";
 
 import authToken from "../../utils/authToken";
 
@@ -8,22 +9,28 @@ function NewLeagueForm() {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
-    coverPicture: null,
   });
 
+  const [fileData, setFileData] = useState(null);
+
   const handleSubmit = async (event) => {
+    console.log("fileData", fileData);
     event.preventDefault();
-    console.log(formData);
-    await axios.post("http://localhost:3000/api/leagues", formData, {
+    let fd = new FormData();
+    fd.append("name", formData["name"]);
+    fd.append("description", formData["description"]);
+    fd.append("coverPicture", fileData);
+    await axios.post("http://localhost:3000/api/leagues", fd, {
       headers: {
         Authorization: `Bearer ${authToken}`,
+        "Content-type": "multipart/form-data",
       },
     });
     setFormData({
       name: "",
       description: "",
-      coverPicture: null,
     });
+    setFileData(null);
   };
 
   const handleChanges = (event) => {
@@ -35,12 +42,17 @@ function NewLeagueForm() {
     setFormData(newFormData);
   };
 
+  const handleFileChanges = (event) => {
+    console.log("TEST");
+    setFileData(event.target.files[0]);
+  };
+
   return (
     <div className="formContainer">
       <h1>Add new league</h1>
-      <form onSubmit={handleSubmit} enctype="multipart/form-data">
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div>
-          <label for="name">Name</label>
+          <label htmlFor="name">Name</label>
           <input
             id="name"
             name="name"
@@ -50,7 +62,7 @@ function NewLeagueForm() {
           />
         </div>
         <div>
-          <label for="description">description</label>
+          <label htmlFor="description">description</label>
           <input
             id="description"
             name="description"
@@ -60,13 +72,13 @@ function NewLeagueForm() {
           />
         </div>
         <div>
-          <label for="coverPicture">Picture</label>
-          <input
+          <label htmlFor="coverPicture">Picture</label>
+          <FileInput
             id="coverPicture"
+            value={fileData}
             name="coverPicture"
-            value={formData.coverPicture}
             type="file"
-            onChange={handleChanges}
+            onChange={handleFileChanges}
           />
         </div>
         <div>
