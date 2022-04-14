@@ -1,54 +1,87 @@
 import { useState, useEffect } from "react"
 import axios from 'axios'
+import authToken from "../../utils/authToken"
 const ChallengeNew = () => {
 
-    const [newChallenge, setNewChallenge] = useState({
-        "contenders": [
-            "62568ec9a6714fef61e70653",
-            "62568ec9a6714fef61e70654",
-            "62568ec9a6714fef61e70655"
-        ],
-        "league": "62568ec9a6714fef61e70657",
-        "game": "62568ec9a6714fef61e70660"
-        })
-    const [league, setLeague] = useState('Clash of titans')
+    const [leagues, setLeagues] = useState([])
 
+    const [games, setGames] = useState([])
+
+    const [contenders, setContenders] = useState([])
     useEffect(()=>{
-        const getLeague = async ()=>{
-            const {data} = await axios.get('https://ih-beers-api2.herokuapp.com/beers')
-            setLeague(data)
+        const getLeagues = async ()=>{
+            const response = await axios.get("http://localhost:5005/api/leagues", {
+                headers: {
+                  Authorization: `Bearer ${authToken}`,
+                },
+              })
+            setLeagues(response.data)
         }
-        getLeague()
+        const getGames = async ()=>{
+            const response = await axios.get("http://localhost:5005/api/games", {
+                headers: {
+                  Authorization: `Bearer ${authToken}`,
+                },
+              })
+            setGames(response.data)
+        }
+        getLeagues()
+        getGames()
     },[])
-    const updateField = (event) =>{
-        const {id,value} = event.target
-        const challenge = {...newChallenge}
-        challenge[id] = value
-        setNewChallenge(challenge)
-    }
+
+
     const submitCreate = async (event) => {
         event.preventDefault()
-        const response = await axios.post('http://localhost:5005/api/challenges/', newChallenge)
-        console.log('response', response)
+        console.log('response')
+        const leagueId = event.target[0].value
+        const gameId = event.target[1].value
+        const contenders = event.target[2].value
+        console.log(event.target[2])
+
     }
-    
+
+    const leagueOnChange = (e) => {
+        const currentLeagueId = e.target.value
+        const findLeaguesArray = leagues.leagues.filter(league => league._id===currentLeagueId)
+        const membersArray = findLeaguesArray[0].members
+        setContenders(membersArray)
+    }
     return(
         <>
             <h1>New Challenge</h1>
             <form onSubmit={submitCreate}>
                 <div>
                     <label htmlFor="league">league</label>
-                    <input type="text" id="league" value={league} onChange={(e) => setLeague(e.target.value)}></input>
+                    <select id="league" onChange={leagueOnChange}>
+                        <option>please select a league</option>
+                        {leagues?.leagues && leagues.leagues.map(league =>
+                        {
+                            return <option value={league._id}>{league.name}</option>
+                        }
+                        )}
+                    </select>
                 </div>
 
                 <div>
                     <label htmlFor="game">game</label>
-                    <input type="text" id="game" value={newChallenge.game} onChange={updateField}></input>
+                    <select id="game">
+                        {games?.games && games.games.map(game =>
+                        {
+                            return <option value={game._id}>{game.name}</option>
+                        }
+                        )}
+                    </select>
                 </div>
 
                 <div>
-                    <label htmlFor="description">contenders</label>
-                    <input type="text" id="contenders" value={newChallenge.contenders} onChange={updateField}></input>
+                    <label htmlFor="contenders">contenders</label>
+                    <select id="contenders" multiple>
+                        {(contenders.length >0) && contenders.map(contender =>
+                        {
+                            return <option value={contender._id}>{contender.username}</option>
+                        }
+                        )}
+                    </select>
                 </div>
 
                 <button type="submit">Create Challenge</button>
