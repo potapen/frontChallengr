@@ -1,4 +1,6 @@
 const authToken =
+
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjU4MzgxMjk4NTMyZjMzNTZjN2Q5MjAiLCJlbWFpbCI6ImFsZXhhbmRyZUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6ImFsZXhhbmRyZSIsImlhdCI6MTY1MDAxNjM4MCwiZXhwIjoxNjUwMDM3OTgwfQ.82nFE2jfpJ89yuMrqBaZ1Zallg3aMjOybgVxAMXbtWw";
+
 
 export default authToken;
