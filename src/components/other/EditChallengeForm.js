@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import Select from 'react-select';
 import authToken from "../../utils/authToken";
 const EditChallengeForm = () => {
     const {challengeId} = useParams();
@@ -26,6 +25,7 @@ const EditChallengeForm = () => {
                 },
               });
             setLeagues(response.data);
+            return response;
         }
         const getGames = async ()=>{
             const response = await axios.get("http://localhost:5005/api/games", {
@@ -34,6 +34,7 @@ const EditChallengeForm = () => {
                 },
               });
             setGames(response.data);
+            return response;
         }
         const getChallenge = async ()=>{
             const response = await axios.get(`http://localhost:5005/api/challenges/${challengeId}`, {
@@ -41,13 +42,30 @@ const EditChallengeForm = () => {
                   Authorization: `Bearer ${authToken}`,
                 },
               });
-            await setChallenge(response.data);
-
-            setLeagueId(response.data.challenge.league._id)
+            setChallenge(response.data.challenge);
+            // challenge.contenders.map(cont => cont._id)
+            setLeagueId(response.data.challenge.league._id);
+            return response;
+            
         }
-        getLeagues();
-        getGames();
-        getChallenge();
+        const retrieveData = async()=>{
+            const leagueResponse = await getLeagues();
+            await getGames();
+            const challengeResponse = await getChallenge();
+            const currentLeagueId = challengeResponse.data.challenge.league._id
+            const currentLeagues = leagueResponse.data.leagues
+            const currentLeague = currentLeagues.filter(league => league._id === currentLeagueId )[0]
+            const currentUsers = currentLeague.members
+            console.log('currentUsers', currentUsers)
+            const currentUsersId = currentUsers.map(user => user._id)
+            setContendersId(currentUsersId)
+            setContenders(currentUsers)
+            const currentGameId = challengeResponse.data.challenge.game._id
+            setGameId(currentGameId)
+            
+        }
+
+        retrieveData()
 
     },[challengeId])
 
@@ -104,22 +122,13 @@ what we need to send
         setContendersId(selectedContendersId)
     }
 
-    const options = [
-        { value: 'chocolate', label: 'Chocolate' },
-        { value: 'strawberry', label: 'Strawberry' },
-        { value: 'vanilla', label: 'Vanilla' }
-    ]
-    const MyComponent = () => (
-        <Select options={options} />
-    )
+
     return(
         <>
             <h1>Edit Challenge</h1>
             <p> {message} </p>
             <form onSubmit={submitCreate}>
-                <div>
-                    <MyComponent/>
-                </div>
+
                 <div>
                     <label htmlFor="league">league</label>
                     <select id="league" onChange={leagueOnChange} value={leagueId}>
@@ -130,8 +139,6 @@ what we need to send
                             {
                                 if(Object.keys(challenge).length > 0){
                                     return <option value={league._id}>{league.name}</option>
-                                    if(challenge.challenge.league._id === league._id){
-                                    }
                                 }
                             }
                         )
@@ -140,15 +147,36 @@ what we need to send
                     </select>
                 </div>
 
+
                 <div>
-                    <label htmlFor="contenders">contenders</label>
-                    <select id="contenders" multiple onChange={contenderOnChange}>
-                        {(contenders.length >0) && contenders.map(contender =>
-                        {
-                            return <option value={contender._id}>{contender.username}</option>
-                        }
-                        )}
-                    </select>
+                    {(Object.keys(challenge).length > 0)  &&
+                    <>
+                        <label htmlFor="game">game</label>
+                        <select id="game" onChange={gameOnChange} value={gameId}>
+                            <option>---game select ---</option>
+                            {games?.games && games.games.map(game =>
+                            {
+                                return <option value={game._id}>{game.name}</option>
+                            }
+                            )}
+                        </select>
+                    </>
+                    }
+                </div>
+
+                <div>
+                    {(Object.keys(challenge).length > 0)  &&
+                    <>
+                        <label htmlFor="contenders">contenders</label>
+                        <select id="contenders" multiple onChange={contenderOnChange} value={contendersId}>
+                            {(contenders.length >0) && contenders.map(contender =>
+                            {
+                                return <option value={contender._id}>{contender.username}</option>
+                            }
+                            )}
+                        </select>
+                    </>
+                    }
                 </div>
 
                 <button type="submit">Create Challenge</button>

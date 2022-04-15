@@ -56,7 +56,6 @@ const EditChallengeForm = () => {
             const currentLeagues = leagueResponse.data.leagues
             const currentLeague = currentLeagues.filter(league => league._id === currentLeagueId )[0]
             const currentUsers = currentLeague.members
-            console.log('currentUsers', currentUsers)
             const currentUsersId = currentUsers.map(user => user._id)
             setContendersId(currentUsersId)
             setContenders(currentUsers)
@@ -122,7 +121,10 @@ what we need to send
         setContendersId(selectedContendersId)
     }
 
-
+    if((Object.keys(leagues).length > 0) 
+        && (Array.isArray(leagues.leagues))
+        && (Object.keys(challenge).length > 0)   
+    ){
     return(
         <>
             <h1>Edit Challenge</h1>
@@ -133,15 +135,12 @@ what we need to send
                     <label htmlFor="league">league</label>
                     <select id="league" onChange={leagueOnChange} value={leagueId}>
                         <option>---league select ---</option>
-                        {/* when leagues is empty */}
-                        {(Object.keys(leagues).length > 0) && (Array.isArray(leagues.leagues)) &&
+                        {
                             leagues.leagues.map(league =>
-                            {
-                                if(Object.keys(challenge).length > 0){
-                                    return <option value={league._id}>{league.name}</option>
+                                {
+                                return <option value={league._id}>{league.name}</option>
                                 }
-                            }
-                        )
+                            )
                         }
                         
                     </select>
@@ -149,40 +148,32 @@ what we need to send
 
 
                 <div>
-                    {(Object.keys(challenge).length > 0)  &&
-                    <>
-                        <label htmlFor="game">game</label>
-                        <select id="game" onChange={gameOnChange} value={gameId}>
-                            <option>---game select ---</option>
-                            {games?.games && games.games.map(game =>
-                            {
-                                return <option value={game._id}>{game.name}</option>
-                            }
-                            )}
-                        </select>
-                    </>
-                    }
+                    <label htmlFor="game">game</label>
+                    <select id="game" onChange={gameOnChange} value={gameId}>
+                        <option>---game select ---</option>
+                        {games?.games && games.games.map(game =>
+                        {
+                            return <option value={game._id}>{game.name}</option>
+                        }
+                        )}
+                    </select>
                 </div>
 
                 <div>
-                    {(Object.keys(challenge).length > 0)  &&
-                    <>
-                        <label htmlFor="contenders">contenders</label>
-                        <select id="contenders" multiple onChange={contenderOnChange} value={contendersId}>
-                            {(contenders.length >0) && contenders.map(contender =>
-                            {
-                                return <option value={contender._id}>{contender.username}</option>
-                            }
-                            )}
-                        </select>
-                    </>
-                    }
+                    <label htmlFor="contenders">contenders</label>
+                    <select id="contenders" multiple onChange={contenderOnChange} value={contendersId}>
+                        {(contenders.length >0) && contenders.map(contender =>
+                        {
+                            return <option value={contender._id}>{contender.username}</option>
+                        }
+                        )}
+                    </select>
                 </div>
 
                 <button type="submit">Create Challenge</button>
             </form>
         </>
     )
+}else{return <p>Loading</p>}
 }
-
 export default EditChallengeForm
