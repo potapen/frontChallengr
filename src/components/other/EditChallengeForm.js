@@ -5,18 +5,18 @@ import authToken from "../../utils/authToken";
 const EditChallengeForm = () => {
     const {challengeId} = useParams();
 
-    const [leagues, setLeagues] = useState([]); //for axios call to get leagues
-    const [leagueId, setLeagueId] = useState(); //set after the previous axios call or when the form field is changed 
+    const [leagues, setLeagues] = useState({});
+    const [leagueId, setLeagueId] = useState();
 
-    const [games, setGames] = useState([]); //for axios call to get games
-    const [gameId, setGameId] = useState(); //set after the previous axios call or when the form field is changed 
+    const [games, setGames] = useState([]);
+    const [gameId, setGameId] = useState();
 
     const [contenders, setContenders] = useState([]);
     const [contendersId, setContendersId] = useState([]);
 
-    const [message, setMessage] = useState('select a league, a game and contenders'); //to display a message at the top
+    const [message, setMessage] = useState('select a league, a game and contenders');
 
-    const [challenge, setChallenge] = useState({}); //for axios call to get specific challenge
+    const [challenge, setChallenge] = useState({});
     useEffect(()=>{
         const getLeagues = async ()=>{
             const response = await axios.get("http://localhost:5005/api/leagues", {
@@ -24,7 +24,7 @@ const EditChallengeForm = () => {
                   Authorization: `Bearer ${authToken}`,
                 },
               });
-            setLeagues(response.data.leagues);
+            setLeagues(response.data);
             return response;
         }
         const getGames = async ()=>{
@@ -33,7 +33,7 @@ const EditChallengeForm = () => {
                   Authorization: `Bearer ${authToken}`,
                 },
               });
-            setGames(response.data.games);
+            setGames(response.data);
             return response;
         }
         const getChallenge = async ()=>{
@@ -56,6 +56,7 @@ const EditChallengeForm = () => {
             const currentLeagues = leagueResponse.data.leagues
             const currentLeague = currentLeagues.filter(league => league._id === currentLeagueId )[0]
             const currentUsers = currentLeague.members
+            console.log('currentUsers', currentUsers)
             const currentUsersId = currentUsers.map(user => user._id)
             setContendersId(currentUsersId)
             setContenders(currentUsers)
@@ -101,7 +102,7 @@ what we need to send
     const leagueOnChange = (e) => {
         const currentLeagueId = e.target.value
         setLeagueId(currentLeagueId)
-        const findLeaguesArray = leagues.filter(league => league._id===currentLeagueId)
+        const findLeaguesArray = leagues.leagues.filter(league => league._id===currentLeagueId)
         const membersArray = findLeaguesArray[0].members
         setContenders(membersArray)
     }
@@ -120,12 +121,8 @@ what we need to send
         }
         setContendersId(selectedContendersId)
     }
-    if(
-        (leagues.length >0) &&
-        (Object.keys(challenge).length > 0) &&
-        (games.length >0) &&
-        (contenders.length >0)
-    ){
+
+
     return(
         <>
             <h1>Edit Challenge</h1>
@@ -136,29 +133,56 @@ what we need to send
                     <label htmlFor="league">league</label>
                     <select id="league" onChange={leagueOnChange} value={leagueId}>
                         <option>---league select ---</option>
-                        {leagues.map(league => <option value={league._id}>{league.name}</option>)}
+                        {/* when leagues is empty */}
+                        {(Object.keys(leagues).length > 0) && (Array.isArray(leagues.leagues)) &&
+                            leagues.leagues.map(league =>
+                            {
+                                if(Object.keys(challenge).length > 0){
+                                    return <option value={league._id}>{league.name}</option>
+                                }
+                            }
+                        )
+                        }
+                        
                     </select>
                 </div>
 
+
                 <div>
-                    <label htmlFor="game">game</label>
-                    <select id="game" onChange={gameOnChange} value={gameId}>
-                        <option>---game select ---</option>
-                        {games.map(game => <option value={game._id}>{game.name}</option>)}
-                    </select>
+                    {(Object.keys(challenge).length > 0)  &&
+                    <>
+                        <label htmlFor="game">game</label>
+                        <select id="game" onChange={gameOnChange} value={gameId}>
+                            <option>---game select ---</option>
+                            {games?.games && games.games.map(game =>
+                            {
+                                return <option value={game._id}>{game.name}</option>
+                            }
+                            )}
+                        </select>
+                    </>
+                    }
                 </div>
 
                 <div>
-                    <label htmlFor="contenders">contenders</label>
-                    <select id="contenders" multiple onChange={contenderOnChange} value={contendersId}>
-                        {contenders.map(contender => <option value={contender._id}>{contender.username}</option>)}
-                    </select>
+                    {(Object.keys(challenge).length > 0)  &&
+                    <>
+                        <label htmlFor="contenders">contenders</label>
+                        <select id="contenders" multiple onChange={contenderOnChange} value={contendersId}>
+                            {(contenders.length >0) && contenders.map(contender =>
+                            {
+                                return <option value={contender._id}>{contender.username}</option>
+                            }
+                            )}
+                        </select>
+                    </>
+                    }
                 </div>
 
                 <button type="submit">Create Challenge</button>
             </form>
         </>
     )
-}else{return <p>Loading</p>}
 }
+
 export default EditChallengeForm
