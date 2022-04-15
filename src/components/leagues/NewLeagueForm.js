@@ -15,11 +15,13 @@ function NewLeagueForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     let fd = new FormData();
     fd.append("name", formData["name"]);
     fd.append("description", formData["description"]);
     fd.append("coverPicture", fileData);
-    await axios.post("http://localhost:3000/api/leagues", fd, {
+    await axios.post("http://localhost:5005/api/leagues", fd, {
+
       headers: {
         Authorization: `Bearer ${authToken}`,
         "Content-type": "multipart/form-data",
