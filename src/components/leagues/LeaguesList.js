@@ -36,7 +36,8 @@ function LeaguesList() {
             console.log(league.name);
             return (
               <LeagueCard
-                league={league}
+                key={league._id}
+                leagueProps={league}
                 updateLeaguesList={updateLeaguesList}
               />
             );

@@ -1,38 +1,66 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./LeagueCard.css";
 import LeagueInviter from "./LeagueInviter";
 import LeagueDeleter from "./LeagueDeleter";
 import LeagueLeaver from "./LeagueLeaver";
+import EditLeagueForm from "./EditLeagueForm";
+import axios from "axios";
+import authToken from "../../utils/authToken";
 
-function LeagueCard({ league, updateLeaguesList }) {
-  const openEditForm = () => {};
+function LeagueCard({ leagueProps, updateLeaguesList }) {
+  const [editMode, setEditMode] = useState(false);
+  const [league, setLeague] = useState(leagueProps);
+
+  const refreshLeague = async () => {
+    const refreshedLeague = await axios.get(
+      `http://localhost:3000/api/leagues/${league._id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      }
+    );
+    setLeague(refreshedLeague.data.league);
+  };
 
   return (
     <div className="leagueCardContainer">
-      <img
-        className="leagueCardImage"
-        src={league.imageUrl}
-        alt="leagueimage"
-      />
-      <div>
-        <h4>{league.name}</h4>
-        <h6>Members : </h6>
-        {league.members.map((member) => {
-          return <li>{member.username}</li>;
-        })}
-        <p>{league.description}</p>
-        <div>
-          <LeagueInviter league={league} />
-          <button type="button" onClick={openEditForm}>
-            Edit league
-          </button>
-          <LeagueDeleter
-            league={league}
-            updateLeaguesList={updateLeaguesList}
+      {true ? (
+        <>
+          <img
+            className="leagueCardImage"
+            src={league.imageUrl}
+            alt="leagueimage"
           />
-          <LeagueLeaver league={league} updateLeaguesList={updateLeaguesList} />
-        </div>
-      </div>
+          <div>
+            <h4>{league.name}</h4>
+            <h6>Members : </h6>
+            {league.members.map((member) => {
+              return <li key={member._id}>{member.username}</li>;
+            })}
+            <p>{league.description}</p>
+            <div>
+              <LeagueInviter league={league} />
+              <button type="button" onClick={() => setEditMode(!editMode)}>
+                {editMode ? "Hide Edit" : "Show Edit"}
+              </button>
+              {editMode && (
+                <EditLeagueForm league={league} refreshLeague={refreshLeague} />
+              )}
+              <LeagueDeleter
+                league={league}
+                updateLeaguesList={updateLeaguesList}
+              />
+              <LeagueLeaver
+                league={league}
+                updateLeaguesList={updateLeaguesList}
+              />
+            </div>
+          </div>
+        </>
+      ) : (
+        "Loading"
+      )}
     </div>
   );
 }
