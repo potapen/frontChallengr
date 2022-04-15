@@ -5,18 +5,18 @@ import authToken from "../../utils/authToken";
 const EditChallengeForm = () => {
     const {challengeId} = useParams();
 
-    const [leagues, setLeagues] = useState({});
-    const [leagueId, setLeagueId] = useState();
+    const [leagues, setLeagues] = useState([]); //for axios call to get leagues
+    const [leagueId, setLeagueId] = useState(); //set after the previous axios call or when the form field is changed 
 
-    const [games, setGames] = useState([]);
-    const [gameId, setGameId] = useState();
+    const [games, setGames] = useState([]); //for axios call to get games
+    const [gameId, setGameId] = useState(); //set after the previous axios call or when the form field is changed 
 
     const [contenders, setContenders] = useState([]);
     const [contendersId, setContendersId] = useState([]);
 
-    const [message, setMessage] = useState('select a league, a game and contenders');
+    const [message, setMessage] = useState('select a league, a game and contenders'); //to display a message at the top
 
-    const [challenge, setChallenge] = useState({});
+    const [challenge, setChallenge] = useState({}); //for axios call to get specific challenge
     useEffect(()=>{
         const getLeagues = async ()=>{
             const response = await axios.get("http://localhost:5005/api/leagues", {
@@ -24,7 +24,7 @@ const EditChallengeForm = () => {
                   Authorization: `Bearer ${authToken}`,
                 },
               });
-            setLeagues(response.data);
+            setLeagues(response.data.leagues);
             return response;
         }
         const getGames = async ()=>{
@@ -33,7 +33,7 @@ const EditChallengeForm = () => {
                   Authorization: `Bearer ${authToken}`,
                 },
               });
-            setGames(response.data);
+            setGames(response.data.games);
             return response;
         }
         const getChallenge = async ()=>{
@@ -101,7 +101,7 @@ what we need to send
     const leagueOnChange = (e) => {
         const currentLeagueId = e.target.value
         setLeagueId(currentLeagueId)
-        const findLeaguesArray = leagues.leagues.filter(league => league._id===currentLeagueId)
+        const findLeaguesArray = leagues.filter(league => league._id===currentLeagueId)
         const membersArray = findLeaguesArray[0].members
         setContenders(membersArray)
     }
@@ -120,10 +120,11 @@ what we need to send
         }
         setContendersId(selectedContendersId)
     }
-
-    if((Object.keys(leagues).length > 0) 
-        && (Array.isArray(leagues.leagues))
-        && (Object.keys(challenge).length > 0)   
+    if(
+        (leagues.length >0) &&
+        (Object.keys(challenge).length > 0) &&
+        (games.length >0) &&
+        (contenders.length >0)
     ){
     return(
         <>
@@ -135,38 +136,22 @@ what we need to send
                     <label htmlFor="league">league</label>
                     <select id="league" onChange={leagueOnChange} value={leagueId}>
                         <option>---league select ---</option>
-                        {
-                            leagues.leagues.map(league =>
-                                {
-                                return <option value={league._id}>{league.name}</option>
-                                }
-                            )
-                        }
-                        
+                        {leagues.map(league => <option value={league._id}>{league.name}</option>)}
                     </select>
                 </div>
-
 
                 <div>
                     <label htmlFor="game">game</label>
                     <select id="game" onChange={gameOnChange} value={gameId}>
                         <option>---game select ---</option>
-                        {games?.games && games.games.map(game =>
-                        {
-                            return <option value={game._id}>{game.name}</option>
-                        }
-                        )}
+                        {games.map(game => <option value={game._id}>{game.name}</option>)}
                     </select>
                 </div>
 
                 <div>
                     <label htmlFor="contenders">contenders</label>
                     <select id="contenders" multiple onChange={contenderOnChange} value={contendersId}>
-                        {(contenders.length >0) && contenders.map(contender =>
-                        {
-                            return <option value={contender._id}>{contender.username}</option>
-                        }
-                        )}
+                        {contenders.map(contender => <option value={contender._id}>{contender.username}</option>)}
                     </select>
                 </div>
 
