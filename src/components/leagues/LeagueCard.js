@@ -6,6 +6,7 @@ import LeagueLeaver from "./LeagueLeaver";
 import EditLeagueForm from "./EditLeagueForm";
 import axios from "axios";
 import authToken from "../../utils/authToken";
+import { Link } from "react-router-dom";
 
 function LeagueCard({ leagueProps, updateLeaguesList }) {
   const [editMode, setEditMode] = useState(false);
@@ -55,6 +56,7 @@ function LeagueCard({ leagueProps, updateLeaguesList }) {
                 league={league}
                 updateLeaguesList={updateLeaguesList}
               />
+              <Link to={`/points/${league._id}`}>Edit games weight</Link>
             </div>
           </div>
         </>
