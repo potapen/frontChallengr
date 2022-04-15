@@ -14,7 +14,7 @@ function NewLeagueForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(formData);
-    await axios.post("http://localhost:3000/api/leagues", formData, {
+    await axios.post("http://localhost:5005/api/leagues", formData, {
       headers: {
         Authorization: `Bearer ${authToken}`,
       },
