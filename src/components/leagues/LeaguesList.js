@@ -14,7 +14,6 @@ function LeaguesList() {
         Authorization: `Bearer ${authToken}`,
       },
     });
-    console.log(l.data.leagues);
     setLeagues(l.data.leagues);
   };
 
@@ -33,7 +32,6 @@ function LeaguesList() {
       <ul>
         {leagues.length > 0 &&
           leagues.map((league) => {
-            console.log(league.name);
             return (
               <LeagueCard
                 key={league._id}
