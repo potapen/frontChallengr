@@ -1,9 +1,10 @@
 import HomeLeague from "./pages/HomeLeague";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Challenges from "./pages/Challenges";
+import HomeChallenges from "./pages/HomeChallenges";
 import HomeGame from "./pages/HomeGame";
 import HomePoint from "./pages/HomePoint";
 import LeaguesStats from "./components/stats/LeaguesStats";
+import Graphs from "./components/stats/Graphs"
 
 // function App() {
 //   return (
@@ -35,7 +36,8 @@ function App() {
             path="/stats/profile/:profileId"
             element={<LeaguesStats />}
           />
-          <Route path="/challenges/*" element={<Challenges/>}/>
+          <Route path="/challenges" element={<HomeChallenges/>}/>
+          <Route path="/graphs" element={<Graphs/>}/>
         </Routes>
       </Router>
     </div>

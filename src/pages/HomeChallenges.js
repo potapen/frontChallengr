@@ -11,7 +11,7 @@ import {
     Route,
   } from "react-router-dom";
 
-const Challenges = () => {
+const HomeChallenges = () => {
     const [leagues, setLeagues] = useState([]);
     const [games, setGames] = useState([]);
     const getLeagues = async () => {
@@ -49,4 +49,4 @@ const Challenges = () => {
         )
     }
 }
-export default Challenges
+export default HomeChallenges
