@@ -1,5 +1,6 @@
 import NewChallengeForm from '../components/challenges/NewChallengeForm'
 import EditChallengeForm from '../components/challenges/EditChallengeForm'
+import ChallengesList from '../components/challenges/ChallengesList';
 import { useState, useEffect } from "react";
 import backendHost from "../utils/backendHost";
 import axios from "axios";
@@ -43,6 +44,7 @@ const Challenges = () => {
                 {console.log('games', games)}
                 <p>challenge page</p>
                 <NewChallengeForm leagues={leagues} games={games}/>
+                <ChallengesList leagues={leagues} games={games}/>
             </>
         )
     }
