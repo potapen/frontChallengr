@@ -48,6 +48,7 @@ const EditChallengeForm = () => {
                 },
               });
             setChallenge(response.data.challenge);
+            console.log('response.data.challenge', response.data.challenge)
             // challenge.contenders.map(cont => cont._id)
             setLeagueId(response.data.challenge.league._id);
             return response;
@@ -102,7 +103,7 @@ what we need to send
         else if(!gameId){setMessage('you must select a game')}
         else if(!leagueId){setMessage('you must select a league')}
         else{
-            const response = await axios.put(`http://localhost:5005/api/challenges/${challengeId}`, challengeToCreate,{
+            const response = await axios.put(`${backendHost}/api/challenges/${challengeId}`, challengeToCreate,{
                 headers: {
                   Authorization: `Bearer ${authToken}`,
                 },
