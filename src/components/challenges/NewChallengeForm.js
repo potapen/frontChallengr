@@ -11,7 +11,7 @@ const ChallengeNew = () => {
   const [contenders, setContenders] = useState([]);
   useEffect(() => {
     const getLeagues = async () => {
-      const response = await axios.get(`${backendHost}/api/league`, {
+      const response = await axios.get(`${backendHost}/api/leagues`, {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
@@ -19,7 +19,7 @@ const ChallengeNew = () => {
       setLeagues(response.data);
     };
     const getGames = async () => {
-      const response = await axios.get(`${backendHost}:5005/api/games`, {
+      const response = await axios.get(`${backendHost}/api/games`, {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
