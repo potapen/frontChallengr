@@ -1,164 +1,116 @@
+import axios from "axios";
 import { useState, useEffect } from "react";
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
 import authToken from "../../utils/authToken";
-const EditChallengeForm = () => {
-    const {challengeId} = useParams();
+import backendHost from "../../utils/backendHost";
 
-    const [leagues, setLeagues] = useState([]); //for axios call to get leagues
-    const [leagueId, setLeagueId] = useState(); //set after the previous axios call or when the form field is changed 
+const EditChallengeForm = ({challenge,refreshChallenge, leagues,games}) => {
+  const [members, setMembers] = useState([])
+  const [formData, setFormData] = useState({
+    id : challenge._id,
+    game : challenge.game._id,
+    contenders: challenge.contenders.map(c => c._id),
+    isCompleted: challenge.isCompleted,
+    winners: challenge.winners.map(c => c._id),
+  });
 
-    const [games, setGames] = useState([]); //for axios call to get games
-    const [gameId, setGameId] = useState(); //set after the previous axios call or when the form field is changed 
+  const getLeaguesMembers = async (leagueId) => {
+    const l = await axios.get(`${backendHost}/api/leagues/${leagueId}`, {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    });
+    setMembers(l.data.league.members)
+  };
+  useEffect(() => {
+    getLeaguesMembers(challenge.league._id)
+  }, []);
 
-    const [contenders, setContenders] = useState([]);
-    const [contendersId, setContendersId] = useState([]);
-
-    const [message, setMessage] = useState('select a league, a game and contenders'); //to display a message at the top
-
-    const [challenge, setChallenge] = useState({}); //for axios call to get specific challenge
-    useEffect(()=>{
-        const getLeagues = async ()=>{
-            const response = await axios.get("http://localhost:5005/api/leagues", {
-                headers: {
-                  Authorization: `Bearer ${authToken}`,
-                },
-              });
-            setLeagues(response.data.leagues);
-            return response;
-        }
-        const getGames = async ()=>{
-            const response = await axios.get("http://localhost:5005/api/games", {
-                headers: {
-                  Authorization: `Bearer ${authToken}`,
-                },
-              });
-            setGames(response.data.games);
-            return response;
-        }
-        const getChallenge = async ()=>{
-            const response = await axios.get(`http://localhost:5005/api/challenges/${challengeId}`, {
-                headers: {
-                  Authorization: `Bearer ${authToken}`,
-                },
-              });
-            setChallenge(response.data.challenge);
-            // challenge.contenders.map(cont => cont._id)
-            setLeagueId(response.data.challenge.league._id);
-            return response;
-            
-        }
-        const retrieveData = async()=>{
-            const leagueResponse = await getLeagues();
-            await getGames();
-            const challengeResponse = await getChallenge();
-            const currentLeagueId = challengeResponse.data.challenge.league._id
-            const currentLeagues = leagueResponse.data.leagues
-            const currentLeague = currentLeagues.filter(league => league._id === currentLeagueId )[0]
-            const currentUsers = currentLeague.members
-            const currentUsersId = currentUsers.map(user => user._id)
-            setContendersId(currentUsersId)
-            setContenders(currentUsers)
-            const currentGameId = challengeResponse.data.challenge.game._id
-            setGameId(currentGameId)
-            
-        }
-
-        retrieveData()
-
-    },[challengeId])
-
-/*
-what we need to send
-{
-"contenders": [
-	"62568ec9a6714fef61e70653",
-	"62568ec9a6714fef61e70654",
-	"62568ec9a6714fef61e70655"
-],
-"league": "62568ec9a6714fef61e70657",
-"game": "62568ec9a6714fef61e70660"
-}
-*/
-
-    const submitCreate = async (event) => {
-        event.preventDefault()
-        const challengeToCreate = {
-            league: leagueId,
-            game: gameId,
-            contenders: contendersId
-        }
-        
-        console.log('challengeToCreate', challengeToCreate);
-
-        if(contendersId.length===0){setMessage('you must select contenders')}
-        if(!gameId){setMessage('you must select a game')}
-        if(!leagueId){setMessage('you must select a league')}
+  const submitUpdate = async (event) => {
+    event.preventDefault();
+    console.log('formData', formData)
+    const l = await axios.patch(`${backendHost}/api/challenges/${formData.id}`,formData,{
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    });
+    console.log('submitCreate l', l)
+    refreshChallenge()
+  };
 
 
-    }
+  const handleChanges = (event) => {
+    const { value, name } = event.target;
+    const newFormData = {
+      ...formData,
+      [name]: value,
+    };
+    setFormData(newFormData);
+  };
 
-    const leagueOnChange = (e) => {
-        const currentLeagueId = e.target.value
-        setLeagueId(currentLeagueId)
-        const findLeaguesArray = leagues.filter(league => league._id===currentLeagueId)
-        const membersArray = findLeaguesArray[0].members
-        setContenders(membersArray)
-    }
+  const handleCheckbox = (event) => {
+    const { checked, name } = event.target;
+    const newFormData = {
+      ...formData,
+      [name]: checked,
+    };
+    setFormData(newFormData);
+  };
 
-    const gameOnChange = (e) => {
-        const currentGameId = e.target.value
-        setGameId(currentGameId)
-    }
+  const onLeagueChange = (event) => {
+    getLeaguesMembers(event.target.value)
+    handleChanges(event)
+  };
 
-    const contenderOnChange = (e) => {
-        // console.log(e.target)
-        const selectedContendersId = []
-        for(let i=0 ; i<e.target.length; i++){
-            // console.log(`selected ${e.target[i].selected} value ${e.target[i].value}`)
-            if(e.target[i].selected){selectedContendersId.push(e.target[i].value)}
-        }
-        setContendersId(selectedContendersId)
-    }
-    if(
-        (leagues.length >0) &&
-        (Object.keys(challenge).length > 0) &&
-        (games.length >0) &&
-        (contenders.length >0)
-    ){
-    return(
-        <>
-            <h1>Edit Challenge</h1>
-            <p> {message} </p>
-            <form onSubmit={submitCreate}>
+  const handleMultiSelect = (event) => {
+    let value = Array.from(
+      event.target.selectedOptions,
+      (option) => option.value
+    );
+    const { name } = event.target;
+    const newFormData = {
+      ...formData,
+      [name]: value,
+    };
+    setFormData(newFormData);
+  };
+  return (
+    <>
+      <h1>Edit Challenge</h1>
+      <form onSubmit={submitUpdate}>
+        <div>
+          <label htmlFor="game">game</label>
+          <select id="game" name="game" onChange={handleChanges} value={formData.game}>
+            {games.map((game) => <option key={game._id} value={game._id}>{game.name}</option>)}
+          </select>
+        </div>
 
-                <div>
-                    <label htmlFor="league">league</label>
-                    <select id="league" onChange={leagueOnChange} value={leagueId}>
-                        <option>---league select ---</option>
-                        {leagues.map(league => <option value={league._id}>{league.name}</option>)}
-                    </select>
-                </div>
+        <div>
+            <label htmlFor="contenders">contenders</label>
+            <select id="contenders"  name="contenders" multiple onChange={handleMultiSelect} value={formData.contenders}>
+                {members.map(member => <option key={member._id} value={member._id}>{member.username}</option>)}
+            </select>
+        </div>
+        <div>
+            <label htmlFor="winners">winners</label>
+            <select id="winners"  name="winners" multiple onChange={handleMultiSelect} value={formData.winners}>
+                {challenge.contenders.map(member => <option key={member._id} value={member._id}>{member.username}</option>)}
+            </select>
+        </div>
 
-                <div>
-                    <label htmlFor="game">game</label>
-                    <select id="game" onChange={gameOnChange} value={gameId}>
-                        <option>---game select ---</option>
-                        {games.map(game => <option value={game._id}>{game.name}</option>)}
-                    </select>
-                </div>
+        <div>
+            <label htmlFor="isCompleted">close the challenge</label>
+            {(formData.isCompleted)?
+            <input id="isCompleted"  name="isCompleted" type='checkbox' checked onChange={handleCheckbox}/>
+            :
+            <input id="isCompleted"  name="isCompleted" type='checkbox' onChange={handleCheckbox}/>
+            }
+           
+        </div>
 
-                <div>
-                    <label htmlFor="contenders">contenders</label>
-                    <select id="contenders" multiple onChange={contenderOnChange} value={contendersId}>
-                        {contenders.map(contender => <option value={contender._id}>{contender.username}</option>)}
-                    </select>
-                </div>
+        <button type="submit">Edit Challenge</button>
+      </form>
+    </>
+  );
+};
 
-                <button type="submit">Create Challenge</button>
-            </form>
-        </>
-    )
-}else{return <p>Loading</p>}
-}
-export default EditChallengeForm
+export default EditChallengeForm;
