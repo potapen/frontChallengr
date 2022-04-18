@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import authToken from "../../utils/authToken";
+import backendHost from "../../utils/backendHost";
+
 const EditChallengeForm = () => {
     const {challengeId} = useParams();
 
@@ -19,7 +21,8 @@ const EditChallengeForm = () => {
     const [challenge, setChallenge] = useState({}); //for axios call to get specific challenge
     useEffect(()=>{
         const getLeagues = async ()=>{
-            const response = await axios.get("http://localhost:5005/api/leagues", {
+            // const response = await axios.get("http://localhost:5005/api/leagues", {
+            const response = await axios.get(`${backendHost}/api/leagues`, {
                 headers: {
                   Authorization: `Bearer ${authToken}`,
                 },
@@ -28,7 +31,8 @@ const EditChallengeForm = () => {
             return response;
         }
         const getGames = async ()=>{
-            const response = await axios.get("http://localhost:5005/api/games", {
+            // const response = await axios.get("http://localhost:5005/api/games", {
+            const response = await axios.get(`${backendHost}/api/games`, {
                 headers: {
                   Authorization: `Bearer ${authToken}`,
                 },
@@ -37,7 +41,8 @@ const EditChallengeForm = () => {
             return response;
         }
         const getChallenge = async ()=>{
-            const response = await axios.get(`http://localhost:5005/api/challenges/${challengeId}`, {
+            // const response = await axios.get(`http://localhost:5005/api/challenges/${challengeId}`, {
+            const response = await axios.get(`${backendHost}/api/challenges/${challengeId}`, {
                 headers: {
                   Authorization: `Bearer ${authToken}`,
                 },
@@ -55,10 +60,11 @@ const EditChallengeForm = () => {
             const currentLeagueId = challengeResponse.data.challenge.league._id
             const currentLeagues = leagueResponse.data.leagues
             const currentLeague = currentLeagues.filter(league => league._id === currentLeagueId )[0]
-            const currentUsers = currentLeague.members
-            const currentUsersId = currentUsers.map(user => user._id)
-            setContendersId(currentUsersId)
-            setContenders(currentUsers)
+            const allUsers = currentLeague.members
+            const currentUsersId = challengeResponse.data.challenge.contenders.map(c => c._id)
+            setContendersId(currentUsersId)//the id of the contenders to pre select
+
+            setContenders(allUsers)//all the contenders, retrieved from the league
             const currentGameId = challengeResponse.data.challenge.game._id
             setGameId(currentGameId)
             
@@ -84,6 +90,7 @@ what we need to send
     const submitCreate = async (event) => {
         event.preventDefault()
         const challengeToCreate = {
+            id : challenge._id,
             league: leagueId,
             game: gameId,
             contenders: contendersId
@@ -92,8 +99,16 @@ what we need to send
         console.log('challengeToCreate', challengeToCreate);
 
         if(contendersId.length===0){setMessage('you must select contenders')}
-        if(!gameId){setMessage('you must select a game')}
-        if(!leagueId){setMessage('you must select a league')}
+        else if(!gameId){setMessage('you must select a game')}
+        else if(!leagueId){setMessage('you must select a league')}
+        else{
+            const response = await axios.put(`http://localhost:5005/api/challenges/${challengeId}`, challengeToCreate,{
+                headers: {
+                  Authorization: `Bearer ${authToken}`,
+                },
+              });
+            console.log('submit response:', response)
+        }
 
 
     }
@@ -135,23 +150,23 @@ what we need to send
                 <div>
                     <label htmlFor="league">league</label>
                     <select id="league" onChange={leagueOnChange} value={leagueId}>
-                        <option>---league select ---</option>
-                        {leagues.map(league => <option value={league._id}>{league.name}</option>)}
+                        <option key='leagueSelect'>---league select ---</option>
+                        {leagues.map(league => <option key={league._id} value={league._id}>{league.name}</option>)}
                     </select>
                 </div>
 
                 <div>
                     <label htmlFor="game">game</label>
                     <select id="game" onChange={gameOnChange} value={gameId}>
-                        <option>---game select ---</option>
-                        {games.map(game => <option value={game._id}>{game.name}</option>)}
+                        <option key='gameSelect'>---game select ---</option>
+                        {games.map(game => <option key={game._id} value={game._id}>{game.name}</option>)}
                     </select>
                 </div>
 
                 <div>
                     <label htmlFor="contenders">contenders</label>
                     <select id="contenders" multiple onChange={contenderOnChange} value={contendersId}>
-                        {contenders.map(contender => <option value={contender._id}>{contender.username}</option>)}
+                        {contenders.map(contender => <option key={contender._id} value={contender._id}>{contender.username}</option>)}
                     </select>
                 </div>
 

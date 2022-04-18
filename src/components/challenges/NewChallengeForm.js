@@ -16,6 +16,7 @@ const ChallengeNew = () => {
           Authorization: `Bearer ${authToken}`,
         },
       });
+      console.log('getLeagues', response)
       setLeagues(response.data);
     };
     const getGames = async () => {
@@ -24,6 +25,7 @@ const ChallengeNew = () => {
           Authorization: `Bearer ${authToken}`,
         },
       });
+      console.log('getGames', response)
       setGames(response.data);
     };
     getLeagues();
@@ -36,7 +38,7 @@ const ChallengeNew = () => {
     const leagueId = event.target[0].value;
     const gameId = event.target[1].value;
     const contenders = event.target[2].value;
-    console.log(event.target[2]);
+
   };
 
   const leagueOnChange = (e) => {
