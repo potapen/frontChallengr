@@ -3,13 +3,14 @@ import { useState } from "react";
 import axios from "axios";
 
 import authToken from "../../utils/authToken";
+import backendHost from "../../utils/backendHost";
 import LeagueCard from "./LeagueCard";
 
 function LeaguesList() {
   const [leagues, setLeagues] = useState([]);
 
   const getLeagues = async () => {
-    const l = await axios.get("http://localhost:3000/api/leagues", {
+    const l = await axios.get(`${backendHost}/api/leagues`, {
       headers: {
         Authorization: `Bearer ${authToken}`,
       },

@@ -6,6 +6,7 @@ import LeagueLeaver from "./LeagueLeaver";
 import EditLeagueForm from "./EditLeagueForm";
 import axios from "axios";
 import authToken from "../../utils/authToken";
+import backendHost from "../../utils/backendHost";
 import { Link } from "react-router-dom";
 
 function LeagueCard({ leagueProps, updateLeaguesList }) {
@@ -14,7 +15,7 @@ function LeagueCard({ leagueProps, updateLeaguesList }) {
 
   const refreshLeague = async () => {
     const refreshedLeague = await axios.get(
-      `http://localhost:3000/api/leagues/${league._id}`,
+      `${backendHost}/api/leagues/${league._id}`,
       {
         headers: {
           Authorization: `Bearer ${authToken}`,

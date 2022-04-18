@@ -4,6 +4,7 @@ import axios from "axios";
 import FileInput from "../../utils/FileInput";
 
 import authToken from "../../utils/authToken";
+import backendHost from "../../utils/backendHost";
 
 function EditLeagueForm({ league, refreshLeague }) {
   const [formData, setFormData] = useState({
@@ -23,7 +24,7 @@ function EditLeagueForm({ league, refreshLeague }) {
     fd.append("description", formData["description"]);
     fd.append("members", formData["members"]);
     fd.append("coverPicture", fileData);
-    await axios.put(`http://localhost:3000/api/leagues/${league._id}`, fd, {
+    await axios.put(`${backendHost}/api/leagues/${league._id}`, fd, {
       headers: {
         Authorization: `Bearer ${authToken}`,
         "Content-type": "multipart/form-data",

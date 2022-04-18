@@ -4,6 +4,7 @@ import GameDeleter from "./GameDeleter";
 import EditGameForm from "./EditGameForm";
 import axios from "axios";
 import authToken from "../../utils/authToken";
+import backendHost from "../../utils/backendHost";
 
 function GameCard({ gameProps, updateGamesList }) {
   const [editMode, setEditMode] = useState(false);
@@ -11,7 +12,7 @@ function GameCard({ gameProps, updateGamesList }) {
 
   const refreshGame = async () => {
     const refreshedGame = await axios.get(
-      `http://localhost:3000/api/games/${game._id}`,
+      `${backendHost}/api/games/${game._id}`,
       {
         headers: {
           Authorization: `Bearer ${authToken}`,

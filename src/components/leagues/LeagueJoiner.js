@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 
 import authToken from "../../utils/authToken";
+import backendHost from "../../utils/backendHost";
 
 function LeagueJoiner() {
   const [inviteKey, setInviteKey] = useState([]);
@@ -9,7 +10,7 @@ function LeagueJoiner() {
   const joinLeague = async (event) => {
     event.preventDefault();
     await axios.patch(
-      "http://localhost:3000/api/leagues/join",
+      `${backendHost}/api/leagues/join`,
       { inviteKey },
       {
         headers: {

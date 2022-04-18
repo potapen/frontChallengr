@@ -3,10 +3,11 @@ import "./LeagueInviter.js";
 import axios from "axios";
 
 import authToken from "../../utils/authToken";
+import backendHost from "../../utils/backendHost";
 
 function LeagueDeleter({ league, updateLeaguesList }) {
   const deleteLeague = async () => {
-    await axios.delete(`http://localhost:3000/api/leagues/${league._id}`, {
+    await axios.delete(`${backendHost}/api/leagues/${league._id}`, {
       headers: {
         Authorization: `Bearer ${authToken}`,
       },

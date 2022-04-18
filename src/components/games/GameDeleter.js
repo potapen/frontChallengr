@@ -2,10 +2,11 @@ import React from "react";
 import axios from "axios";
 
 import authToken from "../../utils/authToken";
+import backendHost from "../../utils/backendHost";
 
 function GameDeleter({ game, updateGamesList }) {
   const deleteGame = async () => {
-    await axios.delete(`http://localhost:3000/api/Games/${game._id}`, {
+    await axios.delete(`${backendHost}/api/Games/${game._id}`, {
       headers: {
         Authorization: `Bearer ${authToken}`,
       },

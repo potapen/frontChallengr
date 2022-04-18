@@ -3,6 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 
 import authToken from "../../utils/authToken";
+import backendHost from "../../utils/backendHost";
 import LeagueStats from "./LeagueStats";
 import { useParams } from "react-router-dom";
 
@@ -12,14 +13,11 @@ function LeaguesStats() {
   const [leaguesStats, setLeaguesStats] = useState([]);
 
   const getLeaguesStats = async () => {
-    const s = await axios.get(
-      `http://localhost:3000/api/stats/profile/${profileId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      }
-    );
+    const s = await axios.get(`${backendHost}/api/stats/profile/${profileId}`, {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    });
     setLeaguesStats(s.data.statsPerLeague);
   };
 
