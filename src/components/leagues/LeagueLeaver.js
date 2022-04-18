@@ -16,7 +16,7 @@ function LeagueLeaver({ league, updateLeaguesList }) {
         },
       }
     );
-    updateLeaguesList(league);
+    updateLeaguesList();
   };
 
   return (

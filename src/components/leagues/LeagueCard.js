@@ -8,6 +8,7 @@ import axios from "axios";
 import authToken from "../../utils/authToken";
 import backendHost from "../../utils/backendHost";
 import { Link } from "react-router-dom";
+import LeagueSetFavorite from "./LeagueSetFavorite";
 
 function LeagueCard({ leagueProps, updateLeaguesList }) {
   const [editMode, setEditMode] = useState(false);
@@ -54,6 +55,10 @@ function LeagueCard({ leagueProps, updateLeaguesList }) {
                 updateLeaguesList={updateLeaguesList}
               />
               <LeagueLeaver
+                league={league}
+                updateLeaguesList={updateLeaguesList}
+              />
+              <LeagueSetFavorite
                 league={league}
                 updateLeaguesList={updateLeaguesList}
               />

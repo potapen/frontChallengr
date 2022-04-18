@@ -12,7 +12,7 @@ function LeagueDeleter({ league, updateLeaguesList }) {
         Authorization: `Bearer ${authToken}`,
       },
     });
-    updateLeaguesList(league);
+    updateLeaguesList();
   };
 
   return (

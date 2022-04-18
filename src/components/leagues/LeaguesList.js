@@ -22,7 +22,7 @@ function LeaguesList() {
     getLeagues();
   }, []);
 
-  const updateLeaguesList = (league) => {
+  const updateLeaguesList = () => {
     getLeagues();
     return;
   };
