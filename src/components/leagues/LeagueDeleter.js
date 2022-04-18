@@ -2,14 +2,15 @@ import React from "react";
 import "./LeagueInviter.js";
 import axios from "axios";
 
-import authToken from "../../utils/authToken";
 import backendHost from "../../utils/backendHost";
 
 function LeagueDeleter({ league, updateLeaguesList }) {
+
+  const storedToken = localStorage.getItem("authToken");
   const deleteLeague = async () => {
     await axios.delete(`${backendHost}/api/leagues/${league._id}`, {
       headers: {
-        Authorization: `Bearer ${authToken}`,
+        Authorization: `Bearer ${storedToken}`,
       },
     });
     updateLeaguesList(league);

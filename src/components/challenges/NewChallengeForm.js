@@ -1,40 +1,39 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import authToken from "../../utils/authToken";
 import backendHost from "../../utils/backendHost";
 
-const ChallengeNew = ({leagues,games}) => {
-  const [members, setMembers] = useState([])
+const ChallengeNew = ({ leagues, games }) => {
+  const [members, setMembers] = useState([]);
   const [formData, setFormData] = useState({
     league: leagues[0]._id,
-    game : games[0]._id,
+    game: games[0]._id,
     contenders: [],
   });
+
+  const storedToken = localStorage.getItem("authToken");
 
   const getLeaguesMembers = async (leagueId) => {
     const l = await axios.get(`${backendHost}/api/leagues/${leagueId}`, {
       headers: {
-        Authorization: `Bearer ${authToken}`,
+        Authorization: `Bearer ${storedToken}`,
       },
     });
-    setMembers(l.data.league.members)
+    setMembers(l.data.league.members);
   };
   useEffect(() => {
-    getLeaguesMembers(leagues[0]._id)
+    getLeaguesMembers(leagues[0]._id);
   }, []);
 
   const submitCreate = async (event) => {
     event.preventDefault();
-    console.log('formData', formData)
-    const l = await axios.post(`${backendHost}/api/challenges`,formData,{
+    await axios.post(`${backendHost}/api/challenges`, formData, {
       headers: {
-        Authorization: `Bearer ${authToken}`,
+        Authorization: `Bearer ${storedToken}`,
       },
     });
-    console.log('submitCreate l', l)
     setFormData({
       league: leagues[0]._id,
-      game : games[0]._id,
+      game: games[0]._id,
       contenders: [],
     });
   };
@@ -49,8 +48,8 @@ const ChallengeNew = ({leagues,games}) => {
   };
 
   const onLeagueChange = (event) => {
-    getLeaguesMembers(event.target.value)
-    handleChanges(event)
+    getLeaguesMembers(event.target.value);
+    handleChanges(event);
   };
 
   const handleMultiSelect = (event) => {
@@ -71,23 +70,50 @@ const ChallengeNew = ({leagues,games}) => {
       <form onSubmit={submitCreate}>
         <div>
           <label htmlFor="league">league</label>
-          <select id="league" name="league" onChange={onLeagueChange} value={formData.league}>
-              {leagues.map((league) => <option key={league._id} value={league._id}>{league.name}</option>)}
+          <select
+            id="league"
+            name="league"
+            onChange={onLeagueChange}
+            value={formData.league}
+          >
+            {leagues.map((league) => (
+              <option key={league._id} value={league._id}>
+                {league.name}
+              </option>
+            ))}
           </select>
         </div>
 
         <div>
           <label htmlFor="game">game</label>
-          <select id="game" name="game" onChange={handleChanges} value={formData.game}>
-            {games.map((game) => <option key={game._id} value={game._id}>{game.name}</option>)}
+          <select
+            id="game"
+            name="game"
+            onChange={handleChanges}
+            value={formData.game}
+          >
+            {games.map((game) => (
+              <option key={game._id} value={game._id}>
+                {game.name}
+              </option>
+            ))}
           </select>
         </div>
 
         <div>
-            <label htmlFor="contenders">contenders</label>
-            <select id="contenders"  name="contenders" multiple onChange={handleMultiSelect}>
-                {members.map(member => <option key={member._id} value={member._id}>{member.username}</option>)}
-            </select>
+          <label htmlFor="contenders">contenders</label>
+          <select
+            id="contenders"
+            name="contenders"
+            multiple
+            onChange={handleMultiSelect}
+          >
+            {members.map((member) => (
+              <option key={member._id} value={member._id}>
+                {member.username}
+              </option>
+            ))}
+          </select>
         </div>
 
         <button type="submit">Create Challenge</button>

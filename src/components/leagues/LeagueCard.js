@@ -5,7 +5,6 @@ import LeagueDeleter from "./LeagueDeleter";
 import LeagueLeaver from "./LeagueLeaver";
 import EditLeagueForm from "./EditLeagueForm";
 import axios from "axios";
-import authToken from "../../utils/authToken";
 import backendHost from "../../utils/backendHost";
 import { Link } from "react-router-dom";
 
@@ -13,12 +12,14 @@ function LeagueCard({ leagueProps, updateLeaguesList }) {
   const [editMode, setEditMode] = useState(false);
   const [league, setLeague] = useState(leagueProps);
 
+  const storedToken = localStorage.getItem("authToken");
+
   const refreshLeague = async () => {
     const refreshedLeague = await axios.get(
       `${backendHost}/api/leagues/${league._id}`,
       {
         headers: {
-          Authorization: `Bearer ${authToken}`,
+          Authorization: `Bearer ${storedToken}`,
         },
       }
     );

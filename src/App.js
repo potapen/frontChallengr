@@ -4,22 +4,12 @@ import Challenges from "./pages/Challenges";
 import HomeGame from "./pages/HomeGame";
 import HomePoint from "./pages/HomePoint";
 import LeaguesStats from "./components/stats/LeaguesStats";
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <h1>Challengr!!!!!!!!</h1>
-//       <Router>
-//         <Routes>
-//         <Route exact path="/Leagues" element={<HomeLeague />}/>
-//         <Route path="/challenges" element={<Challenges/>}>
-//           <Route  path="edit" element={<div>hello</div>}/>
-//         </Route>
-//         </Routes>
-//       </Router>
-//     </div>
-//   );
-// }
+import SignupPage from "./pages/SignupPage";
+import LoginPage from "./pages/LoginPage";
+import Layout from "./navigation/Layout";
+import IsAnonymous from "./context/IsAnonymous";
+import IsPrivate from "./context/IsPrivate";
+import Home from "./pages/Home";
 
 function App() {
   return (
@@ -27,15 +17,73 @@ function App() {
       <h1>Challengr!!!!!!!!</h1>
       <Router>
         <Routes>
-          <Route exact path="/leagues" element={<HomeLeague />} />
-          <Route exact path="/games" element={<HomeGame />} />
-          <Route exact path="/points/:leagueId" element={<HomePoint />} />
-          <Route
-            exact
-            path="/stats/profile/:profileId"
-            element={<LeaguesStats />}
-          />
-          <Route path="/challenges/*" element={<Challenges/>}/>
+          <Route element={<Layout />}>
+            <Route
+              exact
+              path="/"
+              element={
+                <IsPrivate>
+                  <Home />
+                </IsPrivate>
+              }
+            />
+            <Route
+              exact
+              path="/leagues"
+              element={
+                <IsPrivate>
+                  <HomeLeague />
+                </IsPrivate>
+              }
+            />
+            <Route
+              exact
+              path="/games"
+              element={
+                <IsPrivate>
+                  <HomeGame />
+                </IsPrivate>
+              }
+            />
+            <Route
+              exact
+              path="/points/:leagueId"
+              element={
+                <IsPrivate>
+                  <HomePoint />
+                </IsPrivate>
+              }
+            />
+            <Route
+              exact
+              path="/stats/profile/:profileId"
+              element={<LeaguesStats />}
+            />
+            <Route
+              path="/challenges"
+              element={
+                <IsPrivate>
+                  <Challenges />
+                </IsPrivate>
+              }
+            />
+            <Route
+              path="/signup"
+              element={
+                <IsAnonymous>
+                  <SignupPage />
+                </IsAnonymous>
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                <IsAnonymous>
+                  <LoginPage />
+                </IsAnonymous>
+              }
+            />
+          </Route>
         </Routes>
       </Router>
     </div>

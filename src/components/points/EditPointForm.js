@@ -2,7 +2,6 @@ import React from "react";
 import { useState } from "react";
 import axios from "axios";
 
-import authToken from "../../utils/authToken";
 import backendHost from "../../utils/backendHost";
 
 function EditPointForm({ point, refreshPoint }) {
@@ -10,11 +9,13 @@ function EditPointForm({ point, refreshPoint }) {
     points: point.points,
   });
 
+  const storedToken = localStorage.getItem("authToken");
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     await axios.patch(`${backendHost}/api/points/${point._id}`, formData, {
       headers: {
-        Authorization: `Bearer ${authToken}`,
+        Authorization: `Bearer ${storedToken}`,
       },
     });
     refreshPoint();

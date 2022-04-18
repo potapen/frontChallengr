@@ -3,7 +3,6 @@ import { useState } from "react";
 import axios from "axios";
 import FileInput from "../../utils/FileInput";
 
-import authToken from "../../utils/authToken";
 import backendHost from "../../utils/backendHost";
 
 function NewLeagueForm() {
@@ -11,6 +10,8 @@ function NewLeagueForm() {
     name: "",
     description: "",
   });
+
+  const storedToken = localStorage.getItem("authToken");
 
   const [fileData, setFileData] = useState(null);
 
@@ -23,7 +24,7 @@ function NewLeagueForm() {
     fd.append("coverPicture", fileData);
     await axios.post(`${backendHost}/api/leagues`, fd, {
       headers: {
-        Authorization: `Bearer ${authToken}`,
+        Authorization: `Bearer ${storedToken}`,
         "Content-type": "multipart/form-data",
       },
     });

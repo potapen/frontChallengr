@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
 
-import authToken from "../../utils/authToken";
 import backendHost from "../../utils/backendHost";
 import LeagueStats from "./LeagueStats";
 import { useParams } from "react-router-dom";
@@ -12,10 +11,12 @@ function LeaguesStats() {
 
   const [leaguesStats, setLeaguesStats] = useState([]);
 
+  const storedToken = localStorage.getItem("authToken");
+
   const getLeaguesStats = async () => {
     const s = await axios.get(`${backendHost}/api/stats/profile/${profileId}`, {
       headers: {
-        Authorization: `Bearer ${authToken}`,
+        Authorization: `Bearer ${storedToken}`,
       },
     });
     setLeaguesStats(s.data.statsPerLeague);
