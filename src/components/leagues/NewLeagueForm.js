@@ -16,6 +16,7 @@ function NewLeagueForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     let fd = new FormData();
     fd.append("name", formData["name"]);
     fd.append("description", formData["description"]);

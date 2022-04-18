@@ -19,7 +19,7 @@ const ChallengeNew = () => {
       setLeagues(response.data);
     };
     const getGames = async () => {
-      const response = await axios.get(`http://localhost:5005/api/games`, {
+      const response = await axios.get(`${backendHost}:5005/api/games`, {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
