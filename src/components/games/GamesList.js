@@ -3,13 +3,14 @@ import { useState } from "react";
 import axios from "axios";
 
 import authToken from "../../utils/authToken";
+import backendHost from "../../utils/backendHost";
 import GameCard from "./GameCard";
 
 function GamesList() {
   const [games, setGames] = useState([]);
 
   const getGames = async () => {
-    const l = await axios.get("http://localhost:3000/api/Games", {
+    const l = await axios.get(`${backendHost}/api/Games`, {
       headers: {
         Authorization: `Bearer ${authToken}`,
       },

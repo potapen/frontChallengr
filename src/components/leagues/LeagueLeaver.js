@@ -3,11 +3,12 @@ import "./LeagueInviter.js";
 import axios from "axios";
 
 import authToken from "../../utils/authToken";
+import backendHost from "../../utils/backendHost";
 
 function LeagueLeaver({ league, updateLeaguesList }) {
   const leaveLeague = async () => {
     await axios.patch(
-      `http://localhost:3000/api/leagues/${league._id}/leave`,
+      `${backendHost}/api/leagues/${league._id}/leave`,
       {},
       {
         headers: {

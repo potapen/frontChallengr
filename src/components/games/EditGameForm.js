@@ -4,6 +4,7 @@ import axios from "axios";
 import FileInput from "../../utils/FileInput";
 
 import authToken from "../../utils/authToken";
+import backendHost from "../../utils/backendHost";
 
 function EditGameForm({ game, refreshGame }) {
   const [formData, setFormData] = useState({
@@ -19,7 +20,7 @@ function EditGameForm({ game, refreshGame }) {
     fd.append("name", formData["name"]);
     fd.append("description", formData["description"]);
     fd.append("coverPicture", fileData);
-    await axios.put(`http://localhost:3000/api/games/${game._id}`, fd, {
+    await axios.put(`${backendHost}/api/games/${game._id}`, fd, {
       headers: {
         Authorization: `Bearer ${authToken}`,
         "Content-type": "multipart/form-data",

@@ -3,6 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 
 import authToken from "../../utils/authToken";
+import backendHost from "../../utils/backendHost";
 import PointCard from "./UserStats";
 
 function PointsList({ leagueId }) {
@@ -10,7 +11,7 @@ function PointsList({ leagueId }) {
 
   const getPoints = async () => {
     const l = await axios.get(
-      `http://localhost:3000/api/points/league/${leagueId}`,
+      `${backendHost}/api/points/league/${leagueId}`,
       {
         headers: {
           Authorization: `Bearer ${authToken}`,

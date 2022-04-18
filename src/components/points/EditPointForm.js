@@ -3,6 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 
 import authToken from "../../utils/authToken";
+import backendHost from "../../utils/backendHost";
 
 function EditPointForm({ point, refreshPoint }) {
   const [formData, setFormData] = useState({
@@ -11,15 +12,11 @@ function EditPointForm({ point, refreshPoint }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await axios.patch(
-      `http://localhost:3000/api/points/${point._id}`,
-      formData,
-      {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      }
-    );
+    await axios.patch(`${backendHost}/api/points/${point._id}`, formData, {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    });
     refreshPoint();
   };
 

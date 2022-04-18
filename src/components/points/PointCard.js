@@ -3,15 +3,16 @@ import "./PointCard.css";
 import EditPointForm from "./EditPointForm";
 import axios from "axios";
 import authToken from "../../utils/authToken";
+import backendHost from "../../utils/backendHost";
 
 function PointCard({ pointProps, updatePointsList }) {
   const [editMode, setEditMode] = useState(false);
   const [point, setPoint] = useState(pointProps);
 
   const refreshPoint = async () => {
-    console.log(`http://localhost:3000/api/points/${point._id}`);
+    console.log(`${backendHost}/api/points/${point._id}`);
     const refreshedPoint = await axios.get(
-      `http://localhost:3000/api/points/${point._id}`,
+      `${backendHost}/api/points/${point._id}`,
       {
         headers: {
           Authorization: `Bearer ${authToken}`,
