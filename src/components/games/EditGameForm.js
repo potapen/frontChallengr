@@ -3,7 +3,6 @@ import { useState } from "react";
 import axios from "axios";
 import FileInput from "../../utils/FileInput";
 
-import authToken from "../../utils/authToken";
 import backendHost from "../../utils/backendHost";
 
 function EditGameForm({ game, refreshGame }) {
@@ -14,6 +13,8 @@ function EditGameForm({ game, refreshGame }) {
 
   const [fileData, setFileData] = useState(null);
 
+  const storedToken = localStorage.getItem("authToken");
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     let fd = new FormData();
@@ -22,7 +23,7 @@ function EditGameForm({ game, refreshGame }) {
     fd.append("coverPicture", fileData);
     await axios.put(`${backendHost}/api/games/${game._id}`, fd, {
       headers: {
-        Authorization: `Bearer ${authToken}`,
+        Authorization: `Bearer ${storedToken}`,
         "Content-type": "multipart/form-data",
       },
     });

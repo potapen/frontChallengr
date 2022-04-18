@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import "./PointCard.css";
 import EditPointForm from "./EditPointForm";
 import axios from "axios";
-import authToken from "../../utils/authToken";
 import backendHost from "../../utils/backendHost";
 
 function PointCard({ pointProps, updatePointsList }) {
   const [editMode, setEditMode] = useState(false);
   const [point, setPoint] = useState(pointProps);
+
+  const storedToken = localStorage.getItem("authToken")
 
   const refreshPoint = async () => {
     console.log(`${backendHost}/api/points/${point._id}`);
@@ -15,7 +16,7 @@ function PointCard({ pointProps, updatePointsList }) {
       `${backendHost}/api/points/${point._id}`,
       {
         headers: {
-          Authorization: `Bearer ${authToken}`,
+          Authorization: `Bearer ${storedToken}`,
         },
       }
     );

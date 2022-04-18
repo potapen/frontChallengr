@@ -2,7 +2,6 @@ import React from "react";
 import "./FileInput.css";
 
 const FileInput = ({ value, onChange, ...rest }) => {
-  console.log("fileinput", value);
   return (
     <label>
       <span className="filePickerButton">Select a file</span>

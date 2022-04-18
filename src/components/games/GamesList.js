@@ -2,17 +2,18 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
 
-import authToken from "../../utils/authToken";
 import backendHost from "../../utils/backendHost";
 import GameCard from "./GameCard";
 
 function GamesList() {
   const [games, setGames] = useState([]);
 
+  const storedToken = localStorage.getItem("authToken");
+
   const getGames = async () => {
     const l = await axios.get(`${backendHost}/api/Games`, {
       headers: {
-        Authorization: `Bearer ${authToken}`,
+        Authorization: `Bearer ${storedToken}`,
       },
     });
     setGames(l.data.games);

@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-import authToken from "../../utils/authToken";
 import backendHost from "../../utils/backendHost";
 
 function LeagueJoiner() {
   const [inviteKey, setInviteKey] = useState([]);
+
+  const storedToken = localStorage.getItem("authToken");
 
   const joinLeague = async (event) => {
     event.preventDefault();
@@ -14,7 +15,7 @@ function LeagueJoiner() {
       { inviteKey },
       {
         headers: {
-          Authorization: `Bearer ${authToken}`,
+          Authorization: `Bearer ${storedToken}`,
         },
       }
     );

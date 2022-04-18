@@ -3,19 +3,20 @@ import "./GameCard.css";
 import GameDeleter from "./GameDeleter";
 import EditGameForm from "./EditGameForm";
 import axios from "axios";
-import authToken from "../../utils/authToken";
 import backendHost from "../../utils/backendHost";
 
 function GameCard({ gameProps, updateGamesList }) {
   const [editMode, setEditMode] = useState(false);
   const [game, setGame] = useState(gameProps);
 
+  const storedToken = localStorage.getItem("authToken");
+
   const refreshGame = async () => {
     const refreshedGame = await axios.get(
       `${backendHost}/api/games/${game._id}`,
       {
         headers: {
-          Authorization: `Bearer ${authToken}`,
+          Authorization: `Bearer ${storedToken}`,
         },
       }
     );
