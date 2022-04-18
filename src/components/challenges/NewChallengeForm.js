@@ -9,23 +9,26 @@ const ChallengeNew = () => {
   const [games, setGames] = useState([]);
 
   const [contenders, setContenders] = useState([]);
+
+  const [message, setMessage] = useState('select a league, a game and contenders'); //to display a message at the top
+
+  const [contendersId, setContendersId] = useState([]);
+
   useEffect(() => {
     const getLeagues = async () => {
-      const response = await axios.get(`${backendHost}/api/league`, {
+      const response = await axios.get(`${backendHost}/api/leagues`, {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
       });
-      console.log('getLeagues', response)
       setLeagues(response.data);
     };
     const getGames = async () => {
-      const response = await axios.get(`${backendHost}:5005/api/games`, {
+      const response = await axios.get(`${backendHost}/api/games`, {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
       });
-      console.log('getGames', response)
       setGames(response.data);
     };
     getLeagues();
@@ -34,12 +37,40 @@ const ChallengeNew = () => {
 
   const submitCreate = async (event) => {
     event.preventDefault();
-    console.log("response");
     const leagueId = event.target[0].value;
     const gameId = event.target[1].value;
     const contenders = event.target[2].value;
 
+    const challengeToCreate = {
+      league: leagueId,
+      game: gameId,
+      contenders: contenders
+    }
+    
+    console.log('challengeToCreate', challengeToCreate);
+
+    if(contenders.length===0){setMessage('you must select contenders')}
+    else if(!gameId){setMessage('you must select a game')}
+    else if(!leagueId){setMessage('you must select a league')}
+    else{
+        const response = await axios.post(`http://localhost:5005/api/challenges}`, challengeToCreate,{
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          });
+        console.log('submit response:', response)
+    }
+
   };
+  const contenderOnChange = (e) => {
+    // console.log(e.target)
+    const selectedContendersId = []
+    for(let i=0 ; i<e.target.length; i++){
+        // console.log(`selected ${e.target[i].selected} value ${e.target[i].value}`)
+        if(e.target[i].selected){selectedContendersId.push(e.target[i].value)}
+    }
+    setContendersId(selectedContendersId)
+}
 
   const leagueOnChange = (e) => {
     const currentLeagueId = e.target.value;
@@ -52,6 +83,7 @@ const ChallengeNew = () => {
   return (
     <>
       <h1>New Challenge</h1>
+      <p> {message} </p>
       <form onSubmit={submitCreate}>
         <div>
           <label htmlFor="league">league</label>
@@ -59,7 +91,7 @@ const ChallengeNew = () => {
             <option>please select a league</option>
             {leagues?.leagues &&
               leagues.leagues.map((league) => {
-                return <option value={league._id}>{league.name}</option>;
+                return <option key={league._id} value={league._id}>{league.name}</option>;
               })}
           </select>
         </div>
@@ -69,7 +101,7 @@ const ChallengeNew = () => {
           <select id="game">
             {games?.games &&
               games.games.map((game) => {
-                return <option value={game._id}>{game.name}</option>;
+                return <option key={game._id} value={game._id}>{game.name}</option>;
               })}
           </select>
         </div>
@@ -80,7 +112,7 @@ const ChallengeNew = () => {
             {contenders.length > 0 &&
               contenders.map((contender) => {
                 return (
-                  <option value={contender._id}>{contender.username}</option>
+                  <option key={contender._id} value={contender._id}>{contender.username}</option>
                 );
               })}
           </select>
