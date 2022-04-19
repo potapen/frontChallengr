@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./LeagueInviter.js";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import axios from "axios";
 
 import backendHost from "../../utils/backendHost";
+import { Alert, IconButton, Snackbar } from "@mui/material";
 
 function LeagueSetFavorite({ league, updateLeaguesList }) {
   const [isFavorited, setIsFavorited] = useState(false);
+  const [open, setOpen] = React.useState(false);
 
   const storedToken = localStorage.getItem("authToken");
 
@@ -30,16 +33,31 @@ function LeagueSetFavorite({ league, updateLeaguesList }) {
         },
       }
     );
+    setOpen(true);
     setIsFavorited(true);
     updateLeaguesList();
   };
 
   return (
     <>
-      <button type="button" onClick={setToFavorite}>
-        Set to Favorite
-      </button>
-      {isFavorited && <p>Favorite</p>}
+      <IconButton aria-label="add to favorites" onClick={setToFavorite}>
+        {isFavorited ? (
+          <FavoriteIcon color="success" />
+        ) : (
+          <FavoriteIcon color="disabled" />
+        )}
+      </IconButton>
+      <Snackbar
+        open={open}
+        autoHideDuration={2000}
+        onClose={() => {
+          setOpen(false);
+        }}
+      >
+        <Alert severity="success" sx={{ width: "100%" }}>
+          {league.name} set to favorite
+        </Alert>
+      </Snackbar>
     </>
   );
 }
