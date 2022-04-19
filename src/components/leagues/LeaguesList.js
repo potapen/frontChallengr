@@ -2,17 +2,18 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
 
-import authToken from "../../utils/authToken";
 import backendHost from "../../utils/backendHost";
 import LeagueCard from "./LeagueCard";
 
 function LeaguesList() {
   const [leagues, setLeagues] = useState([]);
 
+  const storedToken = localStorage.getItem("authToken");
+
   const getLeagues = async () => {
     const l = await axios.get(`${backendHost}/api/leagues`, {
       headers: {
-        Authorization: `Bearer ${authToken}`,
+        Authorization: `Bearer ${storedToken}`,
       },
     });
     setLeagues(l.data.leagues);

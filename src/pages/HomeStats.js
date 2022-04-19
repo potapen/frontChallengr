@@ -1,10 +1,7 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 import LeaguesStats from "../components/stats/LeaguesStats";
 
-function HomeStats({ league }) {
-  const { leagueId } = useParams();
-
+function HomeStats() {
   return (
     <div>
       <div>HomeStats</div>

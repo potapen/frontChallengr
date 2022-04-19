@@ -1,36 +1,30 @@
-import NewChallengeForm from '../components/challenges/NewChallengeForm'
-import EditChallengeForm from '../components/challenges/EditChallengeForm'
-import ChallengesList from '../components/challenges/ChallengesList';
+import NewChallengeForm from "../components/challenges/NewChallengeForm";
+import ChallengesList from "../components/challenges/ChallengesList";
 import { useState, useEffect } from "react";
 import backendHost from "../utils/backendHost";
-import axios from "axios";
 import authToken from "../utils/authToken";
-
-import {
-    Routes,
-    Route,
-  } from "react-router-dom";
+import axios from "axios";
 
 const HomeChallenges = () => {
     const [leagues, setLeagues] = useState([]);
     const [games, setGames] = useState([]);
+    const storedToken = localStorage.getItem("authToken");
     const getLeagues = async () => {
-        const l = await axios.get(`${backendHost}/api/leagues`, {
+        const l = await axios.get(`${backendHost}/api/leagues`,{
           headers: {
-            Authorization: `Bearer ${authToken}`,
+            Authorization: `Bearer ${storedToken}`,
           },
         });
         setLeagues(l.data.leagues);
       };
       const getGames = async () => {
-        const l = await axios.get(`${backendHost}/api/games`, {
+        const l = await axios.get(`${backendHost}/api/games`,{
           headers: {
-            Authorization: `Bearer ${authToken}`,
+            Authorization: `Bearer ${storedToken}`,
           },
         });
         setGames(l.data.games);
       };
-
 
     useEffect(() => {
         getLeagues();

@@ -2,17 +2,19 @@ import React from "react";
 import "./LeagueInviter.js";
 import axios from "axios";
 
-import authToken from "../../utils/authToken";
 import backendHost from "../../utils/backendHost";
 
 function LeagueLeaver({ league, updateLeaguesList }) {
+
+  const storedToken = localStorage.getItem("authToken");
+
   const leaveLeague = async () => {
     await axios.patch(
       `${backendHost}/api/leagues/${league._id}/leave`,
       {},
       {
         headers: {
-          Authorization: `Bearer ${authToken}`,
+          Authorization: `Bearer ${storedToken}`,
         },
       }
     );
