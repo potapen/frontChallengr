@@ -4,8 +4,9 @@ import axios from "axios";
 import FileInput from "../../utils/FileInput";
 
 import backendHost from "../../utils/backendHost";
+import { Button } from "@mui/material";
 
-function EditLeagueForm({ league, refreshLeague }) {
+function EditLeagueForm({ league, refreshLeague, onSubmit }) {
   const [formData, setFormData] = useState({
     name: league.name,
     description: league.description,
@@ -32,6 +33,7 @@ function EditLeagueForm({ league, refreshLeague }) {
       },
     });
     refreshLeague();
+    onSubmit();
   };
 
   const handleMultiSelect = (event) => {
@@ -61,62 +63,59 @@ function EditLeagueForm({ league, refreshLeague }) {
   };
 
   return (
-    <div className="formContainer">
-      <h1>Edit league</h1>
-      <form onSubmit={handleSubmit} encType="multipart/form-data">
-        <div>
-          <label htmlFor="name">Name</label>
-          <input
-            id="name"
-            name="name"
-            value={formData.name}
-            type="text"
-            onChange={handleChanges}
-          />
-        </div>
-        <div>
-          <label htmlFor="description">description</label>
-          <input
-            id="description"
-            name="description"
-            value={formData.description}
-            type="text"
-            onChange={handleChanges}
-          />
-        </div>
-        <div>
-          <label htmlFor="members">Members</label>
-          <select
-            name="members"
-            id="members"
-            multiple
-            onChange={handleMultiSelect}
-            value={formData.members}
-          >
-            {league.members.map((member) => {
-              return (
-                <option key={member._id} value={member._id}>
-                  {member.username}
-                </option>
-              );
-            })}
-          </select>
-        </div>
-        <div>
-          <label htmlFor="coverPicture">Picture</label>
-          <FileInput
-            id="coverPicture"
-            name="coverPicture"
-            value={fileData}
-            type="file"
-            onChange={handleFileChanges}
-          />
-        </div>
-        <div>
-          <button type="submit">Edit league</button>
-        </div>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit} encType="multipart/form-data">
+      <div>
+        <label htmlFor="name">Name</label>
+        <input
+          id="name"
+          name="name"
+          value={formData.name}
+          type="text"
+          onChange={handleChanges}
+        />
+      </div>
+      <div>
+        <label htmlFor="description">description</label>
+        <input
+          id="description"
+          name="description"
+          value={formData.description}
+          type="text"
+          onChange={handleChanges}
+        />
+      </div>
+      <div>
+        <label htmlFor="members">Members</label>
+        <select
+          name="members"
+          id="members"
+          multiple
+          onChange={handleMultiSelect}
+          value={formData.members}
+        >
+          {league.members.map((member) => {
+            return (
+              <option key={member._id} value={member._id}>
+                {member.username}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+      <div>
+        <label htmlFor="coverPicture">Picture</label>
+        <FileInput
+          id="coverPicture"
+          name="coverPicture"
+          value={fileData}
+          type="file"
+          onChange={handleFileChanges}
+        />
+      </div>
+      <div>
+        <Button type="submit">Edit league</Button>
+      </div>
+    </form>
   );
 }
 

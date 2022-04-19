@@ -35,11 +35,11 @@ function LeaguesList() {
     <div>
       <h1>Leagues</h1>
       <div className="leaguesListContainer">
-        <Grid container spacing={3}>
+        <Grid container spacing={1}>
           {leagues.length > 0 &&
             leagues.map((league) => {
               return (
-                <Grid item xs={12}>
+                <Grid key={league._id} item xs={12}>
                   <LeagueCard
                     key={league._id}
                     leagueProps={league}

@@ -3,6 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 
 import backendHost from "../../utils/backendHost";
+import { Button } from "@mui/material";
 
 function EditPointForm({ point, refreshPoint }) {
   const [formData, setFormData] = useState({
@@ -45,7 +46,7 @@ function EditPointForm({ point, refreshPoint }) {
           />
         </div>
         <div>
-          <button type="submit">Edit Point</button>
+          <Button type="submit">Edit Point</Button>
         </div>
       </form>
     </div>

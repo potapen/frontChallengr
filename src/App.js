@@ -15,7 +15,6 @@ import Graphs from "./components/stats/Graphs"
 function App() {
   return (
     <div className="App">
-      <h1>Challengr!!!!!!!!</h1>
       <Router>
         <Routes>
           <Route element={<Layout />}>
