@@ -4,7 +4,7 @@ import axios from "axios";
 import LogoutIcon from "@mui/icons-material/Logout";
 
 import backendHost from "../../utils/backendHost";
-import ConfirmationDialog from "../../notifications/ConfirmationDialog.js";
+import ConfirmationDialog from "../../interactivity/ConfirmationDialog.js";
 import { IconButton } from "@mui/material";
 
 function LeagueLeaver({ league, updateLeaguesList }) {

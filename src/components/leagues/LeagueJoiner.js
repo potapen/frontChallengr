@@ -3,7 +3,7 @@ import axios from "axios";
 
 import backendHost from "../../utils/backendHost";
 
-function LeagueJoiner() {
+function LeagueJoiner(onSubmit) {
   const [inviteKey, setInviteKey] = useState([]);
 
   const storedToken = localStorage.getItem("authToken");
@@ -19,6 +19,7 @@ function LeagueJoiner() {
         },
       }
     );
+    onSubmit();
   };
 
   const handleChanges = (event) => {

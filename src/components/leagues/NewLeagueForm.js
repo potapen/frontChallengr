@@ -5,7 +5,7 @@ import FileInput from "../../utils/FileInput";
 
 import backendHost from "../../utils/backendHost";
 
-function NewLeagueForm() {
+function NewLeagueForm({ onSubmit }) {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -33,6 +33,7 @@ function NewLeagueForm() {
       description: "",
     });
     setFileData(null);
+    onSubmit();
   };
 
   const handleChanges = (event) => {

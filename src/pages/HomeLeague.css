@@ -1,0 +1,11 @@
+.floatingButtons {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  flex-wrap: wrap-reverse;
+  flex-direction: row-reverse;;
+}
+
+.floatingButton{
+  position: absolute;
+}

@@ -5,7 +5,7 @@ import FileInput from "../../utils/FileInput";
 
 import backendHost from "../../utils/backendHost";
 
-function EditGameForm({ game, refreshGame }) {
+function EditGameForm({ game, refreshGame, onSubmit }) {
   const [formData, setFormData] = useState({
     name: game.name,
     description: game.description,
@@ -27,6 +27,7 @@ function EditGameForm({ game, refreshGame }) {
         "Content-type": "multipart/form-data",
       },
     });
+    onSubmit();
     refreshGame();
   };
 

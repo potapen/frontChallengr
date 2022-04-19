@@ -5,7 +5,7 @@ import axios from "axios";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import backendHost from "../../utils/backendHost";
-import ConfirmationDialog from "../../notifications/ConfirmationDialog.js";
+import ConfirmationDialog from "../../interactivity/ConfirmationDialog.js";
 import { IconButton } from "@mui/material";
 
 function LeagueDeleter({ league, updateLeaguesList }) {

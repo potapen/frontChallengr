@@ -35,7 +35,7 @@ function LeaguesList() {
     <div>
       <h1>Leagues</h1>
       <div className="leaguesListContainer">
-        <Grid container spacing={3}>
+        <Grid container spacing={1}>
           {leagues.length > 0 &&
             leagues.map((league) => {
               return (
