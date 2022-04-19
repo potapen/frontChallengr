@@ -1,6 +1,6 @@
 import HomeLeague from "./pages/HomeLeague";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Challenges from "./pages/Challenges";
+import HomeChallenges from "./pages/HomeChallenges";
 import HomeGame from "./pages/HomeGame";
 import HomePoint from "./pages/HomePoint";
 import LeaguesStats from "./components/stats/LeaguesStats";
@@ -10,6 +10,7 @@ import Layout from "./navigation/Layout";
 import IsAnonymous from "./context/IsAnonymous";
 import IsPrivate from "./context/IsPrivate";
 import Home from "./pages/Home";
+import Graphs from "./components/stats/Graphs"
 
 function App() {
   return (
@@ -63,8 +64,15 @@ function App() {
               path="/challenges"
               element={
                 <IsPrivate>
-                  <Challenges />
+                  <HomeChallenges />
                 </IsPrivate>
+              }
+            />
+
+            <Route 
+              path="/graphs" 
+              element={
+              <Graphs/>
               }
             />
             <Route
