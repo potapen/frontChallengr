@@ -39,7 +39,7 @@ function LeaguesList() {
           {leagues.length > 0 &&
             leagues.map((league) => {
               return (
-                <Grid item xs={12}>
+                <Grid key={league._id} item xs={12}>
                   <LeagueCard
                     key={league._id}
                     leagueProps={league}

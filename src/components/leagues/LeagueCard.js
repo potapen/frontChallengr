@@ -6,7 +6,7 @@ import LeagueLeaver from "./LeagueLeaver";
 import EditLeagueForm from "./EditLeagueForm";
 import axios from "axios";
 import backendHost from "../../utils/backendHost";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LeagueSetFavorite from "./LeagueSetFavorite";
 
 import Card from "@mui/material/Card";
@@ -23,6 +23,7 @@ function LeagueCard({ leagueProps, updateLeaguesList }) {
   // States
   const [league, setLeague] = useState(leagueProps);
   const storedToken = localStorage.getItem("authToken");
+  let navigate = useNavigate();
 
   const refreshLeague = async () => {
     const refreshedLeague = await axios.get(
@@ -37,7 +38,7 @@ function LeagueCard({ leagueProps, updateLeaguesList }) {
   };
 
   return (
-    <Card>
+    <Card sx={{ width: "100%" }}>
       <CardHeader title={league.name} subheader={league.createdAt} />
       <CardMedia
         component="img"
@@ -57,7 +58,9 @@ function LeagueCard({ leagueProps, updateLeaguesList }) {
       <CardContent>
         <Typography variant="body2" color="text.secondary">
           {league.description}
-          <h6>Members : </h6>
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Members :
           {league.members.map((member) => {
             return <li key={member._id}>{member.username}</li>;
           })}
@@ -75,9 +78,13 @@ function LeagueCard({ leagueProps, updateLeaguesList }) {
             );
           }}
         </FormDialog>
-        <Link to={`/points/${league._id}`}>
-          <Button>Edit points settings</Button>
-        </Link>
+        <Button
+          onClick={() => {
+            navigate(`/points/${league._id}`);
+          }}
+        >
+          Edit points settings
+        </Button>
       </ButtonGroup>
       <CardActions disableSpacing>
         <LeagueLeaver league={league} updateLeaguesList={updateLeaguesList} />

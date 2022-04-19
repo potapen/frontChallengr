@@ -9,7 +9,7 @@ function HomeLeague() {
   const styleAdd = {
     margin: 0,
     top: "auto",
-    right: 130,
+    right: 120,
     bottom: 20,
     left: "auto",
     position: "fixed",
@@ -19,17 +19,21 @@ function HomeLeague() {
     margin: 0,
     top: "auto",
     right: 20,
-    bottom: 25,
+    bottom: 20,
     left: "auto",
     position: "fixed",
   };
 
   return (
     <div>
-      <div>HomeLeague</div>
       <LeaguesList />
-      <div class="floatingButtons">
-        <FormDialogFAB style={styleAdd} color="primary" variant="circular">
+      <div>
+        <FormDialogFAB
+          style={styleAdd}
+          color="primary"
+          variant="extended"
+          text="Create"
+        >
           {(callback) => {
             return <NewLeagueForm onSubmit={callback} />;
           }}
