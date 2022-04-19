@@ -2,7 +2,6 @@ import NewChallengeForm from "../components/challenges/NewChallengeForm";
 import ChallengesList from "../components/challenges/ChallengesList";
 import { useState, useEffect } from "react";
 import backendHost from "../utils/backendHost";
-import authToken from "../utils/authToken";
 import axios from "axios";
 
 const HomeChallenges = () => {

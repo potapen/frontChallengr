@@ -72,7 +72,9 @@ function App() {
             <Route 
               path="/graphs" 
               element={
-              <Graphs/>
+                <IsPrivate>
+                  <Graphs/>
+                </IsPrivate>
               }
             />
             <Route
