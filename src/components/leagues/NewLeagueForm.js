@@ -34,12 +34,14 @@ function NewLeagueForm({ handleClose }) {
     fd.append("name", formData["name"]);
     fd.append("description", formData["description"]);
     fd.append("coverPicture", fileData);
-    await axios.post(`${backendHost}/api/leagues`, fd, {
+    console.log('fd', fd)
+    const response = await axios.post(`${backendHost}/api/leagues`, fd, {
       headers: {
         Authorization: `Bearer ${storedToken}`,
         "Content-type": "multipart/form-data",
       },
     });
+    console.log('response', response)
     setFormData({
       name: "",
       description: "",
@@ -54,10 +56,12 @@ function NewLeagueForm({ handleClose }) {
       ...formData,
       [name]: value,
     };
+    console.log('newFormData', newFormData)
     setFormData(newFormData);
   };
 
   const handleFileChanges = (event) => {
+    console.log('event.target.files[0]', event.target.files[0])
     setFileData(event.target.files[0]);
   };
 
