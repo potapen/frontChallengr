@@ -3,8 +3,8 @@ import { useState } from "react";
 import axios from "axios";
 
 import backendHost from "../../utils/backendHost";
-import LeagueStats from "./LeagueStats";
 import { useParams } from "react-router-dom";
+import LeagueStatsCard from "./LeagueStatsCard";
 
 function LeaguesStats() {
   const { profileId } = useParams();
@@ -28,21 +28,20 @@ function LeaguesStats() {
 
   return (
     <div>
-      <h1>List of Leagues</h1>
-      <ul>
-        {leaguesStats.length > 0 &&
-          leaguesStats.map((leagueStats) => {
-            return (
-              <LeagueStats
-                key={leagueStats.countPerLeague._id}
-                countPerLeague={leagueStats.countPerLeague}
-                countPerUser={leagueStats.countPerUser}
-                countPerWinner={leagueStats.countPerWinner}
-                fullRankingPerLeague={leagueStats.fullRankingPerLeague}
-              />
-            );
-          })}
-      </ul>
+      <h1>Leagues stats</h1>
+      {leaguesStats.length > 0 &&
+        leaguesStats.map((leagueStats) => {
+          return (
+            <LeagueStatsCard
+              key={leagueStats.countPerLeague._id}
+              league={leagueStats.league}
+              countPerLeague={leagueStats.countPerLeague}
+              countPerUser={leagueStats.countPerUser}
+              countPerWinner={leagueStats.countPerWinner}
+              fullRankingPerLeague={leagueStats.fullRankingPerLeague}
+            />
+          );
+        })}
     </div>
   );
 }
