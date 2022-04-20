@@ -24,6 +24,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 import { useTheme } from '@mui/material/styles';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import NativeSelect from "@mui/material/NativeSelect";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -58,6 +59,7 @@ function EditLeagueForm({ league, refreshLeague, handleClose }) {
     fd.append("description", formData["description"]);
     fd.append("members", formData["members"]);
     fd.append("coverPicture", fileData);
+    // console.log('fd', fd)
     await axios.put(`${backendHost}/api/leagues/${league._id}`, fd, {
       headers: {
         Authorization: `Bearer ${storedToken}`,
@@ -150,14 +152,15 @@ function EditLeagueForm({ league, refreshLeague, handleClose }) {
     </Grid> */}
 
     <Grid>
-    <InputLabel id="members">members</InputLabel>
-      <Select
-          labelId="members"
-          id="members"
+    <FormControl>
+        <InputLabel id="demo-multiple-chip-label">members</InputLabel>
+        <Select
+          labelId="demo-multiple-chip-label"
+          id="demo-multiple-chip"
           multiple
           value={formData.members}
           onChange={handleMultiSelect}
-          input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+          input={<OutlinedInput id="select-multiple-chip" label="members" />}
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {selected.map((value) => 
@@ -168,9 +171,8 @@ function EditLeagueForm({ league, refreshLeague, handleClose }) {
               )}
             </Box>
           )}
-          MenuProps={MenuProps}
-        >
 
+        >
           {league.members.map((member) => (
             <MenuItem
               key={member._id}
@@ -179,7 +181,8 @@ function EditLeagueForm({ league, refreshLeague, handleClose }) {
               {member.username}
             </MenuItem>
           ))}
-      </Select>
+        </Select>
+      </FormControl>
 
     </Grid>
       <Grid>
