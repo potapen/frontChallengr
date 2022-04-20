@@ -30,7 +30,6 @@ function OngoingChallengesList() {
     return;
   };
 
-  console.log("challenges", challenges);
 
   return (
     <div>

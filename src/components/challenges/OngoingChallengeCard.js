@@ -15,7 +15,23 @@ import {
 import FormDialog from "../../interactivity/FormDialogButton";
 import FinishChallengeForm from "./FinishChallengeForm";
 
+import cx from "clsx";
+import { makeStyles } from "@mui/styles";
+import { useFadedShadowStyles } from "@mui-treasury/styles/shadow/faded";
+
+const useStyles = makeStyles(() => ({
+  root: {
+    maxWidth: 304,
+    margin: "auto",
+  },
+  content: {
+    padding: 24,
+  },
+}));
+
 function OngoingChallengeCard({ challengeProps, updateChallengesList }) {
+  const cardStyles = useStyles();
+  const fadeShadowStyles = useFadedShadowStyles();
   const [challenge, setChallenge] = useState(challengeProps);
 
   const storedToken = localStorage.getItem("authToken");
@@ -34,7 +50,10 @@ function OngoingChallengeCard({ challengeProps, updateChallengesList }) {
 
   return (
     <>
-      <Card sx={{ width: "100%" }}>
+      <Card
+        sx={{ width: "100%" }}
+        className={cx(cardStyles.root, fadeShadowStyles.root)}
+      >
         <CardHeader
           avatar={
             <Avatar

@@ -6,7 +6,6 @@ import {
   Divider,
   Typography,
 } from "@mui/material";
-import { Box } from "@mui/system";
 import { Link, useNavigate } from "react-router-dom";
 
 import cx from "clsx";
@@ -23,15 +22,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function LeagueStatsCard({
-  getLeaguesStats,
-  profile,
-  league,
-  countPerLeague,
-  countPerUser,
-  countPerWinner,
-  fullRankingPerLeague,
-}) {
+function HomeLeagueStatsCard({ league, fullRankingPerLeague }) {
   const cardStyles = useStyles();
   const fadeShadowStyles = useFadedShadowStyles();
 
@@ -42,28 +33,6 @@ function LeagueStatsCard({
         title={league.name}
         subheader={league.createdAt}
       />
-      <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          Members: {league.members.length}x👤 | Challenges:{" "}
-          {countPerLeague.count}x🎲 | Points: {countPerLeague.totalPoints}x💰
-        </Typography>
-      </CardContent>
-      <Divider />
-      <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          {profile.username}:
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {`${countPerWinner ? countPerWinner.count : 0}x🎲 winned out of 
-            ${countPerUser ? countPerUser.count : 0}
-          x🎲`}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {`${
-            countPerWinner ? countPerWinner.totalPoints : 0
-          }x💰 earned out of ${countPerUser ? countPerUser.totalPoints : 0}x💰`}
-        </Typography>
-      </CardContent>
       <Divider />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
@@ -80,10 +49,7 @@ function LeagueStatsCard({
                 />
                 {user._id.winners.username} ({user.totalPoints} x 💰|{" "}
                 {user.count} x 🎲 |{" "}
-                <Link
-                  to="#"
-                  onClick={() => getLeaguesStats(user._id.winners._id)}
-                >
+                <Link to={`/stats/profile/${user._id.winners._id}</li>`}>
                   see stats
                 </Link>
                 )
@@ -100,10 +66,7 @@ function LeagueStatsCard({
                     style={{ width: "3rem", bordeRadius: "50%" }}
                   />
                   {user.username} (0 x 💰| 0 x 🎲 |{" "}
-                  <Link to="#" onClick={() => getLeaguesStats(user._id)}>
-                    see stats
-                  </Link>
-                  )
+                  <Link to={`/stats/profile/${user._id}</li>`}>see stats</Link>)
                 </li>
               );
             })}
@@ -113,4 +76,4 @@ function LeagueStatsCard({
   );
 }
 
-export default LeagueStatsCard;
+export default HomeLeagueStatsCard;
