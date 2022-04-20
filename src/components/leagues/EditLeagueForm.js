@@ -36,14 +36,6 @@ const MenuProps = {
   },
 };
 
-function getStyles(name, personName, theme) {
-  return {
-    fontWeight:
-      personName.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
-};
 
 
 function EditLeagueForm({ league, refreshLeague, handleClose }) {
@@ -77,20 +69,6 @@ function EditLeagueForm({ league, refreshLeague, handleClose }) {
   };
 
   const handleMultiSelect = (event) => {
-    console.log('event', event)
-    let value = Array.from(
-      event.target.selectedOptions,
-      (option) => option.value
-    );
-    const { name } = event.target;
-    const newFormData = {
-      ...formData,
-      [name]: value,
-    };
-    setFormData(newFormData);
-  };
-
-  const handleMultiSelect2 = (event) => {
     const { value } = event.target;
     const newFormData = {
       ...formData,
@@ -123,11 +101,13 @@ function EditLeagueForm({ league, refreshLeague, handleClose }) {
         flexDirection: 'column',
         alignItems: 'left',
         '& > *': {
-          m: 2,
+          m:1,
+          r:1,
+          t:1,
         },
       }}
     >
-      <Grid item>
+      <Grid>
           <TextField
             id="name"
             name="name"
@@ -137,7 +117,7 @@ function EditLeagueForm({ league, refreshLeague, handleClose }) {
             onChange={handleChanges}
           />
     </Grid>
-    <Grid item>
+    <Grid>
           <TextField
             id="description"
             name="description"
@@ -176,7 +156,7 @@ function EditLeagueForm({ league, refreshLeague, handleClose }) {
           id="members"
           multiple
           value={formData.members}
-          onChange={handleMultiSelect2}
+          onChange={handleMultiSelect}
           input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
@@ -195,7 +175,6 @@ function EditLeagueForm({ league, refreshLeague, handleClose }) {
             <MenuItem
               key={member._id}
               value={member._id}
-              // style={getStyles(name, personName, theme)}
             >
               {member.username}
             </MenuItem>
