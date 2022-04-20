@@ -21,8 +21,28 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Chip from '@mui/material/Chip';
+import { useTheme } from '@mui/material/styles';
 
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
 
+function getStyles(name, personName, theme) {
+  return {
+    fontWeight:
+      personName.indexOf(name) === -1
+        ? theme.typography.fontWeightRegular
+        : theme.typography.fontWeightMedium,
+  };
+};
 
 
 function EditLeagueForm({ league, refreshLeague, handleClose }) {
@@ -120,7 +140,7 @@ function EditLeagueForm({ league, refreshLeague, handleClose }) {
             onChange={handleChanges}
           />
     </Grid>
-    <Grid item>
+    {/* <Grid item>
       <InputLabel id="members">members</InputLabel>
       <Select
         labelId="members"
@@ -138,26 +158,44 @@ function EditLeagueForm({ league, refreshLeague, handleClose }) {
           </MenuItem>
         ))}
       </Select>
-    </Grid>
+    </Grid> */}
 
-      {/* <div>
-        <label htmlFor="members">Members</label>
-        <select
-          name="members"
+    <Grid>
+    <InputLabel id="members">members</InputLabel>
+    <Select
+          labelId="members"
           id="members"
           multiple
-          onChange={handleMultiSelect}
           value={formData.members}
+          onChange={handleMultiSelect2}
+          input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+          renderValue={(selected) => (
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+              {console.log('selected', selected)}
+              {console.log(league.members)}
+              {selected.map((value) => 
+                {
+                  let memberObj = league.members.filter( m => m['_id']===value)
+                  return <Chip key={value} label={memberObj[0].username} />
+                }
+              )}
+            </Box>
+          )}
+          MenuProps={MenuProps}
         >
-          {league.members.map((member) => {
-            return (
-              <option key={member._id} value={member._id}>
-                {member.username}
-              </option>
-            );
-          })}
-        </select>
-      </div> */}
+
+          {league.members.map((member) => (
+            <MenuItem
+              key={member._id}
+              value={member._id}
+              // style={getStyles(name, personName, theme)}
+            >
+              {member.username}
+            </MenuItem>
+          ))}
+        </Select>
+
+    </Grid>
       <div>
         <label htmlFor="coverPicture">Picture</label>
         <FileInput
