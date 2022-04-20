@@ -34,9 +34,9 @@ export default function FormDialogFAB({
       </Fab>
       <Dialog open={open}>
         <Box>{children(handleClose)}</Box>
-        <DialogActions>
+        {/* <DialogActions>
           <Button onClick={handleClose}>Close</Button>
-        </DialogActions>
+        </DialogActions> */}
       </Dialog>
     </div>
   );
