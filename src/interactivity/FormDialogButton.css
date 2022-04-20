@@ -1,0 +1,11 @@
+.FormDialogSubDiv{
+    width: 17vw;
+    margin:20px;
+} 
+
+@media (max-width: 800px) {
+    .FormDialogSubDiv{
+        width: 70vw;
+        margin:10px 10px;
+    }  
+}

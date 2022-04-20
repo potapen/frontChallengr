@@ -4,9 +4,42 @@ import axios from "axios";
 import FileInput from "../../utils/FileInput";
 
 import backendHost from "../../utils/backendHost";
-import { Button } from "@mui/material";
 
-function EditLeagueForm({ league, refreshLeague, onSubmit }) {
+import { Button } from "@mui/material";
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import Input from '@mui/material/Input';
+import FilledInput from '@mui/material/FilledInput';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import InputAdornment from '@mui/material/InputAdornment';
+import FormHelperText from '@mui/material/FormHelperText';
+import FormControl from '@mui/material/FormControl';
+import TextField from '@mui/material/TextField';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import MenuItem from '@mui/material/MenuItem';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Chip from '@mui/material/Chip';
+import { useTheme } from '@mui/material/styles';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import NativeSelect from "@mui/material/NativeSelect";
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+
+
+function EditLeagueForm({ league, refreshLeague, handleClose }) {
   const [formData, setFormData] = useState({
     name: league.name,
     description: league.description,
@@ -26,6 +59,7 @@ function EditLeagueForm({ league, refreshLeague, onSubmit }) {
     fd.append("description", formData["description"]);
     fd.append("members", formData["members"]);
     fd.append("coverPicture", fileData);
+    // console.log('fd', fd)
     await axios.put(`${backendHost}/api/leagues/${league._id}`, fd, {
       headers: {
         Authorization: `Bearer ${storedToken}`,
@@ -33,24 +67,21 @@ function EditLeagueForm({ league, refreshLeague, onSubmit }) {
       },
     });
     refreshLeague();
-    onSubmit();
+    handleClose();
   };
 
   const handleMultiSelect = (event) => {
-    let value = Array.from(
-      event.target.selectedOptions,
-      (option) => option.value
-    );
-    const { name } = event.target;
+    const { value } = event.target;
     const newFormData = {
       ...formData,
-      [name]: value,
+      members: value,
     };
     setFormData(newFormData);
   };
 
   const handleChanges = (event) => {
     const { value, name } = event.target;
+    console.log(event.target)
     const newFormData = {
       ...formData,
       [name]: value,
@@ -58,52 +89,84 @@ function EditLeagueForm({ league, refreshLeague, onSubmit }) {
     setFormData(newFormData);
   };
 
+
   const handleFileChanges = (event) => {
     setFileData(event.target.files[0]);
   };
 
+  
   return (
     <form onSubmit={handleSubmit} encType="multipart/form-data">
-      <div>
-        <label htmlFor="name">Name</label>
-        <input
-          id="name"
-          name="name"
-          value={formData.name}
-          type="text"
-          onChange={handleChanges}
-        />
-      </div>
-      <div>
-        <label htmlFor="description">description</label>
-        <input
-          id="description"
-          name="description"
-          value={formData.description}
-          type="text"
-          onChange={handleChanges}
-        />
-      </div>
-      <div>
-        <label htmlFor="members">Members</label>
-        <select
-          name="members"
-          id="members"
+      <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'left',
+        '& > *': {
+          m:1,
+          r:1,
+          t:1,
+        },
+      }}
+    >
+      <Grid>
+          <TextField
+            id="name"
+            name="name"
+            label="name"
+            type="text"
+            value={formData.name}
+            onChange={handleChanges}
+          />
+    </Grid>
+    <Grid>
+          <TextField
+            id="description"
+            name="description"
+            label="description"
+            multiline
+            maxRows={4}
+            type="text"
+            value={formData.description}
+            onChange={handleChanges}
+          />
+    </Grid>
+    <Grid>
+    <FormControl>
+        <InputLabel id="demo-multiple-chip-label">members</InputLabel>
+        <Select
+          labelId="demo-multiple-chip-label"
+          id="demo-multiple-chip"
           multiple
-          onChange={handleMultiSelect}
           value={formData.members}
+          onChange={handleMultiSelect}
+          input={<OutlinedInput id="select-multiple-chip" label="members" />}
+          renderValue={(selected) => (
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+              {selected.map((value) => 
+                {
+                  let memberObj = league.members.filter( m => m['_id']===value)
+                  return <Chip key={value} label={memberObj[0].username} />
+                }
+              )}
+            </Box>
+          )}
+
         >
-          {league.members.map((member) => {
-            return (
-              <option key={member._id} value={member._id}>
-                {member.username}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-      <div>
-        <label htmlFor="coverPicture">Picture</label>
+          {league.members.map((member) => (
+            <MenuItem
+              key={member._id}
+              value={member._id}
+            >
+              {member.username}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+
+    </Grid>
+      <Grid>
+        <label htmlFor="coverPicture">Picture  </label>
         <FileInput
           id="coverPicture"
           name="coverPicture"
@@ -111,10 +174,14 @@ function EditLeagueForm({ league, refreshLeague, onSubmit }) {
           type="file"
           onChange={handleFileChanges}
         />
-      </div>
-      <div>
-        <Button type="submit">Edit league</Button>
-      </div>
+      </Grid>
+      <Grid>
+        <ButtonGroup variant="contained" aria-label="outlined primary button group">
+          <Button type="submit">Edit league</Button>
+          <Button onClick={handleClose}>Close</Button>
+        </ButtonGroup>
+      </Grid>
+    </Box>
     </form>
   );
 }
