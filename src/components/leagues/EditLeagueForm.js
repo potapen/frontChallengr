@@ -131,26 +131,6 @@ function EditLeagueForm({ league, refreshLeague, handleClose }) {
             onChange={handleChanges}
           />
     </Grid>
-    {/* <Grid item>
-      <InputLabel id="members">members</InputLabel>
-      <Select
-        labelId="members"
-        id="members"
-        multiple
-        value={formData.members}
-        onChange={handleMultiSelect2}
-      >
-        {league.members.map((member) => (
-          <MenuItem
-            key={member._id}
-            value={member._id}
-          >
-            {member.username}
-          </MenuItem>
-        ))}
-      </Select>
-    </Grid> */}
-
     <Grid>
     <FormControl>
         <InputLabel id="demo-multiple-chip-label">members</InputLabel>
