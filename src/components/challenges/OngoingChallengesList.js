@@ -3,8 +3,9 @@ import { useState } from "react";
 import axios from "axios";
 
 import backendHost from "../../utils/backendHost";
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import OngoingChallengeCard from "./OngoingChallengeCard";
+import CustomCarousel from "../../interactivity/CustomCarousel";
 
 function OngoingChallengesList() {
   const [challenges, setChallenges] = useState([]);
@@ -17,7 +18,6 @@ function OngoingChallengesList() {
         Authorization: `Bearer ${storedToken}`,
       },
     });
-    console.log("challenges", l.data.challenges);
     setChallenges(l.data.challenges);
   };
 
@@ -30,23 +30,26 @@ function OngoingChallengesList() {
     return;
   };
 
+  console.log("challenges", challenges);
+
   return (
     <div>
-      <h1>List of Challenges</h1>
-      <Grid container spacing={1}>
-        {challenges.length > 0 &&
-          challenges.map((challenge) => {
+      <Typography variant="h6" gutterBottom component="div">
+        Current challenges
+      </Typography>
+      {challenges.length > 0 && (
+        <CustomCarousel list={challenges}>
+          {(challenge) => {
             return (
-              <Grid key={challenge._id} item xs={12}>
-                <OngoingChallengeCard
-                  key={challenge._id}
-                  challengeProps={challenge}
-                  updateChallengesList={updateChallengesList}
-                />
-              </Grid>
+              <OngoingChallengeCard
+                key={challenge._id}
+                challengeProps={challenge}
+                updateChallengesList={updateChallengesList}
+              />
             );
-          })}
-      </Grid>
+          }}
+        </CustomCarousel>
+      )}
     </div>
   );
 }
