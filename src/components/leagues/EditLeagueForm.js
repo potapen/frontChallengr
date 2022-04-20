@@ -23,6 +23,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 import { useTheme } from '@mui/material/styles';
+import ButtonGroup from '@mui/material/ButtonGroup';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -162,7 +163,8 @@ function EditLeagueForm({ league, refreshLeague, handleClose }) {
 
     <Grid>
     <InputLabel id="members">members</InputLabel>
-    <Select
+      <Select
+          sx={{ m: 1, width: '30ch' }}
           labelId="members"
           id="members"
           multiple
@@ -171,8 +173,6 @@ function EditLeagueForm({ league, refreshLeague, handleClose }) {
           input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-              {console.log('selected', selected)}
-              {console.log(league.members)}
               {selected.map((value) => 
                 {
                   let memberObj = league.members.filter( m => m['_id']===value)
@@ -193,11 +193,11 @@ function EditLeagueForm({ league, refreshLeague, handleClose }) {
               {member.username}
             </MenuItem>
           ))}
-        </Select>
+      </Select>
 
     </Grid>
-      <div>
-        <label htmlFor="coverPicture">Picture</label>
+      <Grid sx={{ m: 1, width: '30ch' }}>
+        <label htmlFor="coverPicture">Picture  </label>
         <FileInput
           id="coverPicture"
           name="coverPicture"
@@ -205,11 +205,13 @@ function EditLeagueForm({ league, refreshLeague, handleClose }) {
           type="file"
           onChange={handleFileChanges}
         />
-      </div>
-      <div>
-        <Button type="submit">Edit league</Button>
-        <Button onClick={handleClose}>Close</Button>
-      </div>
+      </Grid>
+      <Grid sx={{ m: 1, width: '30ch' }}>
+        <ButtonGroup variant="contained" aria-label="outlined primary button group">
+          <Button type="submit">Edit league</Button>
+          <Button onClick={handleClose}>Close</Button>
+        </ButtonGroup>
+      </Grid>
     </form>
   );
 }
