@@ -1,22 +1,24 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
 
 import backendHost from "../../utils/backendHost";
 import { useParams } from "react-router-dom";
-import LeagueStatsCard from "./LeagueStatsCard";
 import CustomCarousel from "../../interactivity/CustomCarousel";
 import { Typography } from "@mui/material";
+import HomeLeagueStatsCard from "./HomeLeagueStatsCard";
 
-function LeaguesStats() {
-  const { profileId } = useParams();
+import { AuthContext } from "../../context/auth.context";
+
+function HomeLeaguesStats() {
+  const { isLoggedIn, user, logOutUser } = useContext(AuthContext);
 
   const [leaguesStats, setLeaguesStats] = useState([]);
 
   const storedToken = localStorage.getItem("authToken");
 
-  const getLeaguesStats = async (profileId) => {
-    const s = await axios.get(`${backendHost}/api/stats/profile/${profileId}`, {
+  const getLeaguesStats = async () => {
+    const s = await axios.get(`${backendHost}/api/stats/profile/${user._id}`, {
       headers: {
         Authorization: `Bearer ${storedToken}`,
       },
@@ -26,8 +28,7 @@ function LeaguesStats() {
   };
 
   useEffect(() => {
-    console.log("reloadList", profileId);
-    getLeaguesStats(profileId);
+    getLeaguesStats();
   }, []);
 
   return (
@@ -39,14 +40,9 @@ function LeaguesStats() {
         <CustomCarousel list={leaguesStats}>
           {(leagueStats) => {
             return (
-              <LeagueStatsCard
-                getLeaguesStats={getLeaguesStats}
+              <HomeLeagueStatsCard
                 key={leagueStats.countPerLeague._id}
-                profile={leagueStats.profile}
                 league={leagueStats.league}
-                countPerLeague={leagueStats.countPerLeague}
-                countPerUser={leagueStats.countPerUser}
-                countPerWinner={leagueStats.countPerWinner}
                 fullRankingPerLeague={leagueStats.fullRankingPerLeague}
               />
             );
@@ -57,4 +53,4 @@ function LeaguesStats() {
   );
 }
 
-export default LeaguesStats;
+export default HomeLeaguesStats;

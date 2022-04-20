@@ -91,6 +91,15 @@ function Navbar() {
               >
                 {[
                   <MenuItem
+                    key="home"
+                    onClick={() => {
+                      handleCloseNavMenu();
+                      navigate("/");
+                    }}
+                  >
+                    <Typography textAlign="center">Home</Typography>
+                  </MenuItem>,
+                  <MenuItem
                     key="leagues"
                     onClick={() => {
                       handleCloseNavMenu();

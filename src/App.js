@@ -46,7 +46,6 @@ function App() {
               }
             />
             <Route
-              exact
               path="/points/:leagueId"
               element={
                 <IsPrivate>
@@ -55,9 +54,12 @@ function App() {
               }
             />
             <Route
-              exact
               path="/stats/profile/:profileId"
-              element={<LeaguesStats />}
+              element={
+                <IsPrivate>
+                  <LeaguesStats />
+                </IsPrivate>
+              }
             />
             <Route
               path="/challenges"

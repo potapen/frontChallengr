@@ -19,7 +19,25 @@ import Typography from "@mui/material/Typography";
 import { Button, ButtonGroup, Divider } from "@mui/material";
 import FormDialog from "../../interactivity/FormDialogButton";
 
+
+import cx from "clsx";
+import { makeStyles } from "@mui/styles";
+import { useFadedShadowStyles } from "@mui-treasury/styles/shadow/faded";
+
+const useStyles = makeStyles(() => ({
+  root: {
+    maxWidth: 304,
+    margin: "auto",
+  },
+  content: {
+    padding: 24,
+  },
+}));
+
 function LeagueCard({ leagueProps, updateLeaguesList }) {
+  const cardStyles = useStyles();
+  const fadeShadowStyles = useFadedShadowStyles();
+
   // States
   const [league, setLeague] = useState(leagueProps);
   const storedToken = localStorage.getItem("authToken");
@@ -38,7 +56,10 @@ function LeagueCard({ leagueProps, updateLeaguesList }) {
   };
 
   return (
-    <Card sx={{ width: "100%" }}>
+    <Card
+      sx={{ width: "100%" }}
+      className={cx(cardStyles.root, fadeShadowStyles.root)}
+    >
       <CardHeader title={league.name} subheader={league.createdAt} />
       <CardMedia
         component="img"
