@@ -4,26 +4,7 @@ import axios from "axios";
 import FileInput from "../../utils/FileInput";
 
 import backendHost from "../../utils/backendHost";
-
 import { Button } from "@mui/material";
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import Input from '@mui/material/Input';
-import FilledInput from '@mui/material/FilledInput';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import InputAdornment from '@mui/material/InputAdornment';
-import FormHelperText from '@mui/material/FormHelperText';
-import FormControl from '@mui/material/FormControl';
-import TextField from '@mui/material/TextField';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import MenuItem from '@mui/material/MenuItem';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-
-
-
 
 function EditLeagueForm({ league, refreshLeague, handleClose }) {
   const [formData, setFormData] = useState({
@@ -56,7 +37,6 @@ function EditLeagueForm({ league, refreshLeague, handleClose }) {
   };
 
   const handleMultiSelect = (event) => {
-    console.log('event', event)
     let value = Array.from(
       event.target.selectedOptions,
       (option) => option.value
@@ -69,18 +49,8 @@ function EditLeagueForm({ league, refreshLeague, handleClose }) {
     setFormData(newFormData);
   };
 
-  const handleMultiSelect2 = (event) => {
-    const { value } = event.target;
-    const newFormData = {
-      ...formData,
-      members: value,
-    };
-    setFormData(newFormData);
-  };
-
   const handleChanges = (event) => {
     const { value, name } = event.target;
-    console.log(event.target)
     const newFormData = {
       ...formData,
       [name]: value,
@@ -88,59 +58,33 @@ function EditLeagueForm({ league, refreshLeague, handleClose }) {
     setFormData(newFormData);
   };
 
-
   const handleFileChanges = (event) => {
     setFileData(event.target.files[0]);
   };
 
-  
   return (
     <form onSubmit={handleSubmit} encType="multipart/form-data">
-      <Grid item>
-          <TextField
-            sx={{ m: 1, width: '30ch' }}
-            id="name"
-            name="name"
-            label="name"
-            type="text"
-            value={formData.name}
-            onChange={handleChanges}
-          />
-    </Grid>
-    <Grid item>
-          <TextField
-            sx={{ m: 1, width: '30ch' }}
-            id="description"
-            name="description"
-            label="description"
-            multiline
-            maxRows={4}
-            type="text"
-            value={formData.description}
-            onChange={handleChanges}
-          />
-    </Grid>
-    <Grid item>
-      <InputLabel id="members">members</InputLabel>
-      <Select
-        labelId="members"
-        id="members"
-        multiple
-        value={formData.members}
-        onChange={handleMultiSelect2}
-      >
-        {league.members.map((member) => (
-          <MenuItem
-            key={member._id}
-            value={member._id}
-          >
-            {member.username}
-          </MenuItem>
-        ))}
-      </Select>
-    </Grid>
-
-      {/* <div>
+      <div>
+        <label htmlFor="name">Name</label>
+        <input
+          id="name"
+          name="name"
+          value={formData.name}
+          type="text"
+          onChange={handleChanges}
+        />
+      </div>
+      <div>
+        <label htmlFor="description">description</label>
+        <input
+          id="description"
+          name="description"
+          value={formData.description}
+          type="text"
+          onChange={handleChanges}
+        />
+      </div>
+      <div>
         <label htmlFor="members">Members</label>
         <select
           name="members"
@@ -157,7 +101,7 @@ function EditLeagueForm({ league, refreshLeague, handleClose }) {
             );
           })}
         </select>
-      </div> */}
+      </div>
       <div>
         <label htmlFor="coverPicture">Picture</label>
         <FileInput

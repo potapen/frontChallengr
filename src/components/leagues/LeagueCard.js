@@ -73,7 +73,7 @@ function LeagueCard({ leagueProps, updateLeaguesList }) {
               <EditLeagueForm
                 league={league}
                 refreshLeague={refreshLeague}
-                onSubmit={callback}
+                handleClose={callback}
               />
             );
           }}
