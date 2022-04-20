@@ -117,9 +117,18 @@ function EditLeagueForm({ league, refreshLeague, handleClose }) {
   
   return (
     <form onSubmit={handleSubmit} encType="multipart/form-data">
+      <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'left',
+        '& > *': {
+          m: 2,
+        },
+      }}
+    >
       <Grid item>
           <TextField
-            sx={{ m: 1, width: '30ch' }}
             id="name"
             name="name"
             label="name"
@@ -130,7 +139,6 @@ function EditLeagueForm({ league, refreshLeague, handleClose }) {
     </Grid>
     <Grid item>
           <TextField
-            sx={{ m: 1, width: '30ch' }}
             id="description"
             name="description"
             label="description"
@@ -164,7 +172,6 @@ function EditLeagueForm({ league, refreshLeague, handleClose }) {
     <Grid>
     <InputLabel id="members">members</InputLabel>
       <Select
-          sx={{ m: 1, width: '30ch' }}
           labelId="members"
           id="members"
           multiple
@@ -196,7 +203,7 @@ function EditLeagueForm({ league, refreshLeague, handleClose }) {
       </Select>
 
     </Grid>
-      <Grid sx={{ m: 1, width: '30ch' }}>
+      <Grid>
         <label htmlFor="coverPicture">Picture  </label>
         <FileInput
           id="coverPicture"
@@ -206,12 +213,13 @@ function EditLeagueForm({ league, refreshLeague, handleClose }) {
           onChange={handleFileChanges}
         />
       </Grid>
-      <Grid sx={{ m: 1, width: '30ch' }}>
+      <Grid>
         <ButtonGroup variant="contained" aria-label="outlined primary button group">
           <Button type="submit">Edit league</Button>
           <Button onClick={handleClose}>Close</Button>
         </ButtonGroup>
       </Grid>
+    </Box>
     </form>
   );
 }
