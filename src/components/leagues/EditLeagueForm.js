@@ -6,7 +6,7 @@ import FileInput from "../../utils/FileInput";
 import backendHost from "../../utils/backendHost";
 import { Button } from "@mui/material";
 
-function EditLeagueForm({ league, refreshLeague, onSubmit }) {
+function EditLeagueForm({ league, refreshLeague, handleClose }) {
   const [formData, setFormData] = useState({
     name: league.name,
     description: league.description,
@@ -33,7 +33,7 @@ function EditLeagueForm({ league, refreshLeague, onSubmit }) {
       },
     });
     refreshLeague();
-    onSubmit();
+    handleClose();
   };
 
   const handleMultiSelect = (event) => {
@@ -114,6 +114,7 @@ function EditLeagueForm({ league, refreshLeague, onSubmit }) {
       </div>
       <div>
         <Button type="submit">Edit league</Button>
+        <Button onClick={handleClose}>Close</Button>
       </div>
     </form>
   );
