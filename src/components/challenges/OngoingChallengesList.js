@@ -6,6 +6,7 @@ import backendHost from "../../utils/backendHost";
 import { Grid, Typography } from "@mui/material";
 import OngoingChallengeCard from "./OngoingChallengeCard";
 import CustomCarousel from "../../interactivity/CustomCarousel";
+import "./OngoingChallengesList.css";
 
 function OngoingChallengesList() {
   const [challenges, setChallenges] = useState([]);
@@ -30,9 +31,8 @@ function OngoingChallengesList() {
     return;
   };
 
-
   return (
-    <div>
+    <div style={{ width: "100%" }} className="ongoingChallengesContainer">
       <Typography variant="h6" gutterBottom component="div">
         Current challenges
       </Typography>

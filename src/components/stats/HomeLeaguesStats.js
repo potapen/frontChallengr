@@ -8,6 +8,8 @@ import CustomCarousel from "../../interactivity/CustomCarousel";
 import { Typography } from "@mui/material";
 import HomeLeagueStatsCard from "./HomeLeagueStatsCard";
 
+import "./HomeLeaguesStats.css";
+
 import { AuthContext } from "../../context/auth.context";
 
 function HomeLeaguesStats() {
@@ -32,7 +34,7 @@ function HomeLeaguesStats() {
   }, []);
 
   return (
-    <div>
+    <div style={{ width: "100%" }} className="leaguesStatsContainer">
       <Typography variant="h6" gutterBottom component="div">
         Leagues stats
       </Typography>

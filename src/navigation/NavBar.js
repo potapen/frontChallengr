@@ -138,15 +138,42 @@ function Navbar() {
               Challenger
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              {pages.map((page) => (
-                <Button
-                  key={page}
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: "white", display: "block" }}
-                >
-                  {page}
-                </Button>
-              ))}
+              <Button
+                key="home"
+                onClick={() => {
+                  navigate("/");
+                }}
+                sx={{ my: 2, color: "white", display: "block" }}
+              >
+                Home
+              </Button>
+              <Button
+                key="leagues"
+                onClick={() => {
+                  navigate("/leagues");
+                }}
+                sx={{ my: 2, color: "white", display: "block" }}
+              >
+                Leagues
+              </Button>
+              <Button
+                key="games"
+                onClick={() => {
+                  navigate("/games");
+                }}
+                sx={{ my: 2, color: "white", display: "block" }}
+              >
+                Games
+              </Button>
+              <Button
+                key="stats"
+                onClick={() => {
+                  navigate(`/stats/profile/${user && user._id}`);
+                }}
+                sx={{ my: 2, color: "white", display: "block" }}
+              >
+                Stats
+              </Button>
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>
@@ -172,6 +199,15 @@ function Navbar() {
                 onClose={handleCloseUserMenu}
               >
                 {isLoggedIn && [
+                  <MenuItem
+                    key="Profile"
+                    onClick={() => {
+                      handleCloseUserMenu();
+                      navigate("/profile");
+                    }}
+                  >
+                    <Typography textAlign="center">Profile</Typography>
+                  </MenuItem>,
                   <MenuItem
                     key="Logout"
                     onClick={() => {

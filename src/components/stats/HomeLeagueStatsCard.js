@@ -41,7 +41,7 @@ function HomeLeagueStatsCard({ league, fullRankingPerLeague }) {
         <Typography variant="body2" color="text.secondary">
           {fullRankingPerLeague[0].map((user) => {
             return (
-              <li>
+              <li key={user._id.winners._id}>
                 <img
                   src={`${user._id.winners.pictureUrl}`}
                   alt=""
@@ -59,7 +59,7 @@ function HomeLeagueStatsCard({ league, fullRankingPerLeague }) {
           {fullRankingPerLeague[1].length > 0 &&
             fullRankingPerLeague[1].map((user) => {
               return (
-                <li>
+                <li key={user._id}>
                   <img
                     src={`${user.pictureUrl}`}
                     alt=""

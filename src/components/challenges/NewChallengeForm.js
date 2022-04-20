@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import backendHost from "../../utils/backendHost";
 
-const ChallengeNew = ({ leagues, games }) => {
+const NewChallengeForm = ({ leagues, games }) => {
   const [members, setMembers] = useState([]);
   const [formData, setFormData] = useState({
     league: leagues[0]._id,
@@ -122,4 +122,4 @@ const ChallengeNew = ({ leagues, games }) => {
   );
 };
 
-export default ChallengeNew;
+export default NewChallengeForm;
