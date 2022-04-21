@@ -38,10 +38,9 @@ function ChallengeCard({
   games,
   updateChallengesList,
   updateFullChallengesList,
-  challengeProps,
+  challenges,
+  challenge,
 }) {
-  const [challenge, setChallenge] = useState(challengeProps);
-
   const storedToken = localStorage.getItem("authToken");
 
   const cardStyles = useStyles();
@@ -50,17 +49,17 @@ function ChallengeCard({
   let navigate = useNavigate();
 
 
-  const refreshChallenge = async () => {
-    const refreshedChallenge = await axios.get(
-      `${backendHost}/api/challenges/${challenge._id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${storedToken}`,
-        },
-      }
-    );
-    setChallenge(refreshedChallenge.data.challenge);
-  };
+  // const refreshChallenge = async () => {
+  //   const refreshedChallenge = await axios.get(
+  //     `${backendHost}/api/challenges/${challenge._id}`,
+  //     {
+  //       headers: {
+  //         Authorization: `Bearer ${storedToken}`,
+  //       },
+  //     }
+  //   );
+  //   setChallenge(refreshedChallenge.data.challenge);
+  // };
 
   return (
     <Card

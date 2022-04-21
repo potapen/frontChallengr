@@ -66,7 +66,8 @@ function ChallengesList({
                     games={games}
                     updateChallengesList={updateChallengesList}
                     updateFullChallengesList={updateFullChallengesList}
-                    challengeProps={challenge}
+                    challenge={challenge}
+                    challenges={challenges}
                   />
                 </Grid>
               );
