@@ -3,7 +3,11 @@ import { useState } from "react";
 import axios from "axios";
 
 import backendHost from "../../utils/backendHost";
-import { Button } from "@mui/material";
+
+import { Button, Slider } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import ButtonGroup from "@mui/material/ButtonGroup";
 
 function EditPointForm({ point, refreshPoint, handleClose }) {
   const [formData, setFormData] = useState({
@@ -33,24 +37,43 @@ function EditPointForm({ point, refreshPoint, handleClose }) {
   };
 
   return (
-    <div className="formContainer">
-      <h1>Edit Point</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="points">Points</label>
-          <input
+    <form onSubmit={handleSubmit} encType="multipart/form-data">
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "left",
+          "& > *": {
+            m: 1,
+            r: 1,
+            t: 1,
+          },
+        }}
+      >
+        <Grid>
+          <Slider
+            value={formData.points}
+            aria-label="Default"
+            valueLabelDisplay="on"
             id="points"
             name="points"
-            value={formData.points}
-            type="number"
+            label="points"
             onChange={handleChanges}
+            min={1}
+            max={100}
           />
-        </div>
-        <div>
-          <Button type="submit">Edit Point</Button>
-        </div>
-      </form>
-    </div>
+        </Grid>
+        <Grid>
+          <ButtonGroup
+            variant="contained"
+            aria-label="outlined primary button group"
+          >
+            <Button type="submit">Edit Point</Button>
+            <Button onClick={handleClose}>Close</Button>
+          </ButtonGroup>
+        </Grid>
+      </Box>
+    </form>
   );
 }
 
