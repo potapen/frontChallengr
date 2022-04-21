@@ -13,9 +13,7 @@ import Home from "./pages/Home";
 import Graphs from "./components/stats/Graphs";
 import ProfilePage from "./pages/ProfilePage";
 
-
 function App() {
-
   return (
     <div className="App">
       <Router>
@@ -45,7 +43,7 @@ function App() {
               element={
                 <IsPrivate>
                   {/* <HomeLeague leagues={leagues} setLeagues={setLeagues} getLeagues={getLeagues} /> */}
-                  <HomeLeague/>
+                  <HomeLeague />
                 </IsPrivate>
               }
             />
@@ -107,6 +105,7 @@ function App() {
                 </IsAnonymous>
               }
             />
+            <Route path="/*" element={<h1>404: Wrong neighborhood bro</h1>} />
           </Route>
         </Routes>
       </Router>
