@@ -4,6 +4,7 @@ import axios from "axios";
 
 import backendHost from "../../utils/backendHost";
 import PointCard from "./PointCard";
+import { Grid } from "@mui/material";
 
 function PointsList({ leagueId }) {
   const [points, setPoints] = useState([]);
@@ -30,18 +31,22 @@ function PointsList({ leagueId }) {
   return (
     <div>
       <h1>List of Points</h1>
-      <ul>
-        {points.length > 0 &&
-          points.map((point) => {
-            return (
-              <PointCard
-                key={point._id}
-                pointProps={point}
-                updatePointsList={updatePointsList}
-              />
-            );
-          })}
-      </ul>
+      <div className="pointsListContainer">
+        <Grid container spacing={1}>
+          {points.length > 0 &&
+            points.map((point) => {
+              return (
+                <Grid key={point._id} item xs={12}>
+                  <PointCard
+                    key={point._id}
+                    pointProps={point}
+                    updatePointsList={updatePointsList}
+                  />
+                </Grid>
+              );
+            })}
+        </Grid>
+      </div>
     </div>
   );
 }
