@@ -12,29 +12,10 @@ import IsPrivate from "./context/IsPrivate";
 import Home from "./pages/Home";
 import Graphs from "./components/stats/Graphs";
 import ProfilePage from "./pages/ProfilePage";
-import { useState , useEffect } from "react";
-import axios from "axios";
 
-import backendHost from "./utils/backendHost";
 
 function App() {
-  const storedToken = localStorage.getItem("authToken");
-  
-  const [leagues, setLeagues] = useState([]);
-  const [games, setGames] = useState([]);
-  
-  const getLeagues = async () => {
-    const l = await axios.get(`${backendHost}/api/leagues`, {
-      headers: {
-        Authorization: `Bearer ${storedToken}`,
-      },
-    });
-    setLeagues(l.data.leagues);
-  };
 
-  useEffect(() => {
-    getLeagues();
-  }, []);
   return (
     <div className="App">
       <Router>
@@ -63,7 +44,8 @@ function App() {
               path="/leagues"
               element={
                 <IsPrivate>
-                  <HomeLeague leagues={leagues} setLeagues={setLeagues} getLeagues={getLeagues} />
+                  {/* <HomeLeague leagues={leagues} setLeagues={setLeagues} getLeagues={getLeagues} /> */}
+                  <HomeLeague/>
                 </IsPrivate>
               }
             />

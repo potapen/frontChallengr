@@ -34,20 +34,24 @@ const useStyles = makeStyles(() => ({
 }));
 
 function ChallengeCard({
-  challengeProps,
-  updateChallengesList,
-  updateFullChallengesList,
   leagues,
   games,
+  updateChallengesList,
+  updateFullChallengesList,
+  challengeProps,
 }) {
   const [challenge, setChallenge] = useState(challengeProps);
 
   const storedToken = localStorage.getItem("authToken");
 
+  const handleClose = () => {
+    setEditMode(false);
+  };
   const cardStyles = useStyles();
   const fadeShadowStyles = useFadedShadowStyles();
 
   let navigate = useNavigate();
+
 
   const refreshChallenge = async () => {
     const refreshedChallenge = await axios.get(
@@ -73,6 +77,7 @@ function ChallengeCard({
         title={`${challenge.league.name} - ${challenge.game.name}`}
         subheader={challenge.createdAt}
       />
+
       <CardMedia
         component="img"
         height="194"

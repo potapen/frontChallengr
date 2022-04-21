@@ -62,11 +62,11 @@ function ChallengesList({
                 <Grid key={challenge._id} item xs={12}>
                   <ChallengeCard
                     key={challenge._id}
-                    challengeProps={challenge}
-                    updateChallengesList={updateChallengesList}
-                    updateFullChallengesList={updateFullChallengesList}
                     leagues={leagues}
                     games={games}
+                    updateChallengesList={updateChallengesList}
+                    updateFullChallengesList={updateFullChallengesList}
+                    challengeProps={challenge}
                   />
                 </Grid>
               );

@@ -8,8 +8,7 @@ import OngoingChallengeCard from "./OngoingChallengeCard";
 import CustomCarousel from "../../interactivity/CustomCarousel";
 import "./OngoingChallengesList.css";
 
-function OngoingChallengesList() {
-  const [challenges, setChallenges] = useState([]);
+function OngoingChallengesList({challenges,setChallenges}) {
 
   const storedToken = localStorage.getItem("authToken");
 
