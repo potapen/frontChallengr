@@ -7,7 +7,6 @@ function HomePoint() {
 
   return (
     <div>
-      <div>List of Points</div>
       <PointsList leagueId={leagueId} />
     </div>
   );

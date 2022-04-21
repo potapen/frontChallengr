@@ -4,11 +4,38 @@ import EditPointForm from "./EditPointForm";
 import axios from "axios";
 import backendHost from "../../utils/backendHost";
 
-function PointCard({ pointProps, updatePointsList }) {
-  const [editMode, setEditMode] = useState(false);
+import cx from "clsx";
+import { makeStyles } from "@mui/styles";
+import { useFadedShadowStyles } from "@mui-treasury/styles/shadow/faded";
+import {
+  Avatar,
+  ButtonGroup,
+  Card,
+  CardContent,
+  CardHeader,
+  CardMedia,
+  Divider,
+  Typography,
+} from "@mui/material";
+import FormDialog from "../../interactivity/FormDialogButton";
+import EditPointFormNew from "./EditPointFormNew";
+
+const useStyles = makeStyles(() => ({
+  root: {
+    maxWidth: 304,
+    margin: "auto",
+  },
+  content: {
+    padding: 24,
+  },
+}));
+
+function PointCard({ pointProps }) {
+  const cardStyles = useStyles();
+  const fadeShadowStyles = useFadedShadowStyles();
   const [point, setPoint] = useState(pointProps);
 
-  const storedToken = localStorage.getItem("authToken")
+  const storedToken = localStorage.getItem("authToken");
 
   const refreshPoint = async () => {
     console.log(`${backendHost}/api/points/${point._id}`);
@@ -25,29 +52,34 @@ function PointCard({ pointProps, updatePointsList }) {
 
   return (
     <div className="pointCardContainer">
-      {true ? (
-        <>
-          <img
-            className="pointCardImage"
-            src={point.game.imageUrl}
-            alt="Pointimage"
+      <>
+        <Card
+          sx={{ width: "100%" }}
+          className={cx(cardStyles.root, fadeShadowStyles.root)}
+        >
+          <CardHeader
+            avatar={
+              <Avatar aria-label="recipe" src={point.game.imageUrl}></Avatar>
+            }
+            title={point.game.name}
+            subheader={`Points : ${point.points}`}
           />
-          <div>
-            <h4>{point.game.name}</h4>
-            <p>{point.points}</p>
-            <div>
-              <button type="button" onClick={() => setEditMode(!editMode)}>
-                {editMode ? "Hide Edit" : "Show Edit"}
-              </button>
-              {editMode && (
-                <EditPointForm point={point} refreshPoint={refreshPoint} />
-              )}
-            </div>
-          </div>
-        </>
-      ) : (
-        "Loading"
-      )}
+          <Divider />
+          <ButtonGroup variant="outlined" aria-label="outlined button group">
+            <FormDialog buttonName={"Edit Point"}>
+              {(callback) => {
+                return (
+                  <EditPointFormNew
+                    point={point}
+                    refreshPoint={refreshPoint}
+                    handleClose={callback}
+                  />
+                );
+              }}
+            </FormDialog>
+          </ButtonGroup>
+        </Card>
+      </>
     </div>
   );
 }

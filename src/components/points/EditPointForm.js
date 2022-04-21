@@ -5,7 +5,7 @@ import axios from "axios";
 import backendHost from "../../utils/backendHost";
 import { Button } from "@mui/material";
 
-function EditPointForm({ point, refreshPoint }) {
+function EditPointForm({ point, refreshPoint, handleClose }) {
   const [formData, setFormData] = useState({
     points: point.points,
   });
@@ -20,6 +20,7 @@ function EditPointForm({ point, refreshPoint }) {
       },
     });
     refreshPoint();
+    handleClose();
   };
 
   const handleChanges = (event) => {
