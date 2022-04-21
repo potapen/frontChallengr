@@ -11,7 +11,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import ButtonGroup from '@mui/material/ButtonGroup';
 
-function NewLeagueForm({ handleClose }) {
+function NewLeagueForm({ handleClose ,getLeagues}) {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -28,19 +28,20 @@ function NewLeagueForm({ handleClose }) {
     fd.append("name", formData["name"]);
     fd.append("description", formData["description"]);
     fd.append("coverPicture", fileData);
-    console.log('fd', fd)
+
     const response = await axios.post(`${backendHost}/api/leagues`, fd, {
       headers: {
         Authorization: `Bearer ${storedToken}`,
         "Content-type": "multipart/form-data",
       },
     });
-    console.log('response', response)
+
     setFormData({
       name: "",
       description: "",
     });
     setFileData(null);
+    getLeagues();
     handleClose();
   };
 
