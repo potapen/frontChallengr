@@ -5,15 +5,21 @@ import FileInput from "../../utils/FileInput";
 
 import backendHost from "../../utils/backendHost";
 
-function EditGameForm({ game, refreshGame, onSubmit }) {
+import { Button } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import ButtonGroup from "@mui/material/ButtonGroup";
+
+function EditGameForm({ game, refreshGame, handleClose }) {
   const [formData, setFormData] = useState({
     name: game.name,
     description: game.description,
   });
 
-  const [fileData, setFileData] = useState(null);
-
   const storedToken = localStorage.getItem("authToken");
+
+  const [fileData, setFileData] = useState(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -27,12 +33,13 @@ function EditGameForm({ game, refreshGame, onSubmit }) {
         "Content-type": "multipart/form-data",
       },
     });
-    onSubmit();
     refreshGame();
+    handleClose();
   };
 
   const handleChanges = (event) => {
     const { value, name } = event.target;
+    console.log(event.target);
     const newFormData = {
       ...formData,
       [name]: value,
@@ -45,31 +52,43 @@ function EditGameForm({ game, refreshGame, onSubmit }) {
   };
 
   return (
-    <div className="formContainer">
-      <h1>Edit Game</h1>
-      <form onSubmit={handleSubmit} encType="multipart/form-data">
-        <div>
-          <label htmlFor="name">Name</label>
-          <input
+    <form onSubmit={handleSubmit} encType="multipart/form-data">
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "left",
+          "& > *": {
+            m: 1,
+            r: 1,
+            t: 1,
+          },
+        }}
+      >
+        <Grid>
+          <TextField
             id="name"
             name="name"
-            value={formData.name}
+            label="name"
             type="text"
+            value={formData.name}
             onChange={handleChanges}
           />
-        </div>
-        <div>
-          <label htmlFor="description">description</label>
-          <input
+        </Grid>
+        <Grid>
+          <TextField
             id="description"
             name="description"
-            value={formData.description}
+            label="description"
+            multiline
+            maxRows={4}
             type="text"
+            value={formData.description}
             onChange={handleChanges}
           />
-        </div>
-        <div>
-          <label htmlFor="coverPicture">Picture</label>
+        </Grid>
+        <Grid>
+          <label htmlFor="coverPicture">Picture </label>
           <FileInput
             id="coverPicture"
             name="coverPicture"
@@ -77,12 +96,18 @@ function EditGameForm({ game, refreshGame, onSubmit }) {
             type="file"
             onChange={handleFileChanges}
           />
-        </div>
-        <div>
-          <button type="submit">Edit Game</button>
-        </div>
-      </form>
-    </div>
+        </Grid>
+        <Grid>
+          <ButtonGroup
+            variant="contained"
+            aria-label="outlined primary button group"
+          >
+            <Button type="submit">Edit game</Button>
+            <Button onClick={handleClose}>Close</Button>
+          </ButtonGroup>
+        </Grid>
+      </Box>
+    </form>
   );
 }
 
