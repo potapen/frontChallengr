@@ -13,7 +13,13 @@ import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
 import ButtonGroup from "@mui/material/ButtonGroup";
 
-const NewChallengeForm = ({ leagues, games, handleClose }) => {
+const NewChallengeForm = ({
+  leagues,
+  games,
+  handleClose,
+  updateChallengesList,
+  updateFullChallengesList,
+}) => {
   const [members, setMembers] = useState([]);
   const [formData, setFormData] = useState({
     league: leagues[0]._id,
@@ -54,6 +60,9 @@ const NewChallengeForm = ({ leagues, games, handleClose }) => {
       game: games[0]._id,
       contenders: [],
     });
+    handleClose();
+    updateFullChallengesList();
+    updateChallengesList();
   };
 
   const onLeagueChange = (event) => {
