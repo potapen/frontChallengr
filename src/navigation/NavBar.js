@@ -132,7 +132,16 @@ function Navbar() {
                       navigate(`/stats/profile/${user && user._id}`);
                     }}
                   >
-                    <Typography textAlign="center">Stats</Typography>
+                    <Typography textAlign="center">stats</Typography>
+                  </MenuItem>,
+                  <MenuItem
+                    key="graphs"
+                    onClick={() => {
+                      handleCloseNavMenu();
+                      navigate(`/graphs`);
+                    }}
+                  >
+                    <Typography textAlign="center">graphs</Typography>
                   </MenuItem>,
                 ]}
               </Menu>
