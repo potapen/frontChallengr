@@ -17,6 +17,21 @@ const HomeChallenges = () => {
   const [fullChallenges, setFullChallenges] = useState([]);
   const [filters, setFilters] = useState({});
 
+  const [challenges, setChallenges] = useState([]);
+
+  const getChallenges = async () => {
+    const l = await axios.get(`${backendHost}/api/challenges`, {
+      headers: {
+        Authorization: `Bearer ${storedToken}`,
+      },
+    });
+    setChallenges(l.data.challenges);
+  };
+
+  useEffect(() => {
+    getChallenges();
+  }, []);
+
   const getFullChallenges = async () => {
     const l = await axios.get(`${backendHost}/api/challenges`, {
       headers: {
@@ -57,22 +72,29 @@ const HomeChallenges = () => {
     getLeagues();
     getGames();
     getFullChallenges();
+    getChallenges();
   }, []);
 
-  const updateChallengesList = () => {
+  const updateFullChallengesList = () => {
     getFullChallenges();
+    return;
+  };
+  const updateChallengesList = () => {
+    getChallenges();
     return;
   };
 
   if (leagues.length > 0 && games.length > 0) {
     return (
       <>
-        <p>challenge page</p>
         <ChallengesList
           leagues={leagues}
           games={games}
           fullChallenges={fullChallenges}
           filters={filters}
+          updateFullChallengesList={updateFullChallengesList}
+          challenges={challenges}
+          setChallenges={setChallenges}
           updateChallengesList={updateChallengesList}
         />
         <FormDialogFAB
@@ -87,7 +109,8 @@ const HomeChallenges = () => {
                 leagues={leagues}
                 games={games}
                 handleClose={callback}
-                updateLeaguesList={updateChallengesList}
+                updateFullChallengesList={updateFullChallengesList}
+                updateChallengesList={updateChallengesList}
               />
             );
           }}

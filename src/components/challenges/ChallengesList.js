@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
-import axios from "axios";
+import React from "react";
 
-import backendHost from "../../utils/backendHost";
 import ChallengeCard from "./ChallengeCard";
 import FilterButtons from "./FilterButtons";
+
+import "./ChallengesList.css";
+import { Grid } from "@mui/material";
 
 function ChallengesList({
   games,
@@ -12,24 +12,9 @@ function ChallengesList({
   fullChallenges,
   filters,
   updateChallengesList,
+  challenges,
+  setChallenges,
 }) {
-  const [challenges, setChallenges] = useState([]);
-
-  const storedToken = localStorage.getItem("authToken");
-
-  const getChallenges = async () => {
-    const l = await axios.get(`${backendHost}/api/challenges`, {
-      headers: {
-        Authorization: `Bearer ${storedToken}`,
-      },
-    });
-    setChallenges(l.data.challenges);
-  };
-
-  useEffect(() => {
-    getChallenges();
-  }, []);
-
   const filterGames = (game) => {
     let newChallenges = [...fullChallenges];
     newChallenges = newChallenges.filter((challenge) => {
@@ -68,20 +53,24 @@ function ChallengesList({
           resetFilters={resetFilters}
         />
       )}
-      <ul>
-        {challenges.length > 0 &&
-          challenges.map((challenge) => {
-            return (
-              <ChallengeCard
-                key={challenge._id}
-                challengeProps={challenge}
-                updateChallengesList={updateChallengesList}
-                leagues={leagues}
-                games={games}
-              />
-            );
-          })}
-      </ul>
+      <div className="challengesListContainer">
+        <Grid container spacing={1}>
+          {challenges.length > 0 &&
+            challenges.map((challenge) => {
+              return (
+                <Grid key={challenge._id} item xs={12}>
+                  <ChallengeCard
+                    key={challenge._id}
+                    challengeProps={challenge}
+                    updateChallengesList={updateChallengesList}
+                    leagues={leagues}
+                    games={games}
+                  />
+                </Grid>
+              );
+            })}
+        </Grid>
+      </div>
     </div>
   );
 }

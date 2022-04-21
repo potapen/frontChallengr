@@ -38,6 +38,7 @@ function ChallengeCard({
       <div>
         <h4>{challenge.league.name}</h4>
         <h4>{challenge.game.name}</h4>
+        <h4>{challenge.createdAt}</h4>
         <h6>Contenders : </h6>
         {challenge.contenders.map((contender) => {
           return <li key={contender._id}>{contender.username}</li>;
