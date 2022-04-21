@@ -3,7 +3,7 @@ import NewChallengeForm from "../components/challenges/NewChallengeForm";
 import OngoingChallengesList from "../components/challenges/OngoingChallengesList";
 import HomeLeaguesStats from "../components/stats/HomeLeaguesStats";
 import FormDialogFAB from "../interactivity/FormDialogFAB";
-import { useState , useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import "./Home.css";
 import backendHost from "../utils/backendHost";
@@ -23,6 +23,7 @@ function Home() {
   const [leagues, setLeagues] = useState([]);
   const [games, setGames] = useState([]);
   const storedToken = localStorage.getItem("authToken");
+
   const getChallenges = async () => {
     const l = await axios.get(`${backendHost}/api/challenges`, {
       headers: {
@@ -47,7 +48,6 @@ function Home() {
     ];
     setFilters({ menuLeagues, menuGames });
   };
-
 
   const getLeagues = async () => {
     const l = await axios.get(`${backendHost}/api/leagues`, {
@@ -89,19 +89,22 @@ function Home() {
         variant="extended"
         text="New Challenge"
       >
-          {(callback) => {
-            return (
-              <NewChallengeForm
-                leagues={leagues}
-                games={games}
-                handleClose={callback}
-                updateFullChallengesList={updateFullChallengesList}
-                updateChallengesList={updateChallengesList}
-              />
-            );
-          }}
+        {(callback) => {
+          return (
+            <NewChallengeForm
+              leagues={leagues}
+              games={games}
+              handleClose={callback}
+              updateFullChallengesList={updateFullChallengesList}
+              updateChallengesList={updateChallengesList}
+            />
+          );
+        }}
       </FormDialogFAB>
-      <OngoingChallengesList challenges={challenges} setChallenges={setChallenges}/>
+      <OngoingChallengesList
+        challenges={challenges}
+        setChallenges={setChallenges}
+      />
       <HomeLeaguesStats />
     </div>
   );
