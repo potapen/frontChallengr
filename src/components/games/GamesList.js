@@ -1,12 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import GameCard from "./GameCard";
 import { Grid } from "@mui/material";
 
+import "./GamesList.css";
+
 function GamesList({ games, updateGamesList }) {
   return (
-    <div>
-      <h1>List of Games</h1>
+    <div className="gamesPageContainer">
+      <h1>Games</h1>
       <div className="gamesListContainer">
         <Grid container spacing={1}>
           {games.length > 0 &&

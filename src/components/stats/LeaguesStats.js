@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
 
+import "./LeaguesStats.css";
+
 import backendHost from "../../utils/backendHost";
 import { useParams } from "react-router-dom";
 import LeagueStatsCard from "./LeagueStatsCard";
@@ -31,10 +33,8 @@ function LeaguesStats() {
   }, []);
 
   return (
-    <div>
-      <Typography variant="h6" gutterBottom component="div">
-        Leagues stats
-      </Typography>
+    <div className="statsPageContainer">
+      <h1>Stats</h1>
       {leaguesStats.length > 0 && (
         <CustomCarousel list={leaguesStats}>
           {(leagueStats) => {

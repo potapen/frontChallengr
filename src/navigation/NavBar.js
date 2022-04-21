@@ -47,7 +47,7 @@ function Navbar() {
   //  depending on the user being logged in or not
   return (
     <>
-      <AppBar position="static">
+      <AppBar position="fixed" color="primary">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <Typography
@@ -99,6 +99,15 @@ function Navbar() {
                     <Typography textAlign="center">Home</Typography>
                   </MenuItem>,
                   <MenuItem
+                    key="challenges"
+                    onClick={() => {
+                      handleCloseNavMenu();
+                      navigate("/challenges");
+                    }}
+                  >
+                    <Typography textAlign="center">Challenges</Typography>
+                  </MenuItem>,
+                  <MenuItem
                     key="leagues"
                     onClick={() => {
                       handleCloseNavMenu();
@@ -145,6 +154,15 @@ function Navbar() {
                 sx={{ my: 2, color: "white", display: "block" }}
               >
                 Home
+              </Button>
+              <Button
+                key="challenges"
+                onClick={() => {
+                  navigate("/challenges");
+                }}
+                sx={{ my: 2, color: "white", display: "block" }}
+              >
+                Challenges
               </Button>
               <Button
                 key="leagues"
