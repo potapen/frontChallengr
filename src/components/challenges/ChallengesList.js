@@ -12,6 +12,7 @@ function ChallengesList({
   fullChallenges,
   filters,
   updateChallengesList,
+  updateFullChallengesList,
   challenges,
   setChallenges,
 }) {
@@ -63,6 +64,7 @@ function ChallengesList({
                     key={challenge._id}
                     challengeProps={challenge}
                     updateChallengesList={updateChallengesList}
+                    updateFullChallengesList={updateFullChallengesList}
                     leagues={leagues}
                     games={games}
                   />
