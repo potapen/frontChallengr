@@ -20,6 +20,7 @@ const EditChallengeForm = ({
   challenge,
   updateChallengesList,
   updateFullChallengesList,
+  handleClose,
 }) => {
   const [members, setMembers] = useState([]);
   const [formData, setFormData] = useState({
@@ -49,8 +50,6 @@ const EditChallengeForm = ({
     const winnersBis = contendersBis.filter(m=>{
       return challenge.winners.some(c => c._id === m._id)
     })
-    console.log('contendersBis', contendersBis)
-    console.log('winnersBis', winnersBis)
     
     const newFormData = {
       ...formData,
@@ -87,6 +86,7 @@ const EditChallengeForm = ({
     // });
     updateFullChallengesList();
     updateChallengesList();
+    handleClose();
   };
 
   const handleSelect = (event, name) => {
@@ -100,10 +100,10 @@ const EditChallengeForm = ({
   };
 
   const handleCheckBox = (event, name) => {
-    const { value } = event.target;
+    const toggledBoolean = !formData.isCompleted
     const newFormData = {
       ...formData,
-      [name]: Boolean(value),
+      [name]: toggledBoolean,
     };
     
     console.log('-----------newFormData', newFormData)
@@ -230,7 +230,8 @@ const EditChallengeForm = ({
                 variant="contained"
                 aria-label="outlined primary button group"
               >
-                <Button type="submit">Create challenge</Button>
+                <Button type="submit">Edit challenge</Button>
+                <Button onClick={handleClose}>Close</Button>
               </ButtonGroup>
             </Grid>
             <Grid>

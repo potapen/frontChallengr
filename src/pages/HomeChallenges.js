@@ -28,9 +28,9 @@ const HomeChallenges = () => {
     setChallenges(l.data.challenges);
   };
 
-  useEffect(() => {
-    getChallenges();
-  }, []);
+  // useEffect(() => {
+  //   getChallenges();
+  // }, []);
 
   const getFullChallenges = async () => {
     const l = await axios.get(`${backendHost}/api/challenges`, {
@@ -76,10 +76,12 @@ const HomeChallenges = () => {
   }, []);
 
   const updateFullChallengesList = () => {
+    console.log('updateFullChallengesList')
     getFullChallenges();
     return;
   };
   const updateChallengesList = () => {
+    console.log('updateChallengesList')
     getChallenges();
     return;
   };
