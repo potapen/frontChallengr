@@ -15,9 +15,10 @@ function HomeLeaguesStats({ leaguesStats }) {
       {leaguesStats.length > 0 && (
         <CustomCarousel list={leaguesStats}>
           {(leagueStats) => {
+            console.log(leagueStats);
             return (
               <HomeLeagueStatsCard
-                key={leagueStats.countPerLeague._id}
+                key={leagueStats.profile._id}
                 league={leagueStats.league}
                 fullRankingPerLeague={leagueStats.fullRankingPerLeague}
               />

@@ -38,7 +38,7 @@ function LeaguesStats() {
       {leaguesStats.length > 0 && (
         <CustomCarousel list={leaguesStats}>
           {(leagueStats) => {
-            return (
+            return leagueStats.countPerLeague ? (
               <LeagueStatsCard
                 getLeaguesStats={getLeaguesStats}
                 key={leagueStats.countPerLeague._id}
@@ -49,6 +49,8 @@ function LeaguesStats() {
                 countPerWinner={leagueStats.countPerWinner}
                 fullRankingPerLeague={leagueStats.fullRankingPerLeague}
               />
+            ) : (
+              <h1> No challenges yet in {leagueStats.league.name} league`</h1>
             );
           }}
         </CustomCarousel>
