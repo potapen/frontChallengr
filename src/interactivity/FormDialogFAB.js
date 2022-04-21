@@ -1,4 +1,4 @@
-import { Box, Button, Dialog, DialogActions, Fab } from "@mui/material";
+import { Box, Dialog, Fab } from "@mui/material";
 import * as React from "react";
 import AddIcon from "@mui/icons-material/Add";
 
@@ -34,9 +34,12 @@ export default function FormDialogFAB({
       </Fab>
       <Dialog open={open}>
         <Box>{children(handleClose)}</Box>
+<<<<<<< HEAD
         {/* <DialogActions>
           <Button onClick={handleClose}>Close</Button>
         </DialogActions> */}
+=======
+>>>>>>> main
       </Dialog>
     </div>
   );

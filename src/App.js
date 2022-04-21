@@ -10,7 +10,8 @@ import Layout from "./navigation/Layout";
 import IsAnonymous from "./context/IsAnonymous";
 import IsPrivate from "./context/IsPrivate";
 import Home from "./pages/Home";
-import Graphs from "./components/stats/Graphs"
+import Graphs from "./components/stats/Graphs";
+import ProfilePage from "./pages/ProfilePage";
 
 function App() {
   return (
@@ -24,6 +25,15 @@ function App() {
               element={
                 <IsPrivate>
                   <Home />
+                </IsPrivate>
+              }
+            />
+            <Route
+              exact
+              path="/profile"
+              element={
+                <IsPrivate>
+                  <ProfilePage />
                 </IsPrivate>
               }
             />
@@ -70,11 +80,11 @@ function App() {
               }
             />
 
-            <Route 
-              path="/graphs" 
+            <Route
+              path="/graphs"
               element={
                 <IsPrivate>
-                  <Graphs/>
+                  <Graphs />
                 </IsPrivate>
               }
             />

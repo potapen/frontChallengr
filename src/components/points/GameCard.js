@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import "./GameCard.css";
-import GameDeleter from "./GameDeleter";
-import EditGameForm from "./EditGameForm";
+import "./PointCard.css";
+import PointDeleter from "./PointDeleter";
+import EditPointForm from "./EditPointForm";
 import axios from "axios";
 import backendHost from "../../utils/backendHost";
 
@@ -30,65 +30,63 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function GameCard({ gameProps, updateGamesList }) {
+function PointCard({ PointProps, updatePointsList }) {
   const cardStyles = useStyles();
   const fadeShadowStyles = useFadedShadowStyles();
-  const [game, setGame] = useState(gameProps);
+  const [point, setPoint] = useState(PointProps);
 
   const storedToken = localStorage.getItem("authToken");
 
-  const refreshGame = async () => {
-    const refreshedGame = await axios.get(
-      `${backendHost}/api/games/${game._id}`,
+  const refreshPoint = async () => {
+    console.log(`${backendHost}/api/points/${point._id}`);
+    const refreshedPoint = await axios.get(
+      `${backendHost}/api/points/${point._id}`,
       {
         headers: {
           Authorization: `Bearer ${storedToken}`,
         },
       }
     );
-    setGame(refreshedGame.data.game);
+    setPoint(refreshedPoint.data.point);
   };
 
   return (
-    <div className="gameCardContainer">
+    <div className="PointCardContainer">
       <>
         <Card
           sx={{ width: "100%" }}
           className={cx(cardStyles.root, fadeShadowStyles.root)}
         >
-          <CardHeader title={game.name} subheader={game.createdAt} />
+          <CardHeader title={point.game.name} />
           <CardMedia
             component="img"
             height="194"
-            image={game.imageUrl}
+            image={point.game.imageUrl}
             alt="game image"
           />
           <Divider />
           <CardContent>
             <Typography variant="body2" color="text.secondary">
-              {game.description}
+              Points : {point.points}
             </Typography>
           </CardContent>
           <ButtonGroup variant="outlined" aria-label="outlined button group">
-            <FormDialog buttonName={"Edit game"}>
+            <FormDialog buttonName={"Edit Point"}>
               {(callback) => {
                 return (
-                  <EditGameForm
-                    game={game}
-                    refreshGame={refreshGame}
+                  <EditPointForm
+                    point={point}
+                    refreshPoint={refreshPoint}
                     handleClose={callback}
                   />
                 );
               }}
             </FormDialog>
           </ButtonGroup>
-          <CardActions disableSpacing>
-            <GameDeleter game={game} updateGamesList={updateGamesList} />
-          </CardActions>
         </Card>
       </>
     </div>
   );
 }
 
-export default GameCard;
+export default PointCard;

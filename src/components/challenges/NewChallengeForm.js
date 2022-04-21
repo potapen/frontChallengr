@@ -14,7 +14,7 @@ import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 import ButtonGroup from '@mui/material/ButtonGroup';
 
-const ChallengeNew = ({ leagues, games, handleClose }) => {
+const NewChallengeForm = ({ leagues, games, handleClose }) => {
   const [members, setMembers] = useState([]);
   const [formData, setFormData] = useState({
     league: leagues[0]._id,
@@ -173,4 +173,4 @@ const ChallengeNew = ({ leagues, games, handleClose }) => {
   }
 };
 
-export default ChallengeNew;
+export default NewChallengeForm;

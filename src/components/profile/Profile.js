@@ -1,17 +1,9 @@
-import React, { useState } from "react";
-import "./GameCard.css";
-import GameDeleter from "./GameDeleter";
-import EditGameForm from "./EditGameForm";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import backendHost from "../../utils/backendHost";
-
-import cx from "clsx";
-import { makeStyles } from "@mui/styles";
-import { useFadedShadowStyles } from "@mui-treasury/styles/shadow/faded";
 import {
   ButtonGroup,
   Card,
-  CardActions,
   CardContent,
   CardHeader,
   CardMedia,
@@ -20,75 +12,85 @@ import {
 } from "@mui/material";
 import FormDialog from "../../interactivity/FormDialogButton";
 
+import cx from "clsx";
+import { makeStyles } from "@mui/styles";
+import { useFadedShadowStyles } from "@mui-treasury/styles/shadow/faded";
+import EditProfileForm from "./EditProfileForm";
+
 const useStyles = makeStyles(() => ({
   root: {
     maxWidth: 304,
     margin: "auto",
+    marginTop: 50,
   },
   content: {
     padding: 24,
   },
 }));
 
-function GameCard({ gameProps, updateGamesList }) {
+function Profile() {
   const cardStyles = useStyles();
   const fadeShadowStyles = useFadedShadowStyles();
-  const [game, setGame] = useState(gameProps);
+
+  const [profile, setProfile] = useState([]);
 
   const storedToken = localStorage.getItem("authToken");
 
-  const refreshGame = async () => {
-    const refreshedGame = await axios.get(
-      `${backendHost}/api/games/${game._id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${storedToken}`,
-        },
-      }
-    );
-    setGame(refreshedGame.data.game);
+  const getProfile = async () => {
+    const l = await axios.get(`${backendHost}/api/profile`, {
+      headers: {
+        Authorization: `Bearer ${storedToken}`,
+      },
+    });
+    setProfile(l.data.user);
+  };
+
+  useEffect(() => {
+    getProfile();
+  }, []);
+
+  const updateProfile = () => {
+    getProfile();
+    return;
   };
 
   return (
-    <div className="gameCardContainer">
-      <>
+    <>
+      {profile && (
         <Card
           sx={{ width: "100%" }}
           className={cx(cardStyles.root, fadeShadowStyles.root)}
         >
-          <CardHeader title={game.name} subheader={game.createdAt} />
+          <CardHeader title={profile.username} subheader={profile.createdAt} />
           <CardMedia
             component="img"
             height="194"
-            image={game.imageUrl}
-            alt="game image"
+            image={profile.pictureUrl}
+            alt="profile pic"
           />
           <Divider />
           <CardContent>
             <Typography variant="body2" color="text.secondary">
-              {game.description}
+              {profile.email}
             </Typography>
           </CardContent>
           <ButtonGroup variant="outlined" aria-label="outlined button group">
-            <FormDialog buttonName={"Edit game"}>
+            <FormDialog buttonName={"Edit profile"}>
               {(callback) => {
                 return (
-                  <EditGameForm
-                    game={game}
-                    refreshGame={refreshGame}
+                  <EditProfileForm
+                    profile={profile}
+                    updateProfile={updateProfile}
                     handleClose={callback}
                   />
                 );
               }}
             </FormDialog>
           </ButtonGroup>
-          <CardActions disableSpacing>
-            <GameDeleter game={game} updateGamesList={updateGamesList} />
-          </CardActions>
         </Card>
-      </>
-    </div>
+      )}
+    </>
   );
 }
 
-export default GameCard;
+export default Profile;

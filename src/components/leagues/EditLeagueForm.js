@@ -41,7 +41,6 @@ function EditLeagueForm({ league, refreshLeague, handleClose }) {
     fd.append("description", formData["description"]);
     fd.append("members", formData["members"]);
     fd.append("coverPicture", fileData);
-    // console.log('fd', fd)
     await axios.put(`${backendHost}/api/leagues/${league._id}`, fd, {
       headers: {
         Authorization: `Bearer ${storedToken}`,
@@ -70,27 +69,25 @@ function EditLeagueForm({ league, refreshLeague, handleClose }) {
     setFormData(newFormData);
   };
 
-
   const handleFileChanges = (event) => {
     setFileData(event.target.files[0]);
   };
 
-  
   return (
     <form onSubmit={handleSubmit} encType="multipart/form-data">
       <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'left',
-        '& > *': {
-          m:1,
-          r:1,
-          t:1,
-        },
-      }}
-    >
-      <Grid>
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "left",
+          "& > *": {
+            m: 1,
+            r: 1,
+            t: 1,
+          },
+        }}
+      >
+        <Grid>
           <TextField
             id="name"
             name="name"
@@ -99,8 +96,8 @@ function EditLeagueForm({ league, refreshLeague, handleClose }) {
             value={formData.name}
             onChange={handleChanges}
           />
-    </Grid>
-    <Grid>
+        </Grid>
+        <Grid>
           <TextField
             id="description"
             name="description"
@@ -111,58 +108,58 @@ function EditLeagueForm({ league, refreshLeague, handleClose }) {
             value={formData.description}
             onChange={handleChanges}
           />
-    </Grid>
-    <Grid>
-    <FormControl>
-        <InputLabel id="demo-multiple-chip-label">members</InputLabel>
-        <Select
-          labelId="demo-multiple-chip-label"
-          id="demo-multiple-chip"
-          multiple
-          value={formData.members}
-          onChange={handleMultiSelect}
-          input={<OutlinedInput id="select-multiple-chip" label="members" />}
-          renderValue={(selected) => (
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-              {selected.map((value) => 
-                {
-                  let memberObj = league.members.filter( m => m['_id']===value)
-                  return <Chip key={value} label={memberObj[0].username} />
-                }
+        </Grid>
+        <Grid>
+          <FormControl>
+            <InputLabel id="demo-multiple-chip-label">members</InputLabel>
+            <Select
+              labelId="demo-multiple-chip-label"
+              id="demo-multiple-chip"
+              multiple
+              value={formData.members}
+              onChange={handleMultiSelect}
+              input={
+                <OutlinedInput id="select-multiple-chip" label="members" />
+              }
+              renderValue={(selected) => (
+                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                  {selected.map((value) => {
+                    let memberObj = league.members.filter(
+                      (m) => m["_id"] === value
+                    );
+                    return <Chip key={value} label={memberObj[0].username} />;
+                  })}
+                </Box>
               )}
-            </Box>
-          )}
-
-        >
-          {league.members.map((member) => (
-            <MenuItem
-              key={member._id}
-              value={member._id}
             >
-              {member.username}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-
-    </Grid>
-      <Grid>
-        <label htmlFor="coverPicture">Picture  </label>
-        <FileInput
-          id="coverPicture"
-          name="coverPicture"
-          value={fileData}
-          type="file"
-          onChange={handleFileChanges}
-        />
-      </Grid>
-      <Grid>
-        <ButtonGroup variant="contained" aria-label="outlined primary button group">
-          <Button type="submit">Edit league</Button>
-          <Button onClick={handleClose}>Close</Button>
-        </ButtonGroup>
-      </Grid>
-    </Box>
+              {league.members.map((member) => (
+                <MenuItem key={member._id} value={member._id}>
+                  {member.username}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid>
+          <label htmlFor="coverPicture">Picture </label>
+          <FileInput
+            id="coverPicture"
+            name="coverPicture"
+            value={fileData}
+            type="file"
+            onChange={handleFileChanges}
+          />
+        </Grid>
+        <Grid>
+          <ButtonGroup
+            variant="contained"
+            aria-label="outlined primary button group"
+          >
+            <Button type="submit">Edit league</Button>
+            <Button onClick={handleClose}>Close</Button>
+          </ButtonGroup>
+        </Grid>
+      </Box>
     </form>
   );
 }

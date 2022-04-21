@@ -1,36 +1,10 @@
 import React, { useEffect } from "react";
-import { useState } from "react";
-import axios from "axios";
 
 import "./LeaguesList.css";
-
-import backendHost from "../../utils/backendHost";
 import LeagueCard from "./LeagueCard";
 import { Grid } from "@mui/material";
 
-function LeaguesList() {
-  const [leagues, setLeagues] = useState([]);
-
-  const storedToken = localStorage.getItem("authToken");
-
-  const getLeagues = async () => {
-    const l = await axios.get(`${backendHost}/api/leagues`, {
-      headers: {
-        Authorization: `Bearer ${storedToken}`,
-      },
-    });
-    setLeagues(l.data.leagues);
-  };
-
-  useEffect(() => {
-    getLeagues();
-  }, []);
-
-  const updateLeaguesList = (league) => {
-    getLeagues();
-    return;
-  };
-
+function LeaguesList({ leagues, updateLeaguesList }) {
   return (
     <div>
       <h1>Leagues</h1>

@@ -11,10 +11,9 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import ButtonGroup from "@mui/material/ButtonGroup";
 
-function NewGameForm({ handleClose, updateGamesList }) {
+function EditProfileForm({ profile, updateProfile, handleClose }) {
   const [formData, setFormData] = useState({
-    name: "",
-    description: "",
+    username: profile.username,
   });
 
   const storedToken = localStorage.getItem("authToken");
@@ -24,17 +23,16 @@ function NewGameForm({ handleClose, updateGamesList }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     let fd = new FormData();
-    fd.append("name", formData["name"]);
-    fd.append("description", formData["description"]);
+    fd.append("username", formData["username"]);
     fd.append("coverPicture", fileData);
-    await axios.post(`${backendHost}/api/games`, fd, {
+    await axios.put(`${backendHost}/api/profile/`, fd, {
       headers: {
         Authorization: `Bearer ${storedToken}`,
         "Content-type": "multipart/form-data",
       },
     });
+    updateProfile();
     handleClose();
-    updateGamesList();
   };
 
   const handleChanges = (event) => {
@@ -67,23 +65,11 @@ function NewGameForm({ handleClose, updateGamesList }) {
       >
         <Grid>
           <TextField
-            id="name"
-            name="name"
-            label="name"
+            id="username"
+            name="username"
+            label="username"
             type="text"
-            value={formData.name}
-            onChange={handleChanges}
-          />
-        </Grid>
-        <Grid>
-          <TextField
-            id="description"
-            name="description"
-            label="description"
-            multiline
-            maxRows={4}
-            type="text"
-            value={formData.description}
+            value={formData.username}
             onChange={handleChanges}
           />
         </Grid>
@@ -102,7 +88,7 @@ function NewGameForm({ handleClose, updateGamesList }) {
             variant="contained"
             aria-label="outlined primary button group"
           >
-            <Button type="submit">Create game</Button>
+            <Button type="submit">Edit profile</Button>
             <Button onClick={handleClose}>Close</Button>
           </ButtonGroup>
         </Grid>
@@ -111,4 +97,4 @@ function NewGameForm({ handleClose, updateGamesList }) {
   );
 }
 
-export default NewGameForm;
+export default EditProfileForm;
