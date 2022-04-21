@@ -1,26 +1,25 @@
+import { Button, ButtonGroup } from "@mui/material";
+import "./FilterButtons.css";
+
 const FilterButtons = ({ filterItem, menuItems, resetFilters }) => {
   return (
-    <>
-      <div className="d-flex justify-content-center">
+    <div className="filterButtons">
+      <ButtonGroup
+        variant="contained"
+        aria-label="outlined primary button group"
+      >
         {menuItems.map((Val, id) => {
           return (
-            <button
-              className="btn-dark text-white p-1 px-2 mx-5 btn fw-bold"
-              key={id}
-              onClick={() => filterItem(Val)}
-            >
+            <Button size="small" key={id} onClick={() => filterItem(Val)}>
               {Val}
-            </button>
+            </Button>
           );
         })}
-        <button
-          className="btn-dark text-white p-1 px-3 mx-5 fw-bold btn"
-          onClick={() => resetFilters()}
-        >
+        <Button size="small" onClick={() => resetFilters()}>
           All
-        </button>
-      </div>
-    </>
+        </Button>
+      </ButtonGroup>
+    </div>
   );
 };
 

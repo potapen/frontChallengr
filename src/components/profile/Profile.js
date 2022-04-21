@@ -64,7 +64,7 @@ function Profile() {
           <CardHeader title={profile.username} subheader={profile.createdAt} />
           <CardMedia
             component="img"
-            height="194"
+            height="300"
             image={profile.pictureUrl}
             alt="profile pic"
           />

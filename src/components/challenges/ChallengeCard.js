@@ -3,7 +3,35 @@ import "./ChallengeCard.css";
 import EditChallengeForm from "./EditChallengeForm";
 import axios from "axios";
 import backendHost from "../../utils/backendHost";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  Avatar,
+  Button,
+  ButtonGroup,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  CardMedia,
+  Divider,
+  Typography,
+} from "@mui/material";
+import FormDialog from "../../interactivity/FormDialogButton";
+import ChallengeDeleter from "./ChallengeDeleter";
+
+import cx from "clsx";
+import { makeStyles } from "@mui/styles";
+import { useFadedShadowStyles } from "@mui-treasury/styles/shadow/faded";
+
+const useStyles = makeStyles(() => ({
+  root: {
+    maxWidth: 304,
+    margin: "auto",
+  },
+  content: {
+    padding: 24,
+  },
+}));
 
 function ChallengeCard({
   leagues,
@@ -12,7 +40,6 @@ function ChallengeCard({
   updateFullChallengesList,
   challengeProps,
 }) {
-  const [editMode, setEditMode] = useState(false);
   const [challenge, setChallenge] = useState(challengeProps);
 
   const storedToken = localStorage.getItem("authToken");
@@ -20,6 +47,11 @@ function ChallengeCard({
   const handleClose = () => {
     setEditMode(false);
   };
+  const cardStyles = useStyles();
+  const fadeShadowStyles = useFadedShadowStyles();
+
+  let navigate = useNavigate();
+
 
   const refreshChallenge = async () => {
     const refreshedChallenge = await axios.get(
@@ -34,39 +66,78 @@ function ChallengeCard({
   };
 
   return (
-    <div className="challengeCardContainer">
-      <img
-        className="challengeCardImage"
-        src={challenge.game.imageUrl}
-        alt="gameImage"
+    <Card
+      sx={{ width: "100%" }}
+      className={cx(cardStyles.root, fadeShadowStyles.root)}
+    >
+      <CardHeader
+        avatar={
+          <Avatar aria-label="recipe" src={challenge.league.imageUrl}></Avatar>
+        }
+        title={`${challenge.league.name} - ${challenge.game.name}`}
+        subheader={challenge.createdAt}
       />
-      <div>
-        <h4>{challenge.league.name}</h4>
-        <h4>{challenge.game.name}</h4>
-        <h4>{challenge.createdAt}</h4>
-        <h6>Contenders : </h6>
-        {challenge.contenders.map((contender) => {
-          return <li key={contender._id}>{contender.username}</li>;
-        })}
 
-        <div>
-          <button type="button" onClick={() => setEditMode(!editMode)}>
-            {editMode ? "Hide Edit" : "Show Edit"}
-          </button>
-          {editMode && (
-            <EditChallengeForm
-              leagues={leagues}
-              games={games}
-              challenge={challenge}
-              handleClose={handleClose}
-              updateChallengesList={updateChallengesList}
-              updateFullChallengesList={updateFullChallengesList}
-            />
-          )}
-          <Link to={`/points/${challenge.game._id}`}>Edit games weight</Link>
-        </div>
-      </div>
-    </div>
+      <CardMedia
+        component="img"
+        height="194"
+        image={challenge.game.imageUrl}
+        alt="challenge image"
+      />
+      <Divider />
+      <Divider />
+      <CardContent>
+        <Typography variant="body2" color="text.secondary">
+          Contenders :
+          {challenge.contenders.map((contender) => {
+            return <li key={contender._id}>{contender.username}</li>;
+          })}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Points : {challenge.points}
+        </Typography>
+        {challenge.isCompleted ? (
+          <Typography variant="body2" color="text.secondary">
+            Winners :
+            {challenge.winners.map((contender) => {
+              return <li key={contender._id}>{contender.username}</li>;
+            })}
+          </Typography>
+        ) : (
+          <Typography variant="body2" color="text.secondary">
+            Challenge is still ongoing
+          </Typography>
+        )}
+      </CardContent>
+      <ButtonGroup variant="outlined" aria-label="outlined button group">
+        <FormDialog buttonName={"Edit"}>
+          {(callback) => {
+            return (
+              <EditChallengeForm
+                challenge={challenge}
+                refreshChallenge={refreshChallenge}
+                games={games}
+                leagues={leagues}
+              />
+            );
+          }}
+        </FormDialog>
+        <Button
+          onClick={() => {
+            navigate(`/points/${challenge.league._id}`);
+          }}
+        >
+          Edit points settings
+        </Button>
+      </ButtonGroup>
+      <CardActions disableSpacing>
+        <ChallengeDeleter
+          challenge={challenge}
+          updateChallengesList={updateChallengesList}
+          updateFullChallengesList={updateFullChallengesList}
+        />
+      </CardActions>
+    </Card>
   );
 }
 

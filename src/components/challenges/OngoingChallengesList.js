@@ -33,7 +33,7 @@ function OngoingChallengesList({challenges,setChallenges}) {
   return (
     <div style={{ width: "100%" }} className="ongoingChallengesContainer">
       <Typography variant="h6" gutterBottom component="div">
-        Current challenges
+        Ongoing challenges ({`${challenges.length}`})
       </Typography>
       {challenges.length > 0 && (
         <CustomCarousel list={challenges}>

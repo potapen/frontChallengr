@@ -6,7 +6,7 @@ import { Grid } from "@mui/material";
 
 function LeaguesList({ leagues, updateLeaguesList }) {
   return (
-    <div>
+    <div className="leaguesPageContainer">
       <h1>Leagues</h1>
       <div className="leaguesListContainer">
         <Grid container spacing={1}>

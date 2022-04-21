@@ -8,6 +8,7 @@ function AuthProviderWrapper(props) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(null);
+  const [pictureUrl, setPictureUrl] = useState(null);
 
   /* 
     Functions for handling the authentication status (isLoggedIn, isLoading, user)
@@ -36,6 +37,7 @@ function AuthProviderWrapper(props) {
           setIsLoggedIn(true);
           setIsLoading(false);
           setUser(user);
+          setPictureUrl(user.pictureUrl);
         })
         .catch((error) => {
           // If the server sends an error response (invalid token)
@@ -43,13 +45,25 @@ function AuthProviderWrapper(props) {
           setIsLoggedIn(false);
           setIsLoading(false);
           setUser(null);
+          setPictureUrl(null);
         });
     } else {
       // If the token is not available (or is removed)
       setIsLoggedIn(false);
       setIsLoading(false);
       setUser(null);
+      setPictureUrl(null);
     }
+  };
+
+  const updateProfilePicture = async () => {
+    const storedToken = localStorage.getItem("authToken");
+    const l = await axios.get(`${backendHost}/api/profile`, {
+      headers: {
+        Authorization: `Bearer ${storedToken}`,
+      },
+    });
+    setPictureUrl(l.data.user.pictureUrl);
   };
 
   const removeToken = () => {
@@ -74,9 +88,11 @@ function AuthProviderWrapper(props) {
         isLoggedIn,
         isLoading,
         user,
+        pictureUrl,
         storeToken,
         authenticateUser,
         logOutUser,
+        updateProfilePicture,
       }}
     >
       {props.children}
