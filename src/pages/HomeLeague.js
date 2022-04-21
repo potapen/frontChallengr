@@ -62,7 +62,12 @@ function HomeLeague() {
           text="Create"
         >
           {(callback) => {
-            return <NewLeagueForm handleClose={callback} />;
+            return (
+              <NewLeagueForm
+                handleClose={callback}
+                updateLeaguesList={updateLeaguesList}
+              />
+            );
           }}
         </FormDialogFAB>
         <FormDialogFAB

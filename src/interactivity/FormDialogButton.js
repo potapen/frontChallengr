@@ -1,6 +1,6 @@
 import { Box, Button, Dialog, DialogActions, TextField } from "@mui/material";
 import * as React from "react";
-import './FormDialogButton.css'
+import "./FormDialogButton.css";
 
 export default function FormDialog({ buttonName, children }) {
   const [open, setOpen] = React.useState(false);
@@ -19,10 +19,7 @@ export default function FormDialog({ buttonName, children }) {
         {buttonName}
       </Button>
       <Dialog open={open}>
-          <div className="FormDialogSubDiv">{children(handleClose)}</div>
-        {/* <DialogActions>
-          <Button onClick={handleClose}>Close</Button>
-        </DialogActions> */}
+        <div className="FormDialogSubDiv">{children(handleClose)}</div>
       </Dialog>
     </div>
   );

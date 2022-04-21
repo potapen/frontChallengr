@@ -6,11 +6,14 @@ import backendHost from "../../utils/backendHost";
 import ChallengeCard from "./ChallengeCard";
 import FilterButtons from "./FilterButtons";
 
-function ChallengesList({ games, leagues }) {
+function ChallengesList({
+  games,
+  leagues,
+  fullChallenges,
+  filters,
+  updateChallengesList,
+}) {
   const [challenges, setChallenges] = useState([]);
-  const [fullChallenges, setFullChallenges] = useState([]);
-
-  const [filters, setFilters] = useState({});
 
   const storedToken = localStorage.getItem("authToken");
 
@@ -23,31 +26,9 @@ function ChallengesList({ games, leagues }) {
     setChallenges(l.data.challenges);
   };
 
-  const getFullChallenges = async () => {
-    const l = await axios.get(`${backendHost}/api/challenges`, {
-      headers: {
-        Authorization: `Bearer ${storedToken}`,
-      },
-    });
-    setFullChallenges(l.data.challenges);
-    const menuLeagues = [
-      ...new Set(l.data.challenges.map((challenge) => challenge.league.name)),
-    ];
-    const menuGames = [
-      ...new Set(l.data.challenges.map((challenge) => challenge.game.name)),
-    ];
-    setFilters({ menuLeagues, menuGames });
-  };
-
   useEffect(() => {
     getChallenges();
-    getFullChallenges();
   }, []);
-
-  const updateChallengesList = (challenge) => {
-    getFullChallenges();
-    return;
-  };
 
   const filterGames = (game) => {
     let newChallenges = [...fullChallenges];

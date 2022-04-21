@@ -3,6 +3,7 @@ import ChallengesList from "../components/challenges/ChallengesList";
 import { useState, useEffect } from "react";
 import backendHost from "../utils/backendHost";
 import axios from "axios";
+import FormDialogFAB from "../interactivity/FormDialogFAB";
 
 const HomeChallenges = () => {
   const styleAdd = {
@@ -12,6 +13,24 @@ const HomeChallenges = () => {
     bottom: 20,
     left: "auto",
     position: "fixed",
+  };
+  const [fullChallenges, setFullChallenges] = useState([]);
+  const [filters, setFilters] = useState({});
+
+  const getFullChallenges = async () => {
+    const l = await axios.get(`${backendHost}/api/challenges`, {
+      headers: {
+        Authorization: `Bearer ${storedToken}`,
+      },
+    });
+    setFullChallenges(l.data.challenges);
+    const menuLeagues = [
+      ...new Set(l.data.challenges.map((challenge) => challenge.league.name)),
+    ];
+    const menuGames = [
+      ...new Set(l.data.challenges.map((challenge) => challenge.game.name)),
+    ];
+    setFilters({ menuLeagues, menuGames });
   };
 
   const [leagues, setLeagues] = useState([]);
@@ -37,14 +56,42 @@ const HomeChallenges = () => {
   useEffect(() => {
     getLeagues();
     getGames();
+    getFullChallenges();
   }, []);
+
+  const updateChallengesList = () => {
+    getFullChallenges();
+    return;
+  };
 
   if (leagues.length > 0 && games.length > 0) {
     return (
       <>
         <p>challenge page</p>
-        <NewChallengeForm leagues={leagues} games={games} />
-        <ChallengesList leagues={leagues} games={games} />
+        <ChallengesList
+          leagues={leagues}
+          games={games}
+          fullChallenges={fullChallenges}
+          filters={filters}
+          updateChallengesList={updateChallengesList}
+        />
+        <FormDialogFAB
+          style={styleAdd}
+          color="primary"
+          variant="extended"
+          text="New"
+        >
+          {(callback) => {
+            return (
+              <NewChallengeForm
+                leagues={leagues}
+                games={games}
+                handleClose={callback}
+                updateLeaguesList={updateChallengesList}
+              />
+            );
+          }}
+        </FormDialogFAB>
       </>
     );
   }
