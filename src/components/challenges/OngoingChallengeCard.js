@@ -29,7 +29,11 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function OngoingChallengeCard({ challengeProps, updateChallengesList }) {
+function OngoingChallengeCard({
+  challengeProps,
+  updateChallengesList,
+  getLeaguesStats,
+}) {
   const cardStyles = useStyles();
   const fadeShadowStyles = useFadedShadowStyles();
   const [challenge, setChallenge] = useState(challengeProps);
@@ -81,6 +85,7 @@ function OngoingChallengeCard({ challengeProps, updateChallengesList }) {
                   challenge={challenge}
                   refreshChallenge={refreshChallenge}
                   updateChallengesList={updateChallengesList}
+                  getLeaguesStats={getLeaguesStats}
                   handleClose={callback}
                 />
               );

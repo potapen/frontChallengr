@@ -12,13 +12,14 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
 import ButtonGroup from "@mui/material/ButtonGroup";
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 const FinishChallengeForm = ({
   challenge,
   refreshChallenge,
   updateChallengesList,
+  getLeaguesStats,
   handleClose,
 }) => {
   const [formData, setFormData] = useState({
@@ -47,6 +48,7 @@ const FinishChallengeForm = ({
         },
       }
     );
+    getLeaguesStats();
     handleClose();
     refreshChallenge();
     updateChallengesList();
@@ -58,7 +60,7 @@ const FinishChallengeForm = ({
       ...formData,
       [name]: value,
     };
-    console.log('-----------newFormData', newFormData)
+    console.log("-----------newFormData", newFormData);
     setFormData(newFormData);
   };
 
@@ -72,61 +74,53 @@ const FinishChallengeForm = ({
 
   return (
     <>
-    <h2>Finish Challenge</h2>
-    <form onSubmit={handleSubmit} encType="multipart/form-data">
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "left",
-          "& > *": {
-            m: 1,
-            r: 1,
-            t: 1,
-          },
-        }}
-      >
-        <Grid>
-          <FormControl fullWidth>
-            <InputLabel id="winners-multiple-chip-label">
-              winners
-            </InputLabel>
-            <Select
-              labelId="winners-multiple-chip-label"
-              id="winners"
-              multiple
-              value={formData.winners}
-              onChange={(event) => handleSelect(event, "winners")}
-              input={
-                <OutlinedInput
-                  id="select-multiple-chip"
-                  label="winners"
-                />
-              }
-              renderValue={(winners) => {
-                return (
-                  <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                    {winners.map((winner) => {
-                      return (
-                        <Chip
-                          key={winner._id}
-                          label={winner.username}
-                        />
-                      );
-                    })}
-                  </Box>
-                );
-              }}
-            >
-              {formData.contenders.map((member) => (
-                <MenuItem key={member._id} value={member}>
-                  {member.username}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Grid>
-        {/* <Grid>
+      <h2>Finish Challenge</h2>
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "left",
+            "& > *": {
+              m: 1,
+              r: 1,
+              t: 1,
+            },
+          }}
+        >
+          <Grid>
+            <FormControl fullWidth>
+              <InputLabel id="winners-multiple-chip-label">winners</InputLabel>
+              <Select
+                labelId="winners-multiple-chip-label"
+                id="winners"
+                multiple
+                value={formData.winners}
+                onChange={(event) => handleSelect(event, "winners")}
+                input={
+                  <OutlinedInput id="select-multiple-chip" label="winners" />
+                }
+                renderValue={(winners) => {
+                  return (
+                    <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                      {winners.map((winner) => {
+                        return (
+                          <Chip key={winner._id} label={winner.username} />
+                        );
+                      })}
+                    </Box>
+                  );
+                }}
+              >
+                {formData.contenders.map((member) => (
+                  <MenuItem key={member._id} value={member}>
+                    {member.username}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          {/* <Grid>
         <FormControlLabel label="Are you done?" control={
           <Checkbox
               checked={formData.isCompleted}
@@ -137,20 +131,18 @@ const FinishChallengeForm = ({
             }
           />
         </Grid> */}
-        <Grid>
-          <ButtonGroup
-            variant="contained"
-            aria-label="outlined primary button group"
-          >
-            <Button type="submit">Finish challenge</Button>
-            <Button onClick={handleClose}>Cancel</Button>
-          </ButtonGroup>
-        </Grid>
-
-
-      </Box>
-    </form>
-  </>
+          <Grid>
+            <ButtonGroup
+              variant="contained"
+              aria-label="outlined primary button group"
+            >
+              <Button type="submit">Finish challenge</Button>
+              <Button onClick={handleClose}>Cancel</Button>
+            </ButtonGroup>
+          </Grid>
+        </Box>
+      </form>
+    </>
   );
 };
 
