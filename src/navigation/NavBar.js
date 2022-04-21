@@ -1,5 +1,5 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useContext, useReducer } from "react";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
 import { AuthContext } from "../context/auth.context";
 
 import * as React from "react";
@@ -16,12 +16,10 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 
-const pages = ["Leagues", "Games", "Stats"];
-
 function Navbar() {
   // Subscribe to the AuthContext to gain access to
   // the values from AuthContext.Provider `value` prop
-  const { isLoggedIn, user, logOutUser } = useContext(AuthContext);
+  const { isLoggedIn, user, logOutUser, pictureUrl } = useContext(AuthContext);
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -44,11 +42,12 @@ function Navbar() {
   };
 
   console.log(isLoggedIn, user);
+  console.log("pictureUrl", pictureUrl);
   //  Update the rendering logic to display different content
   //  depending on the user being logged in or not
   return (
     <>
-      <AppBar position="static">
+      <AppBar position="fixed" color="primary">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <Typography
@@ -100,6 +99,15 @@ function Navbar() {
                     <Typography textAlign="center">Home</Typography>
                   </MenuItem>,
                   <MenuItem
+                    key="challenges"
+                    onClick={() => {
+                      handleCloseNavMenu();
+                      navigate("/challenges");
+                    }}
+                  >
+                    <Typography textAlign="center">Challenges</Typography>
+                  </MenuItem>,
+                  <MenuItem
                     key="leagues"
                     onClick={() => {
                       handleCloseNavMenu();
@@ -148,6 +156,15 @@ function Navbar() {
                 Home
               </Button>
               <Button
+                key="challenges"
+                onClick={() => {
+                  navigate("/challenges");
+                }}
+                sx={{ my: 2, color: "white", display: "block" }}
+              >
+                Challenges
+              </Button>
+              <Button
                 key="leagues"
                 onClick={() => {
                   navigate("/leagues");
@@ -179,7 +196,7 @@ function Navbar() {
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src={user && user.pictureUrl} />
+                  <Avatar alt="Remy Sharp" src={user && pictureUrl} />
                 </IconButton>
               </Tooltip>
               <Menu

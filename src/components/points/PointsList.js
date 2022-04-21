@@ -29,8 +29,8 @@ function PointsList({ leagueId }) {
   };
 
   return (
-    <div>
-      <h1>List of Points</h1>
+    <div className="pointsPageContainer">
+      <h1>Points</h1>
       <div className="pointsListContainer">
         <Grid container spacing={1}>
           {points.length > 0 &&

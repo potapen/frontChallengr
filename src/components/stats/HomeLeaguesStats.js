@@ -36,7 +36,7 @@ function HomeLeaguesStats() {
   return (
     <div style={{ width: "100%" }} className="leaguesStatsContainer">
       <Typography variant="h6" gutterBottom component="div">
-        Leagues stats
+        Leagues stats ({`${leaguesStats.length}`})
       </Typography>
       {leaguesStats.length > 0 && (
         <CustomCarousel list={leaguesStats}>

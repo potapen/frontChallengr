@@ -38,8 +38,8 @@ function ChallengesList({
   };
 
   return (
-    <div>
-      <h1>List of Challenges</h1>
+    <div className="challengesPageContainer">
+      <h1>Challenges</h1>
       {filters.menuLeagues && (
         <FilterButtons
           filterItem={filterLeagues}
