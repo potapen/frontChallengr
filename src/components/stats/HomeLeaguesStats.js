@@ -1,38 +1,12 @@
-import React, { useContext, useEffect } from "react";
-import { useState } from "react";
-import axios from "axios";
+import React from "react";
 
-import backendHost from "../../utils/backendHost";
-import { useParams } from "react-router-dom";
 import CustomCarousel from "../../interactivity/CustomCarousel";
 import { Typography } from "@mui/material";
 import HomeLeagueStatsCard from "./HomeLeagueStatsCard";
 
 import "./HomeLeaguesStats.css";
 
-import { AuthContext } from "../../context/auth.context";
-
-function HomeLeaguesStats() {
-  const { isLoggedIn, user, logOutUser } = useContext(AuthContext);
-
-  const [leaguesStats, setLeaguesStats] = useState([]);
-
-  const storedToken = localStorage.getItem("authToken");
-
-  const getLeaguesStats = async () => {
-    const s = await axios.get(`${backendHost}/api/stats/profile/${user._id}`, {
-      headers: {
-        Authorization: `Bearer ${storedToken}`,
-      },
-    });
-    console.log();
-    setLeaguesStats(s.data.statsPerLeague);
-  };
-
-  useEffect(() => {
-    getLeaguesStats();
-  }, []);
-
+function HomeLeaguesStats({ leaguesStats }) {
   return (
     <div style={{ width: "100%" }} className="leaguesStatsContainer">
       <Typography variant="h6" gutterBottom component="div">

@@ -1,36 +1,37 @@
-import { Radar } from 'react-chartjs-2';
+import { Radar } from "react-chartjs-2";
 import { useState, useEffect } from "react";
-import Chart from 'chart.js/auto';
-import axios from 'axios';
-import backendHost from '../../utils/backendHost';
-import authToken from '../../utils/authToken';
+import Chart from "chart.js/auto";
+import axios from "axios";
+import backendHost from "../../utils/backendHost";
 
-
-const RadarGraph = ({leagueId,userId}) => {
-    //for props of the chart components. We will need to add labels and data
-    const storedToken = localStorage.getItem("authToken");
-    const [radarData, setRadarData] = useState({
+const RadarGraph = ({ leagueId, userId }) => {
+  //for props of the chart components. We will need to add labels and data
+  const storedToken = localStorage.getItem("authToken");
+  const [radarData, setRadarData] = useState({
     labels: [],
     datasets: [
-        {
+      {
         label: "Total score per game",
         data: [],
         fill: false,
         borderColor: "rgb(75, 192, 192)",
         tension: 0.1,
-        },
+      },
     ],
-    });
-    async function getStakePerGameForAGivenUserAndLeague() {
-        const response = await axios.get(`${backendHost}/api/stats/radarChart/league/${leagueId}/user/${userId}`, {
-            headers: {
-                Authorization: `Bearer ${storedToken}`,
-            },
-            });
+  });
+  async function getStakePerGameForAGivenUserAndLeague() {
+    const response = await axios.get(
+      `${backendHost}/api/stats/radarChart/league/${leagueId}/user/${userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${storedToken}`,
+        },
+      }
+    );
 
-        const pointsPerGameObjArray = response.data;
-        console.log('pointsPerGameObjArray', pointsPerGameObjArray)
-/*[
+    const pointsPerGameObjArray = response.data;
+    console.log("pointsPerGameObjArray", pointsPerGameObjArray);
+    /*[
     {
         "_id": "625d61afd9cecbc3669c17cd",
         "name": "Beer pong",
@@ -56,40 +57,40 @@ const RadarGraph = ({leagueId,userId}) => {
     }
 ]
 */
-        const radarLabelsArray = [];
-        const radarDatasArrayLine = [];
+    const radarLabelsArray = [];
+    const radarDatasArrayLine = [];
 
-        pointsPerGameObjArray.forEach((obj) => {
-            radarLabelsArray.push(obj.name);
-            radarDatasArrayLine.push(obj.totalPoints);
-            });
-        
-        const updatedDataSet = [
-            {
-            label: "League Activity",
-            data: radarDatasArrayLine,
-            fill: false,
-            borderColor: "rgb(75, 192, 192)",
-            tension: 0.1,
-            },
-        ];
-        const updatedRadarData = {
-            ...radarData,
-            labels : radarLabelsArray,
-            datasets : updatedDataSet
-        }
-        console.log('updatedRadarData', updatedRadarData)
-        setRadarData(updatedRadarData)
-    }
-    useEffect(() => {
-        getStakePerGameForAGivenUserAndLeague()
-      }, []);
+    pointsPerGameObjArray.forEach((obj) => {
+      radarLabelsArray.push(obj.name);
+      radarDatasArrayLine.push(obj.totalPoints);
+    });
 
-    return(
-        <>
-            <Radar data={radarData} options={{}} />     
-        </> 
-    )
-}
+    const updatedDataSet = [
+      {
+        label: "League Activity",
+        data: radarDatasArrayLine,
+        fill: false,
+        borderColor: "rgb(75, 192, 192)",
+        tension: 0.1,
+      },
+    ];
+    const updatedRadarData = {
+      ...radarData,
+      labels: radarLabelsArray,
+      datasets: updatedDataSet,
+    };
+    console.log("updatedRadarData", updatedRadarData);
+    setRadarData(updatedRadarData);
+  }
+  useEffect(() => {
+    getStakePerGameForAGivenUserAndLeague();
+  }, []);
 
-export default RadarGraph
+  return (
+    <>
+      <Radar data={radarData} options={{}} />
+    </>
+  );
+};
+
+export default RadarGraph;
