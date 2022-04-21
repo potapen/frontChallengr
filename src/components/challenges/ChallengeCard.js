@@ -111,10 +111,12 @@ function ChallengeCard({
           {(callback) => {
             return (
               <EditChallengeForm
-                challenge={challenge}
-                refreshChallenge={refreshChallenge}
-                games={games}
                 leagues={leagues}
+                games={games}
+                challenge={challenge}
+                updateChallengesList={updateChallengesList}
+                updateFullChallengesList={updateFullChallengesList}
+                handleClose={callback}
               />
             );
           }}
