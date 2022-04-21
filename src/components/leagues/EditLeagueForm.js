@@ -63,7 +63,6 @@ function EditLeagueForm({ league, refreshLeague, handleClose }) {
 
   const handleChanges = (event) => {
     const { value, name } = event.target;
-    console.log(event.target)
     const newFormData = {
       ...formData,
       [name]: value,

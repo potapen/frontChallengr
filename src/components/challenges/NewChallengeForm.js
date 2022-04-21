@@ -2,7 +2,19 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import backendHost from "../../utils/backendHost";
 
-const ChallengeNew = ({ leagues, games }) => {
+import { Button } from "@mui/material";
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import Chip from '@mui/material/Chip';
+import ButtonGroup from '@mui/material/ButtonGroup';
+
+const ChallengeNew = ({ leagues, games, handleClose }) => {
   const [members, setMembers] = useState([]);
   const [formData, setFormData] = useState({
     league: leagues[0]._id,
@@ -24,9 +36,16 @@ const ChallengeNew = ({ leagues, games }) => {
     getLeaguesMembers(leagues[0]._id);
   }, []);
 
-  const submitCreate = async (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    await axios.post(`${backendHost}/api/challenges`, formData, {
+
+    const contendersId = formData.contenders.map(c => c._id)
+    const cleanedFormData = {
+      ...formData,
+      contenders: contendersId,
+    }
+    console.log('cleanedFormData', cleanedFormData)
+    await axios.post(`${backendHost}/api/challenges`, cleanedFormData, {
       headers: {
         Authorization: `Bearer ${storedToken}`,
       },
@@ -38,88 +57,120 @@ const ChallengeNew = ({ leagues, games }) => {
     });
   };
 
-  const handleChanges = (event) => {
-    const { value, name } = event.target;
-    const newFormData = {
-      ...formData,
-      [name]: value,
-    };
-    setFormData(newFormData);
-  };
-
   const onLeagueChange = (event) => {
     getLeaguesMembers(event.target.value);
-    handleChanges(event);
+    handleSelect(event,'league')
   };
 
-  const handleMultiSelect = (event) => {
-    let value = Array.from(
-      event.target.selectedOptions,
-      (option) => option.value
-    );
-    const { name } = event.target;
+
+  const handleSelect = (event, name) => {
+    const { value } = event.target;
     const newFormData = {
       ...formData,
       [name]: value,
     };
     setFormData(newFormData);
   };
-  return (
-    <>
-      <h1>New Challenge</h1>
-      <form onSubmit={submitCreate}>
-        <div>
-          <label htmlFor="league">league</label>
-          <select
-            id="league"
-            name="league"
-            onChange={onLeagueChange}
-            value={formData.league}
-          >
-            {leagues.map((league) => (
-              <option key={league._id} value={league._id}>
-                {league.name}
-              </option>
-            ))}
-          </select>
-        </div>
 
-        <div>
-          <label htmlFor="game">game</label>
-          <select
-            id="game"
-            name="game"
-            onChange={handleChanges}
-            value={formData.game}
+  if(members.length >0){
+    return (
+      <>
+        <h1>New Challenge</h1>
+        <form onSubmit={handleSubmit} encType="multipart/form-data">
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'left',
+              '& > *': {
+                m:1,
+                r:1,
+                t:1,
+              },
+            }}
           >
-            {games.map((game) => (
-              <option key={game._id} value={game._id}>
-                {game.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div>
-          <label htmlFor="contenders">contenders</label>
-          <select
-            id="contenders"
-            name="contenders"
-            multiple
-            onChange={handleMultiSelect}
-          >
-            {members.map((member) => (
-              <option key={member._id} value={member._id}>
-                {member.username}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <button type="submit">Create Challenge</button>
-      </form>
-    </>
-  );
+            <Grid>
+              <FormControl fullWidth>
+                <InputLabel id="league-select-label">league</InputLabel>
+                <Select
+                  labelId="league-select-label"
+                  id="league"
+                  value={formData.league}
+                  label="league"
+                  onChange={onLeagueChange}
+                >
+                  {leagues.map((league) => (
+                    <MenuItem key={league._id} value={league._id}>
+                      {league.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid>
+              <FormControl fullWidth>
+                <InputLabel id="game-select-label">game</InputLabel>
+                <Select
+                  labelId="game-select-label"
+                  id="game"
+                  value={formData.game}
+                  label="league"
+                  // onChange={handleChanges}
+                  onChange={(event)=>handleSelect(event,'game')}
+                >
+                  {games.map((game) => (
+                    <MenuItem key={game._id} value={game._id}>
+                      {game.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid>
+              <FormControl fullWidth>
+                <InputLabel id="contenders-multiple-chip-label">contenders</InputLabel>
+                <Select
+                  labelId="contenders-multiple-chip-label"
+                  id="contenders"
+                  multiple
+                  value={formData.contenders}
+                  onChange={(event)=>handleSelect(event,'contenders')}
+                  input={<OutlinedInput id="select-multiple-chip" label="contenders" />}
+                  renderValue={(contenders) => {
+                    return <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                      {
+                        contenders.map((contender) => 
+                        {
+                          return <Chip key={contender._id} label={contender.username} />
+                        }
+                      )}
+                    </Box>
+                    }
+                  }
+  
+                >
+                  {members.map((member) => (
+                    <MenuItem
+                      key={member._id}
+                      value={member}
+                    >
+                      {member.username}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid>
+              <ButtonGroup variant="contained" aria-label="outlined primary button group">
+                <Button type="submit">Create challenge</Button>
+                <Button onClick={handleClose}>Close</Button>
+              </ButtonGroup>
+            </Grid>
+          </Box>
+        </form>
+      </>
+    );
+  }
 };
 
 export default ChallengeNew;
