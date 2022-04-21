@@ -66,7 +66,7 @@ function HomeLeague() {
           text="Join"
         >
           {(callback) => {
-            return <LeagueJoiner onSubmit={callback} />;
+            return <LeagueJoiner handleClose={callback} getLeagues={getLeagues} />;
           }}
         </FormDialogFAB>
       </div>

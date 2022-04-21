@@ -16,6 +16,7 @@ export default function FormDialogFAB({
   };
 
   const handleClose = () => {
+    console.log('handleClose')
     setOpen(false);
   };
 
