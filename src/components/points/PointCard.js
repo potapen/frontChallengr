@@ -18,7 +18,7 @@ import {
   Typography,
 } from "@mui/material";
 import FormDialog from "../../interactivity/FormDialogButton";
-import EditPointFormNew from "./EditPointFormNew";
+import EditPointFormNew from "./EditPointForm";
 
 const useStyles = makeStyles(() => ({
   root: {

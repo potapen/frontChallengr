@@ -39,37 +39,42 @@ function HomeLeagueStatsCard({ league, fullRankingPerLeague }) {
           LeaderBoard:
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {fullRankingPerLeague[0].map((user) => {
-            return (
-              <li key={user._id.winners._id}>
-                <img
-                  src={`${user._id.winners.pictureUrl}`}
-                  alt=""
-                  style={{ width: "3rem", bordeRadius: "50%" }}
-                />
-                {user._id.winners.username} ({user.totalPoints} x 💰|{" "}
-                {user.count} x 🎲 |{" "}
-                <Link to={`/stats/profile/${user._id.winners._id}</li>`}>
-                  see stats
-                </Link>
-                )
-              </li>
-            );
-          })}
-          {fullRankingPerLeague[1].length > 0 &&
-            fullRankingPerLeague[1].map((user) => {
+          <ol>
+            {fullRankingPerLeague[0].map((user) => {
               return (
-                <li key={user._id}>
+                <li key={user._id.winners._id}>
                   <img
-                    src={`${user.pictureUrl}`}
+                    src={`${user._id.winners.pictureUrl}`}
                     alt=""
                     style={{ width: "3rem", bordeRadius: "50%" }}
                   />
-                  {user.username} (0 x 💰| 0 x 🎲 |{" "}
-                  <Link to={`/stats/profile/${user._id}</li>`}>see stats</Link>)
+                  {user._id.winners.username} ({user.totalPoints} x 💰|{" "}
+                  {user.count} x 🎲 |{" "}
+                  <Link to={`/stats/profile/${user._id.winners._id}</li>`}>
+                    see stats
+                  </Link>
+                  )
                 </li>
               );
             })}
+            {fullRankingPerLeague[1].length > 0 &&
+              fullRankingPerLeague[1].map((user) => {
+                return (
+                  <li key={user._id}>
+                    <img
+                      src={`${user.pictureUrl}`}
+                      alt=""
+                      style={{ width: "3rem", bordeRadius: "50%" }}
+                    />
+                    {user.username} (0 x 💰| 0 x 🎲 |{" "}
+                    <Link to={`/stats/profile/${user._id}</li>`}>
+                      see stats
+                    </Link>
+                    )
+                  </li>
+                );
+              })}
+          </ol>
         </Typography>
       </CardContent>
     </Card>
