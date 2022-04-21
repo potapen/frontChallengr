@@ -6,11 +6,16 @@ import {
   Divider,
   Typography,
 } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+
+import { useContext } from "react";
+import { AuthContext } from "../../context/auth.context";
+
+import "./HomeLeagueStatsCard.css";
 
 import cx from "clsx";
 import { makeStyles } from "@mui/styles";
 import { useFadedShadowStyles } from "@mui-treasury/styles/shadow/faded";
+import RadarGraph from "./RadarGraph";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -26,6 +31,8 @@ function HomeLeagueStatsCard({ league, fullRankingPerLeague }) {
   const cardStyles = useStyles();
   const fadeShadowStyles = useFadedShadowStyles();
 
+  const { user } = useContext(AuthContext);
+
   return (
     <Card className={cx(cardStyles.root, fadeShadowStyles.root)}>
       <CardHeader
@@ -35,7 +42,16 @@ function HomeLeagueStatsCard({ league, fullRankingPerLeague }) {
       />
       <Divider />
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="overline" color="text.secondary">
+          Performance:
+        </Typography>
+        <RadarGraph
+          key={league._id + user._id}
+          leagueId={league._id}
+          userId={user._id}
+        />
+        <Divider />
+        <Typography variant="overline" color="text.secondary">
           LeaderBoard:
         </Typography>
         <Typography variant="body2" color="text.secondary">
@@ -43,17 +59,8 @@ function HomeLeagueStatsCard({ league, fullRankingPerLeague }) {
             {fullRankingPerLeague[0].map((user) => {
               return (
                 <li key={user._id.winners._id}>
-                  <img
-                    src={`${user._id.winners.pictureUrl}`}
-                    alt=""
-                    style={{ width: "3rem", bordeRadius: "50%" }}
-                  />
-                  {user._id.winners.username} ({user.totalPoints} x 💰|{" "}
-                  {user.count} x 🎲 |{" "}
-                  <Link to={`/stats/profile/${user._id.winners._id}</li>`}>
-                    see stats
-                  </Link>
-                  )
+                  <strong>{user._id.winners.username}</strong> (
+                  {user.totalPoints} x 💰| {user.count} x 🎲 | )
                 </li>
               );
             })}
@@ -61,16 +68,7 @@ function HomeLeagueStatsCard({ league, fullRankingPerLeague }) {
               fullRankingPerLeague[1].map((user) => {
                 return (
                   <li key={user._id}>
-                    <img
-                      src={`${user.pictureUrl}`}
-                      alt=""
-                      style={{ width: "3rem", bordeRadius: "50%" }}
-                    />
-                    {user.username} (0 x 💰| 0 x 🎲 |{" "}
-                    <Link to={`/stats/profile/${user._id}</li>`}>
-                      see stats
-                    </Link>
-                    )
+                    <strong>{user.username}</strong> (0 x 💰| 0 x 🎲 | )
                   </li>
                 );
               })}
