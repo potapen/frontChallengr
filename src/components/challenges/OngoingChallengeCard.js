@@ -81,7 +81,7 @@ function OngoingChallengeCard({ challengeProps, updateChallengesList }) {
                   challenge={challenge}
                   refreshChallenge={refreshChallenge}
                   updateChallengesList={updateChallengesList}
-                  onSubmit={callback}
+                  handleClose={callback}
                 />
               );
             }}
