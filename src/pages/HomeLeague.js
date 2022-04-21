@@ -5,9 +5,11 @@ import LeagueJoiner from "../components/leagues/LeagueJoiner";
 import "./HomeLeague.css";
 import FormDialogFAB from "../interactivity/FormDialogFAB";
 
+import { useState , useEffect } from "react";
+import axios from "axios";
+import backendHost from "../utils/backendHost";
 
-
-function HomeLeague({leagues, setLeagues, getLeagues}) {
+function HomeLeague() {
   const styleAdd = {
     margin: 0,
     top: "auto",
@@ -27,7 +29,20 @@ function HomeLeague({leagues, setLeagues, getLeagues}) {
   };
 
   
+  const [leagues, setLeagues] = useState([]);
+  const storedToken = localStorage.getItem("authToken");
+  const getLeagues = async () => {
+    const l = await axios.get(`${backendHost}/api/leagues`, {
+      headers: {
+        Authorization: `Bearer ${storedToken}`,
+      },
+    });
+    setLeagues(l.data.leagues);
+  };
 
+  useEffect(() => {
+    getLeagues();
+  }, []);
 
 
   return (

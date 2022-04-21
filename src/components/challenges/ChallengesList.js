@@ -12,6 +12,7 @@ function ChallengesList({
   fullChallenges,
   filters,
   updateChallengesList,
+  updateFullChallengesList,
   challenges,
   setChallenges,
 }) {
@@ -61,10 +62,11 @@ function ChallengesList({
                 <Grid key={challenge._id} item xs={12}>
                   <ChallengeCard
                     key={challenge._id}
-                    challengeProps={challenge}
-                    updateChallengesList={updateChallengesList}
                     leagues={leagues}
                     games={games}
+                    updateChallengesList={updateChallengesList}
+                    updateFullChallengesList={updateFullChallengesList}
+                    challengeProps={challenge}
                   />
                 </Grid>
               );

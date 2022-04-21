@@ -6,15 +6,20 @@ import backendHost from "../../utils/backendHost";
 import { Link } from "react-router-dom";
 
 function ChallengeCard({
-  challengeProps,
-  updateChallengesList,
   leagues,
   games,
+  updateChallengesList,
+  updateFullChallengesList,
+  challengeProps,
 }) {
   const [editMode, setEditMode] = useState(false);
   const [challenge, setChallenge] = useState(challengeProps);
 
   const storedToken = localStorage.getItem("authToken");
+
+  const handleClose = () => {
+    setEditMode(false);
+  };
 
   const refreshChallenge = async () => {
     const refreshedChallenge = await axios.get(
@@ -50,10 +55,12 @@ function ChallengeCard({
           </button>
           {editMode && (
             <EditChallengeForm
-              challenge={challenge}
-              refreshChallenge={refreshChallenge}
-              games={games}
               leagues={leagues}
+              games={games}
+              challenge={challenge}
+              handleClose={handleClose}
+              updateChallengesList={updateChallengesList}
+              updateFullChallengesList={updateFullChallengesList}
             />
           )}
           <Link to={`/points/${challenge.game._id}`}>Edit games weight</Link>
