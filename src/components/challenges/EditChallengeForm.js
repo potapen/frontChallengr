@@ -20,7 +20,6 @@ const EditChallengeForm = ({
   challenge,
   updateChallengesList,
   updateFullChallengesList,
-  handleClose,
 }) => {
   const [members, setMembers] = useState([]);
   const [formData, setFormData] = useState({
@@ -88,7 +87,6 @@ const EditChallengeForm = ({
     // });
     updateFullChallengesList();
     updateChallengesList();
-    handleClose();
   };
 
   const handleSelect = (event, name) => {

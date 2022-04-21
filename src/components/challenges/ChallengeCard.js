@@ -44,9 +44,6 @@ function ChallengeCard({
 
   const storedToken = localStorage.getItem("authToken");
 
-  const handleClose = () => {
-    setEditMode(false);
-  };
   const cardStyles = useStyles();
   const fadeShadowStyles = useFadedShadowStyles();
 
