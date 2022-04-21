@@ -5,7 +5,13 @@ import FileInput from "../../utils/FileInput";
 
 import backendHost from "../../utils/backendHost";
 
-function NewLeagueForm({ onSubmit, updateLeaguesList }) {
+import { Button } from "@mui/material";
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import ButtonGroup from '@mui/material/ButtonGroup';
+
+function NewLeagueForm({ handleClose }) {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -22,19 +28,20 @@ function NewLeagueForm({ onSubmit, updateLeaguesList }) {
     fd.append("name", formData["name"]);
     fd.append("description", formData["description"]);
     fd.append("coverPicture", fileData);
-    await axios.post(`${backendHost}/api/leagues`, fd, {
+    console.log('fd', fd)
+    const response = await axios.post(`${backendHost}/api/leagues`, fd, {
       headers: {
         Authorization: `Bearer ${storedToken}`,
         "Content-type": "multipart/form-data",
       },
     });
+    console.log('response', response)
     setFormData({
       name: "",
       description: "",
     });
     setFileData(null);
-    onSubmit();
-    updateLeaguesList();
+    handleClose();
   };
 
   const handleChanges = (event) => {
@@ -43,52 +50,72 @@ function NewLeagueForm({ onSubmit, updateLeaguesList }) {
       ...formData,
       [name]: value,
     };
+    console.log('newFormData', newFormData)
     setFormData(newFormData);
   };
 
   const handleFileChanges = (event) => {
+    console.log('event.target.files[0]', event.target.files[0])
     setFileData(event.target.files[0]);
   };
 
   return (
-    <div className="formContainer">
-      <h1>Add new league</h1>
-      <form onSubmit={handleSubmit} encType="multipart/form-data">
-        <div>
-          <label htmlFor="name">Name</label>
-          <input
+    <>
+    <h1>Add new league</h1>
+    <form onSubmit={handleSubmit} encType="multipart/form-data">
+      <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'left',
+        '& > *': {
+          m:1,
+          r:1,
+          t:1,
+        },
+      }}
+      >
+      <Grid>
+          <TextField
             id="name"
             name="name"
+            label="name"
+            type="text"
             value={formData.name}
-            type="text"
             onChange={handleChanges}
           />
-        </div>
-        <div>
-          <label htmlFor="description">description</label>
-          <input
-            id="description"
-            name="description"
-            value={formData.description}
-            type="text"
-            onChange={handleChanges}
-          />
-        </div>
-        <div>
-          <label htmlFor="coverPicture">Picture</label>
-          <FileInput
-            id="coverPicture"
-            name="coverPicture"
-            value={fileData}
-            type="file"
-            onChange={handleFileChanges}
-          />
-        </div>
-        <div>
-          <button type="submit">Create league</button>
-        </div>
-      </form>
-    </div>
+    </Grid>
+      <Grid>
+            <TextField
+              id="description"
+              name="description"
+              label="description"
+              multiline
+              maxRows={4}
+              type="text"
+              value={formData.description}
+              onChange={handleChanges}
+            />
+      </Grid>
+      <Grid>
+        <label htmlFor="coverPicture">Picture  </label>
+        <FileInput
+          id="coverPicture"
+          name="coverPicture"
+          value={fileData}
+          type="file"
+          onChange={handleFileChanges}
+        />
+      </Grid>
+      <Grid>
+        <ButtonGroup variant="contained" aria-label="outlined primary button group">
+          <Button type="submit">Create league</Button>
+          <Button onClick={handleClose}>Close</Button>
+        </ButtonGroup>
+      </Grid>
+    </Box>
+    </form>
+    </>
   );
 }
 
