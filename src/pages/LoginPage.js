@@ -5,6 +5,9 @@ import { AuthContext } from "../context/auth.context";
 
 import backendHost from "../utils/backendHost";
 
+import "./LoginPage.css";
+import { Box, Button, ButtonGroup, Grid, TextField } from "@mui/material";
+
 function LoginPage(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -38,22 +41,50 @@ function LoginPage(props) {
   };
 
   return (
-    <div className="LoginPage">
+    <div className="loginPageContainer">
       <h1>Login</h1>
-
       <form onSubmit={handleLoginSubmit}>
-        <label>Email:</label>
-        <input type="email" name="email" value={email} onChange={handleEmail} />
-
-        <label>Password:</label>
-        <input
-          type="password"
-          name="password"
-          value={password}
-          onChange={handlePassword}
-        />
-
-        <button type="submit">Login</button>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "left",
+            "& > *": {
+              m: 1,
+              r: 1,
+              t: 1,
+            },
+          }}
+        >
+          <Grid>
+            <TextField
+              id="email"
+              name="email"
+              label="email"
+              type="email"
+              value={email}
+              onChange={handleEmail}
+            />
+          </Grid>
+          <Grid>
+            <TextField
+              id="password"
+              name="password"
+              label="password"
+              type="password"
+              value={password}
+              onChange={handlePassword}
+            />
+          </Grid>
+          <Grid>
+            <ButtonGroup
+              variant="contained"
+              aria-label="outlined primary button group"
+            >
+              <Button type="submit">Login</Button>
+            </ButtonGroup>
+          </Grid>
+        </Box>
       </form>
       {errorMessage && <p className="error-message">{errorMessage}</p>}
 
