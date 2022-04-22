@@ -23,7 +23,6 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 const Graphs = () => {
   const [leagues, setLeagues] = useState([]);
   const { user } = useContext(AuthContext);
-  console.log("user", user);
   const storedToken = localStorage.getItem("authToken");
 
   const getLeagues = async () => {

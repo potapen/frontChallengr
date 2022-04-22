@@ -76,12 +76,10 @@ const HomeChallenges = () => {
   }, []);
 
   const updateFullChallengesList = () => {
-    console.log('updateFullChallengesList')
     getFullChallenges();
     return;
   };
   const updateChallengesList = () => {
-    console.log('updateChallengesList')
     getChallenges();
     return;
   };

@@ -15,7 +15,6 @@ function HomeLeaguesStats({ leaguesStats,challenges,setChallenges }) {
       {leaguesStats.length > 0 && (
         <CustomCarousel list={leaguesStats}>
           {(leagueStats) => {
-            console.log(leagueStats);
             return (
               <HomeLeagueStatsCard
                 key={leagueStats.profile._id}

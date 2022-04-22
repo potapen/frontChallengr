@@ -30,7 +30,6 @@ const RadarGraph = ({ leagueId, userId ,challenges,setChallenges}) => {
     );
 
     const pointsPerGameObjArray = response.data;
-    console.log("pointsPerGameObjArray", pointsPerGameObjArray);
     /*[
     {
         "_id": "625d61afd9cecbc3669c17cd",
