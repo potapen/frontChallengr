@@ -43,7 +43,6 @@ function EditProfileForm({ profile, updateProfile, handleClose }) {
 
   const handleChanges = (event) => {
     const { value, name } = event.target;
-    console.log(event.target);
     const newFormData = {
       ...formData,
       [name]: value,

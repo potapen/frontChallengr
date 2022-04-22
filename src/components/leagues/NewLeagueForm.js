@@ -49,12 +49,10 @@ function NewLeagueForm({ handleClose ,getLeagues}) {
       ...formData,
       [name]: value,
     };
-    console.log("newFormData", newFormData);
     setFormData(newFormData);
   };
 
   const handleFileChanges = (event) => {
-    console.log("event.target.files[0]", event.target.files[0]);
     setFileData(event.target.files[0]);
   };
 

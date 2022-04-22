@@ -41,8 +41,6 @@ function Navbar() {
     setAnchorElUser(null);
   };
 
-  console.log(isLoggedIn, user);
-  console.log("pictureUrl", pictureUrl);
   //  Update the rendering logic to display different content
   //  depending on the user being logged in or not
   return (

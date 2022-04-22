@@ -49,7 +49,6 @@ const NewChallengeForm = ({
       ...formData,
       contenders: contendersId,
     };
-    console.log("cleanedFormData", cleanedFormData);
     await axios.post(`${backendHost}/api/challenges`, cleanedFormData, {
       headers: {
         Authorization: `Bearer ${storedToken}`,

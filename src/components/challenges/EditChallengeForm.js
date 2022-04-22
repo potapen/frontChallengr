@@ -80,7 +80,6 @@ const EditChallengeForm = ({
         },
       }
     );
-    console.log("response", response);
     updateFullChallengesList();
     updateChallengesList();
     handleClose();

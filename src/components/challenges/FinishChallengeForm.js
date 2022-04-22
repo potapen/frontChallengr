@@ -58,7 +58,6 @@ const FinishChallengeForm = ({
       ...formData,
       [name]: value,
     };
-    console.log("-----------newFormData", newFormData);
     setFormData(newFormData);
   };
 

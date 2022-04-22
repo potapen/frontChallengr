@@ -23,12 +23,10 @@ function LeaguesStats() {
         Authorization: `Bearer ${storedToken}`,
       },
     });
-    console.log();
     setLeaguesStats(s.data.statsPerLeague);
   };
 
   useEffect(() => {
-    console.log("reloadList", profileId);
     getLeaguesStats(profileId);
   }, []);
 

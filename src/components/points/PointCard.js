@@ -38,7 +38,6 @@ function PointCard({ pointProps }) {
   const storedToken = localStorage.getItem("authToken");
 
   const refreshPoint = async () => {
-    console.log(`${backendHost}/api/points/${point._id}`);
     const refreshedPoint = await axios.get(
       `${backendHost}/api/points/${point._id}`,
       {
