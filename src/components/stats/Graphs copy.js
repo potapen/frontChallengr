@@ -4,20 +4,7 @@ import { useState, useEffect, useContext } from "react";
 import backendHost from "../../utils/backendHost";
 import axios from "axios";
 import { AuthContext } from "../../context/auth.context";
-
 import {Fragment} from "react";
-import { Button } from "@mui/material";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import FormControl from "@mui/material/FormControl";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import Chip from "@mui/material/Chip";
-import ButtonGroup from "@mui/material/ButtonGroup";
-import Checkbox from "@mui/material/Checkbox";
-import FormControlLabel from "@mui/material/FormControlLabel";
 
 const Graphs = () => {
   const [leagues, setLeagues] = useState([]);
@@ -43,44 +30,31 @@ const Graphs = () => {
   } else {
     return (
       <>
-
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            "& > *": {
-              m: 1,
-              r: 1,
-              t: 1,
-            },
-          }}
-        >
+        <h2>Graphs</h2>
         {leagues.map((league, index) => {
             return (
               <Fragment key={league._id}>
-                <Grid><h2>{league.name}</h2></Grid>
-                <Grid>
+                {console.log(`league ${league.name}| user ${user.username}`)}
+                {console.log(`league ${league._id}| user ${user._id}`)}
+                <div>
+                  <h3>{league.name}</h3>
                   <LineGraph 
                     // key={'LineGraph' + league._id + user._id}
                     // id={'LineGraph' + league._id + user._id}
                     leagueId={league._id}
                   />
-                </Grid>
-                <Grid><h3>{user.username}</h3></Grid>
-                <Grid>
+                  <h3>{user.username}</h3>
                   <RadarGraph
                     // key={'RadarGraph' + league._id + user._id}
                     // id={'RadarGraph' + league._id + user._id}
                     leagueId={league._id}
                     userId={user._id}
                   />
-                </Grid>
+                </div>
               </Fragment>
             );
           }
         )}
-        </Box>
       </>
     );
   }

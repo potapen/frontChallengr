@@ -4,7 +4,7 @@ import Chart from "chart.js/auto";
 import axios from "axios";
 import backendHost from "../../utils/backendHost";
 
-const RadarGraph = ({ leagueId, userId }) => {
+const RadarGraph = ({ leagueId, userId ,challenges,setChallenges}) => {
   //for props of the chart components. We will need to add labels and data
   const storedToken = localStorage.getItem("authToken");
   const [radarData, setRadarData] = useState({
@@ -67,7 +67,7 @@ const RadarGraph = ({ leagueId, userId }) => {
 
     const updatedDataSet = [
       {
-        label: "League Activity",
+        label: "How good are you?",
         data: radarDatasArrayLine,
         fill: false,
         borderColor: "rgb(75, 192, 192)",
@@ -79,12 +79,11 @@ const RadarGraph = ({ leagueId, userId }) => {
       labels: radarLabelsArray,
       datasets: updatedDataSet,
     };
-    console.log("updatedRadarData", updatedRadarData);
     setRadarData(updatedRadarData);
   }
   useEffect(() => {
     getStakePerGameForAGivenUserAndLeague();
-  }, []);
+  }, [challenges]);
 
   return (
     <>
