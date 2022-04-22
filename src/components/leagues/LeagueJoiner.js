@@ -1,25 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
-
 import backendHost from "../../utils/backendHost";
-
 import { Button } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import FormControl from "@mui/material/FormControl";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import Chip from "@mui/material/Chip";
 import ButtonGroup from "@mui/material/ButtonGroup";
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import TextField from "@mui/material/TextField";
 
 function LeagueJoiner({handleClose,getLeagues}) {
   const [inviteKey, setInviteKey] = useState([]);
-
   const storedToken = localStorage.getItem("authToken");
 
   const joinLeague = async (event) => {

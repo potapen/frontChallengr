@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import backendHost from "../../utils/backendHost";
-
 import { Button, FormControlLabel } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -30,7 +29,6 @@ const EditChallengeForm = ({
     isCompleted: challenge.isCompleted,
     winners: challenge.winners,
   });
-
   const storedToken = localStorage.getItem("authToken");
 
   const getLeaguesMembers = async (leagueId) => {
@@ -58,10 +56,6 @@ const EditChallengeForm = ({
     };
     setFormData(newFormData);
   };
-  useEffect(() => {
-    getLeaguesMembers(leagues[0]._id);
-    // getLeaguesMembers(challenge.league._id);
-  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -103,6 +97,10 @@ const EditChallengeForm = ({
 
     setFormData(newFormData);
   };
+
+  useEffect(() => {
+    getLeaguesMembers(leagues[0]._id);
+  }, []);
 
   if (members.length > 0) {
     return (

@@ -1,9 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import axios from "axios";
-
 import backendHost from "../../utils/backendHost";
-
 import { Button, Slider } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -13,7 +11,6 @@ function EditPointForm({ point, refreshPoint, handleClose }) {
   const [formData, setFormData] = useState({
     points: point.points,
   });
-
   const storedToken = localStorage.getItem("authToken");
 
   const handleSubmit = async (event) => {

@@ -2,12 +2,9 @@ import React from "react";
 import { useState } from "react";
 import axios from "axios";
 import FileInput from "../../utils/FileInput";
-
 import { useContext } from "react";
 import { AuthContext } from "../../context/auth.context";
-
 import backendHost from "../../utils/backendHost";
-
 import { Button } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -18,11 +15,8 @@ function EditProfileForm({ profile, updateProfile, handleClose }) {
   const [formData, setFormData] = useState({
     username: profile.username,
   });
-
   const { updateProfilePicture } = useContext(AuthContext);
-
   const storedToken = localStorage.getItem("authToken");
-
   const [fileData, setFileData] = useState(null);
 
   const handleSubmit = async (event) => {

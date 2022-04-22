@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./LeagueInviter.js";
 import axios from "axios";
 import LogoutIcon from "@mui/icons-material/Logout";
-
 import backendHost from "../../utils/backendHost";
 import ConfirmationDialog from "../../interactivity/ConfirmationDialog.js";
 import { Alert, IconButton, Snackbar } from "@mui/material";

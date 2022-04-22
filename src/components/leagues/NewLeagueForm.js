@@ -2,9 +2,7 @@ import React from "react";
 import { useState } from "react";
 import axios from "axios";
 import FileInput from "../../utils/FileInput";
-
 import backendHost from "../../utils/backendHost";
-
 import { Button } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -16,10 +14,8 @@ function NewLeagueForm({ handleClose ,getLeagues}) {
     name: "",
     description: "",
   });
-
-  const storedToken = localStorage.getItem("authToken");
-
   const [fileData, setFileData] = useState(null);
+  const storedToken = localStorage.getItem("authToken");
 
   const handleSubmit = async (event) => {
     event.preventDefault();

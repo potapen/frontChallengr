@@ -3,12 +3,10 @@ import NewGameForm from "../components/games/NewGameForm";
 import GamesList from "../components/games/GamesList";
 import FormDialogFAB from "../interactivity/FormDialogFAB";
 import axios from "axios";
-
 import backendHost from "../utils/backendHost";
 
 function HomeGame() {
   const [games, setGames] = useState([]);
-
   const storedToken = localStorage.getItem("authToken");
 
   const getGames = async () => {

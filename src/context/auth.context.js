@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import backendHost from "../utils/backendHost";
-
 const AuthContext = React.createContext();
 
 function AuthProviderWrapper(props) {

@@ -4,7 +4,6 @@ import GameDeleter from "./GameDeleter";
 import EditGameForm from "./EditGameForm";
 import axios from "axios";
 import backendHost from "../../utils/backendHost";
-
 import cx from "clsx";
 import { makeStyles } from "@mui/styles";
 import { useFadedShadowStyles } from "@mui-treasury/styles/shadow/faded";
@@ -19,7 +18,6 @@ import {
   Typography,
 } from "@mui/material";
 import FormDialog from "../../interactivity/FormDialogButton";
-
 const useStyles = makeStyles(() => ({
   root: {
     maxWidth: 304,
@@ -34,7 +32,6 @@ function GameCard({ gameProps, updateGamesList }) {
   const cardStyles = useStyles();
   const fadeShadowStyles = useFadedShadowStyles();
   const [game, setGame] = useState(gameProps);
-
   const storedToken = localStorage.getItem("authToken");
 
   const refreshGame = async () => {

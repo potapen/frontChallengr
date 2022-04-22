@@ -6,13 +6,10 @@ import {
   Divider,
   Typography,
 } from "@mui/material";
-import { Box } from "@mui/system";
-import { Link, useNavigate } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 import cx from "clsx";
 import { makeStyles } from "@mui/styles";
 import { useFadedShadowStyles } from "@mui-treasury/styles/shadow/faded";
-
 const useStyles = makeStyles(() => ({
   root: {
     maxWidth: 304,

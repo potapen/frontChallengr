@@ -4,8 +4,7 @@ import LeaguesList from "../components/leagues/LeaguesList";
 import LeagueJoiner from "../components/leagues/LeagueJoiner";
 import "./HomeLeague.css";
 import FormDialogFAB from "../interactivity/FormDialogFAB";
-
-import { useState , useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import backendHost from "../utils/backendHost";
 
@@ -18,7 +17,6 @@ function HomeLeague() {
     left: "auto",
     position: "fixed",
   };
-
   const styleJoin = {
     margin: 0,
     top: "auto",
@@ -27,10 +25,9 @@ function HomeLeague() {
     left: "auto",
     position: "fixed",
   };
-
-  
   const [leagues, setLeagues] = useState([]);
   const storedToken = localStorage.getItem("authToken");
+
   const getLeagues = async () => {
     const l = await axios.get(`${backendHost}/api/leagues`, {
       headers: {
@@ -44,7 +41,6 @@ function HomeLeague() {
     getLeagues();
   }, []);
 
-
   return (
     <div>
       <LeaguesList leagues={leagues} updateLeaguesList={getLeagues} />
@@ -56,7 +52,9 @@ function HomeLeague() {
           text="Create"
         >
           {(callback) => {
-            return <NewLeagueForm handleClose={callback} getLeagues={getLeagues}/>;
+            return (
+              <NewLeagueForm handleClose={callback} getLeagues={getLeagues} />
+            );
           }}
         </FormDialogFAB>
         <FormDialogFAB
@@ -66,7 +64,9 @@ function HomeLeague() {
           text="Join"
         >
           {(callback) => {
-            return <LeagueJoiner handleClose={callback} getLeagues={getLeagues} />;
+            return (
+              <LeagueJoiner handleClose={callback} getLeagues={getLeagues} />
+            );
           }}
         </FormDialogFAB>
       </div>

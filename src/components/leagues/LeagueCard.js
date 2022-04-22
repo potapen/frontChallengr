@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./LeagueCard.css";
 import LeagueInviter from "./LeagueInviter";
 import LeagueDeleter from "./LeagueDeleter";
@@ -6,23 +6,19 @@ import LeagueLeaver from "./LeagueLeaver";
 import EditLeagueForm from "./EditLeagueForm";
 import axios from "axios";
 import backendHost from "../../utils/backendHost";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import LeagueSetFavorite from "./LeagueSetFavorite";
-
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
-import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import { Button, ButtonGroup, Divider } from "@mui/material";
 import FormDialog from "../../interactivity/FormDialogButton";
-
 import cx from "clsx";
 import { makeStyles } from "@mui/styles";
 import { useFadedShadowStyles } from "@mui-treasury/styles/shadow/faded";
-
 const useStyles = makeStyles(() => ({
   root: {
     maxWidth: 304,
@@ -36,10 +32,10 @@ const useStyles = makeStyles(() => ({
 function LeagueCard({ leagueProps, updateLeaguesList }) {
   const cardStyles = useStyles();
   const fadeShadowStyles = useFadedShadowStyles();
-
   // States
   const [league, setLeague] = useState(leagueProps);
   const storedToken = localStorage.getItem("authToken");
+  
   let navigate = useNavigate();
 
   const refreshLeague = async () => {

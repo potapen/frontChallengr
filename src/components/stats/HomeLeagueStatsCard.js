@@ -6,17 +6,13 @@ import {
   Divider,
   Typography,
 } from "@mui/material";
-
 import { useContext } from "react";
 import { AuthContext } from "../../context/auth.context";
-
 import "./HomeLeagueStatsCard.css";
-
 import cx from "clsx";
 import { makeStyles } from "@mui/styles";
 import { useFadedShadowStyles } from "@mui-treasury/styles/shadow/faded";
 import RadarGraph from "./RadarGraph";
-
 const useStyles = makeStyles(() => ({
   root: {
     maxWidth: 304,
@@ -30,7 +26,6 @@ const useStyles = makeStyles(() => ({
 function HomeLeagueStatsCard({ league, fullRankingPerLeague,challenges,setChallenges }) {
   const cardStyles = useStyles();
   const fadeShadowStyles = useFadedShadowStyles();
-
   const { user } = useContext(AuthContext);
 
   return (

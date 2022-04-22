@@ -1,9 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./ChallengeCard.css";
 import EditChallengeForm from "./EditChallengeForm";
-import axios from "axios";
-import backendHost from "../../utils/backendHost";
-import { Link, useNavigate } from "react-router-dom";
 import {
   Avatar,
   Button,
@@ -18,11 +15,10 @@ import {
 } from "@mui/material";
 import FormDialog from "../../interactivity/FormDialogButton";
 import ChallengeDeleter from "./ChallengeDeleter";
-
 import cx from "clsx";
 import { makeStyles } from "@mui/styles";
 import { useFadedShadowStyles } from "@mui-treasury/styles/shadow/faded";
-
+import { useNavigate } from "react-router-dom";
 const useStyles = makeStyles(() => ({
   root: {
     maxWidth: 304,
@@ -41,25 +37,10 @@ function ChallengeCard({
   challenges,
   challenge,
 }) {
-  const storedToken = localStorage.getItem("authToken");
-
   const cardStyles = useStyles();
   const fadeShadowStyles = useFadedShadowStyles();
 
   let navigate = useNavigate();
-
-
-  // const refreshChallenge = async () => {
-  //   const refreshedChallenge = await axios.get(
-  //     `${backendHost}/api/challenges/${challenge._id}`,
-  //     {
-  //       headers: {
-  //         Authorization: `Bearer ${storedToken}`,
-  //       },
-  //     }
-  //   );
-  //   setChallenge(refreshedChallenge.data.challenge);
-  // };
 
   return (
     <Card
