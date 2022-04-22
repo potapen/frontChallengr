@@ -84,6 +84,7 @@ const Graphs = () => {
               </Fragment>
             );
           }}
+          
         </CustomCarousel>
       )}
     </div>
