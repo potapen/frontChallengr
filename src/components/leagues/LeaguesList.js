@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-
+import React from "react";
 import "./LeaguesList.css";
 import LeagueCard from "./LeagueCard";
 import { Grid } from "@mui/material";

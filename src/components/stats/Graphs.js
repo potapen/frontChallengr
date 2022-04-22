@@ -5,20 +5,10 @@ import backendHost from "../../utils/backendHost";
 import axios from "axios";
 import { AuthContext } from "../../context/auth.context";
 import CustomCarousel from "../../interactivity/CustomCarousel";
-
 import {Fragment} from "react";
-import { Button, Divider } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import FormControl from "@mui/material/FormControl";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import Chip from "@mui/material/Chip";
-import ButtonGroup from "@mui/material/ButtonGroup";
-import Checkbox from "@mui/material/Checkbox";
-import FormControlLabel from "@mui/material/FormControlLabel";
+
 
 const Graphs = () => {
   const [leagues, setLeagues] = useState([]);

@@ -1,8 +1,6 @@
 import React from "react";
-
 import ChallengeCard from "./ChallengeCard";
 import FilterButtons from "./FilterButtons";
-
 import "./ChallengesList.css";
 import { Grid } from "@mui/material";
 

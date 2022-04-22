@@ -2,24 +2,18 @@ import React from "react";
 import { useState } from "react";
 import axios from "axios";
 import FileInput from "../../utils/FileInput";
-
 import backendHost from "../../utils/backendHost";
-
 import { Button } from "@mui/material";
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import Chip from '@mui/material/Chip';
-import ButtonGroup from '@mui/material/ButtonGroup';
-
-
-
-
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
+import TextField from "@mui/material/TextField";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import Chip from "@mui/material/Chip";
+import ButtonGroup from "@mui/material/ButtonGroup";
 
 function EditLeagueForm({ league, refreshLeague, handleClose }) {
   const [formData, setFormData] = useState({
@@ -29,10 +23,8 @@ function EditLeagueForm({ league, refreshLeague, handleClose }) {
       return member._id;
     }),
   });
-
-  const storedToken = localStorage.getItem("authToken");
-
   const [fileData, setFileData] = useState(null);
+  const storedToken = localStorage.getItem("authToken");
 
   const handleSubmit = async (event) => {
     event.preventDefault();

@@ -1,9 +1,7 @@
 import React from "react";
-
 import CustomCarousel from "../../interactivity/CustomCarousel";
 import { Typography } from "@mui/material";
 import HomeLeagueStatsCard from "./HomeLeagueStatsCard";
-
 import "./HomeLeaguesStats.css";
 
 function HomeLeaguesStats({ leaguesStats,challenges,setChallenges }) {

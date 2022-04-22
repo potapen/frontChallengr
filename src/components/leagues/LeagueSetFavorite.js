@@ -2,14 +2,12 @@ import React, { useState } from "react";
 import "./LeagueInviter.js";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import axios from "axios";
-
 import backendHost from "../../utils/backendHost";
 import { Alert, IconButton, Snackbar } from "@mui/material";
 
 function LeagueSetFavorite({ league, updateLeaguesList }) {
   const [isFavorited, setIsFavorited] = useState(false);
   const [open, setOpen] = React.useState(false);
-
   const storedToken = localStorage.getItem("authToken");
 
   const checkIfFavorite = async () => {

@@ -2,9 +2,7 @@ import { useState, useContext } from "react"; // <== IMPORT useContext
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
-
 import backendHost from "../utils/backendHost";
-
 import "./LoginPage.css";
 import { Box, Button, ButtonGroup, Grid, TextField } from "@mui/material";
 
@@ -12,13 +10,12 @@ function LoginPage(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(undefined);
+  const { storeToken, authenticateUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
-  const { storeToken, authenticateUser } = useContext(AuthContext);
 
   const handleEmail = (e) => setEmail(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
-
   const handleLoginSubmit = (e) => {
     e.preventDefault();
     const requestBody = { email, password };

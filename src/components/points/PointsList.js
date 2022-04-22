@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
-
 import "./PointsList.css";
-
 import backendHost from "../../utils/backendHost";
 import PointCard from "./PointCard";
 import { Grid } from "@mui/material";
@@ -20,12 +18,11 @@ function PointsList({ leagueId }) {
     });
     setPoints(l.data.points);
   };
-
   useEffect(() => {
     getPoints();
   }, []);
 
-  const updatePointsList = (point) => {
+  const updatePointsList = () => {
     getPoints();
     return;
   };

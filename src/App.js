@@ -42,7 +42,6 @@ function App() {
               path="/leagues"
               element={
                 <IsPrivate>
-                  {/* <HomeLeague leagues={leagues} setLeagues={setLeagues} getLeagues={getLeagues} /> */}
                   <HomeLeague />
                 </IsPrivate>
               }

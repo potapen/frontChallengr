@@ -1,8 +1,5 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
-import axios from "axios";
-
-import { Grid, Typography } from "@mui/material";
+import React from "react";
+import { Typography } from "@mui/material";
 import OngoingChallengeCard from "./OngoingChallengeCard";
 import CustomCarousel from "../../interactivity/CustomCarousel";
 import "./OngoingChallengesList.css";

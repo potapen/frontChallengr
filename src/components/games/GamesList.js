@@ -1,8 +1,6 @@
 import React from "react";
-
 import GameCard from "./GameCard";
 import { Grid } from "@mui/material";
-
 import "./GamesList.css";
 
 function GamesList({ games, updateGamesList }) {

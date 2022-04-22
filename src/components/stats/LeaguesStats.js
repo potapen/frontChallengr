@@ -1,20 +1,15 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
-
 import "./LeaguesStats.css";
-
 import backendHost from "../../utils/backendHost";
 import { useParams } from "react-router-dom";
 import LeagueStatsCard from "./LeagueStatsCard";
 import CustomCarousel from "../../interactivity/CustomCarousel";
-import { Typography } from "@mui/material";
 
 function LeaguesStats() {
   const { profileId } = useParams();
-
   const [leaguesStats, setLeaguesStats] = useState([]);
-
   const storedToken = localStorage.getItem("authToken");
 
   const getLeaguesStats = async (profileId) => {

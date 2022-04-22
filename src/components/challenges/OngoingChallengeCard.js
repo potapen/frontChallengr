@@ -8,7 +8,6 @@ import {
   Card,
   CardContent,
   CardHeader,
-  CardMedia,
   Divider,
   Typography,
 } from "@mui/material";

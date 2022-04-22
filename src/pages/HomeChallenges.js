@@ -16,8 +16,10 @@ const HomeChallenges = () => {
   };
   const [fullChallenges, setFullChallenges] = useState([]);
   const [filters, setFilters] = useState({});
-
   const [challenges, setChallenges] = useState([]);
+  const [leagues, setLeagues] = useState([]);
+  const [games, setGames] = useState([]);
+  const storedToken = localStorage.getItem("authToken");
 
   const getChallenges = async () => {
     const l = await axios.get(`${backendHost}/api/challenges`, {
@@ -27,10 +29,6 @@ const HomeChallenges = () => {
     });
     setChallenges(l.data.challenges);
   };
-
-  // useEffect(() => {
-  //   getChallenges();
-  // }, []);
 
   const getFullChallenges = async () => {
     const l = await axios.get(`${backendHost}/api/challenges`, {
@@ -48,9 +46,6 @@ const HomeChallenges = () => {
     setFilters({ menuLeagues, menuGames });
   };
 
-  const [leagues, setLeagues] = useState([]);
-  const [games, setGames] = useState([]);
-  const storedToken = localStorage.getItem("authToken");
   const getLeagues = async () => {
     const l = await axios.get(`${backendHost}/api/leagues`, {
       headers: {

@@ -1,25 +1,13 @@
 import React, { useState } from "react";
 import "./PointCard.css";
-import EditPointForm from "./EditPointForm";
 import axios from "axios";
 import backendHost from "../../utils/backendHost";
-
 import cx from "clsx";
 import { makeStyles } from "@mui/styles";
 import { useFadedShadowStyles } from "@mui-treasury/styles/shadow/faded";
-import {
-  Avatar,
-  ButtonGroup,
-  Card,
-  CardContent,
-  CardHeader,
-  CardMedia,
-  Divider,
-  Typography,
-} from "@mui/material";
+import { Avatar, ButtonGroup, Card, CardHeader, Divider } from "@mui/material";
 import FormDialog from "../../interactivity/FormDialogButton";
-import EditPointFormNew from "./EditPointForm";
-
+import EditPointForm from "./EditPointForm";
 const useStyles = makeStyles(() => ({
   root: {
     maxWidth: 304,
@@ -34,7 +22,6 @@ function PointCard({ pointProps }) {
   const cardStyles = useStyles();
   const fadeShadowStyles = useFadedShadowStyles();
   const [point, setPoint] = useState(pointProps);
-
   const storedToken = localStorage.getItem("authToken");
 
   const refreshPoint = async () => {
@@ -68,7 +55,7 @@ function PointCard({ pointProps }) {
             <FormDialog buttonName={"Edit Point"}>
               {(callback) => {
                 return (
-                  <EditPointFormNew
+                  <EditPointForm
                     point={point}
                     refreshPoint={refreshPoint}
                     handleClose={callback}

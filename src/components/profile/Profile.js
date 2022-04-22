@@ -11,12 +11,10 @@ import {
   Typography,
 } from "@mui/material";
 import FormDialog from "../../interactivity/FormDialogButton";
-
 import cx from "clsx";
 import { makeStyles } from "@mui/styles";
 import { useFadedShadowStyles } from "@mui-treasury/styles/shadow/faded";
 import EditProfileForm from "./EditProfileForm";
-
 const useStyles = makeStyles(() => ({
   root: {
     maxWidth: 304,
@@ -31,9 +29,7 @@ const useStyles = makeStyles(() => ({
 function Profile() {
   const cardStyles = useStyles();
   const fadeShadowStyles = useFadedShadowStyles();
-
   const [profile, setProfile] = useState([]);
-
   const storedToken = localStorage.getItem("authToken");
 
   const getProfile = async () => {
@@ -44,7 +40,6 @@ function Profile() {
     });
     setProfile(l.data.user);
   };
-
   useEffect(() => {
     getProfile();
   }, []);
