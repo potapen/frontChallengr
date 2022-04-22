@@ -67,7 +67,7 @@ const RadarGraph = ({ leagueId, userId ,challenges,setChallenges}) => {
 
     const updatedDataSet = [
       {
-        label: "League Activity",
+        label: "How good are you?",
         data: radarDatasArrayLine,
         fill: false,
         borderColor: "rgb(75, 192, 192)",
@@ -79,7 +79,6 @@ const RadarGraph = ({ leagueId, userId ,challenges,setChallenges}) => {
       labels: radarLabelsArray,
       datasets: updatedDataSet,
     };
-    console.log("updatedRadarData", updatedRadarData);
     setRadarData(updatedRadarData);
   }
   useEffect(() => {
