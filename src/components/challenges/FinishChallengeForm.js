@@ -12,8 +12,6 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
 import ButtonGroup from "@mui/material/ButtonGroup";
-import Checkbox from "@mui/material/Checkbox";
-import FormControlLabel from "@mui/material/FormControlLabel";
 
 const FinishChallengeForm = ({
   challenge,
@@ -64,13 +62,6 @@ const FinishChallengeForm = ({
     setFormData(newFormData);
   };
 
-  // const handleCheckBox = (event, name) => {
-  //   const toggledBoolean = !formData.isCompleted
-  //   const newFormData = {
-  //     ...formData,
-  //     [name]: toggledBoolean,
-  //   };
-  // }
 
   return (
     <>
@@ -120,17 +111,6 @@ const FinishChallengeForm = ({
               </Select>
             </FormControl>
           </Grid>
-          {/* <Grid>
-        <FormControlLabel label="Are you done?" control={
-          <Checkbox
-              checked={formData.isCompleted}
-              onChange={(event) => handleCheckBox(event, "isCompleted")}
-              inputProps={{ 'aria-label': 'controlled' }}
-              label="challenge is finished"
-            />
-            }
-          />
-        </Grid> */}
           <Grid>
             <ButtonGroup
               variant="contained"
