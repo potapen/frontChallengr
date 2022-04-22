@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import backendHost from "../../utils/backendHost";
 
-import { Button } from "@mui/material";
+import { Button, FormControlLabel } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import OutlinedInput from "@mui/material/OutlinedInput";
@@ -12,7 +12,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
 import ButtonGroup from "@mui/material/ButtonGroup";
-import Checkbox from '@mui/material/Checkbox';
+import Checkbox from "@mui/material/Checkbox";
 
 const EditChallengeForm = ({
   leagues,
@@ -43,21 +43,20 @@ const EditChallengeForm = ({
     //members come from leagues.members. contenders comes from challenge.contenders.
     //They are different objects so we need to udpate contenders with matching objects from members.
     //otherwise the multi select will show duplicates.
-    const contendersBis = l.data.league.members.filter(m=>{
-      return challenge.contenders.some(c => c._id === m._id)
-    })
+    const contendersBis = l.data.league.members.filter((m) => {
+      return challenge.contenders.some((c) => c._id === m._id);
+    });
 
-    const winnersBis = contendersBis.filter(m=>{
-      return challenge.winners.some(c => c._id === m._id)
-    })
-    
+    const winnersBis = contendersBis.filter((m) => {
+      return challenge.winners.some((c) => c._id === m._id);
+    });
+
     const newFormData = {
       ...formData,
       contenders: contendersBis,
       winners: winnersBis,
     };
     setFormData(newFormData);
-
   };
   useEffect(() => {
     getLeaguesMembers(leagues[0]._id);
@@ -72,18 +71,16 @@ const EditChallengeForm = ({
       ...formData,
       contenders: contendersId,
     };
-    console.log("cleanedFormData", cleanedFormData);
-    const response = await axios.patch(`${backendHost}/api/challenges/${formData.id}`, cleanedFormData, {
-      headers: {
-        Authorization: `Bearer ${storedToken}`,
-      },
-    });
-    console.log('response', response)
-    // setFormData({
-    //   league: leagues[0]._id,
-    //   game: games[0]._id,
-    //   contenders: [],
-    // });
+    const response = await axios.patch(
+      `${backendHost}/api/challenges/${formData.id}`,
+      cleanedFormData,
+      {
+        headers: {
+          Authorization: `Bearer ${storedToken}`,
+        },
+      }
+    );
+    console.log("response", response);
     updateFullChallengesList();
     updateChallengesList();
     handleClose();
@@ -91,7 +88,6 @@ const EditChallengeForm = ({
 
   const handleSelect = (event, name) => {
     const { value } = event.target;
-    console.log('-----------value', value)
     const newFormData = {
       ...formData,
       [name]: value,
@@ -100,13 +96,12 @@ const EditChallengeForm = ({
   };
 
   const handleCheckBox = (event, name) => {
-    const toggledBoolean = !formData.isCompleted
+    const toggledBoolean = !formData.isCompleted;
     const newFormData = {
       ...formData,
       [name]: toggledBoolean,
     };
-    
-    console.log('-----------newFormData', newFormData)
+
     setFormData(newFormData);
   };
 
@@ -197,20 +192,14 @@ const EditChallengeForm = ({
                   value={formData.winners}
                   onChange={(event) => handleSelect(event, "winners")}
                   input={
-                    <OutlinedInput
-                      id="select-multiple-chip"
-                      label="winners"
-                    />
+                    <OutlinedInput id="select-multiple-chip" label="winners" />
                   }
                   renderValue={(winners) => {
                     return (
                       <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
                         {winners.map((winner) => {
                           return (
-                            <Chip
-                              key={winner._id}
-                              label={winner.username}
-                            />
+                            <Chip key={winner._id} label={winner.username} />
                           );
                         })}
                       </Box>
@@ -226,6 +215,19 @@ const EditChallengeForm = ({
               </FormControl>
             </Grid>
             <Grid>
+              <FormControlLabel
+                label="Are you done?"
+                control={
+                  <Checkbox
+                    checked={formData.isCompleted}
+                    onChange={(event) => handleCheckBox(event, "isCompleted")}
+                    inputProps={{ "aria-label": "controlled" }}
+                    label="challenge is finished"
+                  />
+                }
+              />
+            </Grid>
+            <Grid>
               <ButtonGroup
                 variant="contained"
                 aria-label="outlined primary button group"
@@ -234,14 +236,6 @@ const EditChallengeForm = ({
                 <Button onClick={handleClose}>Close</Button>
               </ButtonGroup>
             </Grid>
-            <Grid>
-              <Checkbox
-                  checked={formData.isCompleted}
-                  onChange={(event) => handleCheckBox(event, "isCompleted")}
-                  inputProps={{ 'aria-label': 'controlled' }}
-                />
-            </Grid>
-
           </Box>
         </form>
       </>
