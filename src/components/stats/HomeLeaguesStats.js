@@ -6,7 +6,7 @@ import HomeLeagueStatsCard from "./HomeLeagueStatsCard";
 
 import "./HomeLeaguesStats.css";
 
-function HomeLeaguesStats({ leaguesStats }) {
+function HomeLeaguesStats({ leaguesStats,challenges,setChallenges }) {
   return (
     <div style={{ width: "100%" }} className="leaguesStatsContainer">
       <Typography variant="h6" gutterBottom component="div">
@@ -21,6 +21,8 @@ function HomeLeaguesStats({ leaguesStats }) {
                 key={leagueStats.profile._id}
                 league={leagueStats.league}
                 fullRankingPerLeague={leagueStats.fullRankingPerLeague}
+                challenges={challenges}
+                setChallenges={setChallenges}
               />
             );
           }}

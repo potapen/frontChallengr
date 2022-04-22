@@ -27,7 +27,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function HomeLeagueStatsCard({ league, fullRankingPerLeague }) {
+function HomeLeagueStatsCard({ league, fullRankingPerLeague,challenges,setChallenges }) {
   const cardStyles = useStyles();
   const fadeShadowStyles = useFadedShadowStyles();
 
@@ -49,6 +49,8 @@ function HomeLeagueStatsCard({ league, fullRankingPerLeague }) {
           key={league._id + user._id}
           leagueId={league._id}
           userId={user._id}
+          challenges={challenges}
+          setChallenges={setChallenges}
         />
         <Divider />
         <Typography variant="overline" color="text.secondary">

@@ -98,7 +98,7 @@ function Home() {
         updateChallengesList={updateChallengesList}
         getLeaguesStats={getLeaguesStats}
       />
-      <HomeLeaguesStats leaguesStats={leaguesStats} />
+      <HomeLeaguesStats leaguesStats={leaguesStats} challenges={challenges} setChallenges={setChallenges}/>
     </div>
   );
 }
