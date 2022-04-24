@@ -17,7 +17,6 @@ function NewGameForm({ handleClose, updateGamesList }) {
   const [fileData, setFileData] = useState(null);
   const storedToken = localStorage.getItem("authToken");
 
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     let fd = new FormData();

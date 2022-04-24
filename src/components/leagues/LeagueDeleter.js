@@ -20,7 +20,7 @@ function LeagueDeleter({ league, updateLeaguesList }) {
         Authorization: `Bearer ${storedToken}`,
       },
     });
-    updateLeaguesList(league);
+    updateLeaguesList();
   };
 
   return (
